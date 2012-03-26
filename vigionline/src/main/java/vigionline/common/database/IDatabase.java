@@ -2,6 +2,7 @@ package vigionline.common.database;
 
 import java.util.List;
 
+import vigionline.common.model.Location;
 import vigionline.common.model.Permission;
 import vigionline.common.model.PermissionType;
 import vigionline.common.model.Role;
@@ -31,4 +32,11 @@ public interface IDatabase {
 	public boolean deletePermission(int idPermission);
 	public List<Permission> getPermissionsByRole(int idRole);
 	public List<Permission> getPermissionsByCamera(int idCamera);
+	
+	/** Location **/
+	public boolean createLocation(Location location); 
+	public List<Location> getLocations();
+	public Location getLocation(int idLocation);
+	public boolean updateLocation(Location location);
+	public boolean deleteLocation(int idLocation);
 }

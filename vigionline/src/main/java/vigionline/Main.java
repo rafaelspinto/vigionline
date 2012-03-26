@@ -35,7 +35,7 @@ public class Main {
 
         initParams.put("com.sun.jersey.config.property.packages", "vigionline");
 
-        System.out.println("Starting grizzly2...");
+        System.out.println("Starting Vigionline...");
         return GrizzlyWebContainerFactory.create(BASE_URI, initParams);
     }
     

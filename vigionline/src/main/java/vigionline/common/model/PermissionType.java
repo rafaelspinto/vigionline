@@ -1,7 +1,9 @@
 package vigionline.common.model;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class PermissionType implements Serializable {
 
 	private static final long serialVersionUID = -93685804003280539L;

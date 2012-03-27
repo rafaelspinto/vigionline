@@ -38,8 +38,11 @@ public abstract class Mapper<T> {
 			PreparedStatement prep = con.prepareStatement(getByIdQuery());
 			prep.setInt(1, id);
 			
-			ResultSet rs = prep.executeQuery(getAllQuery());
-			obj = getObject(rs);
+			ResultSet rs = prep.executeQuery();
+			if( rs.next() )
+			{
+				obj = getObject(rs);
+			}
 			rs.close();
 			
 		}finally	{ 	con.close(); 	}
@@ -53,7 +56,10 @@ public abstract class Mapper<T> {
 		try
 		{
 			PreparedStatement prep = getInsertStatement(elem, con);
-			res = prep.executeUpdate();
+			prep.executeUpdate();
+			ResultSet rs = prep.getGeneratedKeys();
+			if( rs.next() )
+				res = rs.getInt(1);
 		}
 		finally
 		{
@@ -95,14 +101,14 @@ public abstract class Mapper<T> {
 	}
 	
 	/** Row to Object **/
-	protected abstract T getObject(ResultSet result);
+	protected abstract T getObject(ResultSet result) throws SQLException;
 	
 	/** Queries **/
 	protected abstract String getAllQuery();
 	protected abstract String getByIdQuery();
 	
 	/** Prepared Statements **/
-	protected abstract PreparedStatement getInsertStatement(T elem, Connection con);
-	protected abstract PreparedStatement getUpdateStatement(T elem, Connection con);
-	protected abstract PreparedStatement getDeleteStatement(int id, Connection con);
+	protected abstract PreparedStatement getInsertStatement(T elem, Connection con)  throws SQLException;
+	protected abstract PreparedStatement getUpdateStatement(T elem, Connection con)  throws SQLException;
+	protected abstract PreparedStatement getDeleteStatement(int id, Connection con)  throws SQLException;
 }

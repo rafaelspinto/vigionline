@@ -31,11 +31,11 @@ public class UserMapper extends Mapper<User> {
 	}
 
 	@Override
-	protected PreparedStatement getInsertStatement(User elem, Connection con) throws SQLException{
+	protected PreparedStatement getInsertStatement(User user, Connection con) throws SQLException{
 		PreparedStatement prep = con.prepareStatement("INSERT INTO User (name, username, password) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
-		prep.setString(1, elem.getName());
-		prep.setString(2, elem.getUsername());
-		prep.setString(3, elem.getPassword()); // TODO : password encryption
+		prep.setString(1, user.getName());
+		prep.setString(2, user.getUsername());
+		prep.setString(3, user.getPassword()); // TODO : password encryption
 		return prep;
 	}
 

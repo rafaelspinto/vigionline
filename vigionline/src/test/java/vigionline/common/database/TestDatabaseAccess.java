@@ -5,10 +5,12 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import vigionline.common.database.mapper.CameraMapper;
 import vigionline.common.database.mapper.LocationMapper;
 import vigionline.common.database.mapper.PermissionTypeMapper;
 import vigionline.common.database.mapper.RoleMapper;
 import vigionline.common.database.mapper.UserMapper;
+import vigionline.common.model.Camera;
 import vigionline.common.model.Location;
 import vigionline.common.model.PermissionType;
 import vigionline.common.model.Role;
@@ -120,5 +122,32 @@ public class TestDatabaseAccess {
 		
 		//DELETE
 		Assert.assertTrue(lMapper.delete(location.getIdLocation()) != 0 );	
+	}
+	
+	@Test
+	public void testCameraCRUD() throws SQLException
+	{
+		CameraMapper cMapper = new CameraMapper();
+		Camera camera = new Camera();
+		camera.setName("Camera"+System.currentTimeMillis());
+		camera.setUrl("http://localhost");
+		
+		// CREATE
+		int uid = cMapper.insert(camera);
+		camera.setIdCamera(uid);
+		Assert.assertTrue( uid != 0);
+				
+		// READ
+		Camera dbCamera = cMapper.getById(camera.getIdCamera());
+		Assert.assertEquals(camera.getName(), dbCamera.getName());
+		
+		// UPDATE
+		dbCamera.setName("Teste");
+		cMapper.update(dbCamera);
+		Camera dbCamera2 = cMapper.getById(dbCamera.getIdCamera());
+		Assert.assertEquals("Teste", dbCamera2.getName());
+		
+		//DELETE
+		Assert.assertTrue(cMapper.delete(camera.getIdCamera()) != 0 );	
 	}
 }

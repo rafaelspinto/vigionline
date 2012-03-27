@@ -10,7 +10,7 @@ import vigionline.common.model.User;
 
 public interface IDatabase {
 	/** User **/
-	public boolean createUser(User user);
+	public int createUser(User user);
 	public List<User> getUsers();
 	public User getUser(int idUser);
 	public boolean updateUser(User user);
@@ -18,14 +18,14 @@ public interface IDatabase {
 	public List<User> getUsersByRole(int idRole);
 
 	/** Role **/
-	public boolean createRole(Role role);
+	public int createRole(Role role);
 	public List<Role> getRoles();
 	public Role getRole(int idRole);
 	public boolean updateRole(Role role);
 	public boolean deleteRole(int idRole);
 
 	/** Permission **/
-	public boolean createPermission(Permission permission);
+	public int createPermission(Permission permission);
 	public List<Permission> getPermission();
 	public Permission getPermission(int idPermissionType);
 	public boolean updatePermission(PermissionType permission);
@@ -34,7 +34,7 @@ public interface IDatabase {
 	public List<Permission> getPermissionsByCamera(int idCamera);
 	
 	/** Location **/
-	public boolean createLocation(Location location); 
+	public int createLocation(Location location); 
 	public List<Location> getLocations();
 	public Location getLocation(int idLocation);
 	public boolean updateLocation(Location location);

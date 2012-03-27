@@ -6,7 +6,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 // The Java class will be hosted at the URI path "/myresource"
-@Path("/myresource")
+@Path("/test")
 public class MyResource {
 
     // TODO: update the class to suit your needs

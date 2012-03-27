@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import vigionline.common.database.mapper.ActionMapper;
 import vigionline.common.database.mapper.CameraMapper;
 import vigionline.common.database.mapper.LocationMapper;
 import vigionline.common.database.mapper.ManufacturerMapper;
@@ -12,6 +13,7 @@ import vigionline.common.database.mapper.ModelMapper;
 import vigionline.common.database.mapper.PermissionTypeMapper;
 import vigionline.common.database.mapper.RoleMapper;
 import vigionline.common.database.mapper.UserMapper;
+import vigionline.common.model.Action;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Location;
 import vigionline.common.model.Manufacturer;
@@ -177,11 +179,19 @@ public class TestDatabaseAccess {
 		Camera dbCamera2 = cMapper.getById(dbCamera.getIdCamera());
 		Assert.assertEquals("Teste", dbCamera2.getName());
 		
+		// Action
+		Action action = new Action();
+		action.setName("TestAction"+System.currentTimeMillis());
+		action.setIdModel(modUid);
+		ActionMapper actMapper = new ActionMapper();
+		int aUid = actMapper.insert(action);
+				
 		//DELETE
 		Assert.assertTrue(cMapper.delete(camera.getIdCamera()) != 0 );
-		
+				
 		// CLEANUP
 		lMapper.delete(locId);
+		actMapper.delete(aUid);
 		modMapper.delete(modUid);
 		manMapper.delete(manUid);
 	}

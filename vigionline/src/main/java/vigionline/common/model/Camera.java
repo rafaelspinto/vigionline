@@ -8,13 +8,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Camera implements Serializable{
 
 	private static final long serialVersionUID = 7309623592283388705L;
-	private int _idCamera, _idLocation, _port;
+	private int _idCamera, _idLocation, _idModel, _port;
 	private String _name, _url, _username, _password;
 	
 	public int getIdCamera() {	return _idCamera; }
 	public void setIdCamera(int idCamera) {	this._idCamera = idCamera; }
 	public int getIdLocation() { return _idLocation; }
-	public void setIdLocation(int idLocation) { this._idLocation = idLocation; }	
+	public void setIdLocation(int idLocation) { this._idLocation = idLocation; }
+	public int getIdModel(){ return this._idModel; }
+	public void setIdModel(int idModel){ this._idModel = idModel; }
 	public int getPort() { return _port; }
 	public void setPort(int port) { this._port = port; }
 	public String getName() { return _name; }

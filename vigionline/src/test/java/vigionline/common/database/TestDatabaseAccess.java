@@ -5,9 +5,11 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import vigionline.common.database.mapper.LocationMapper;
 import vigionline.common.database.mapper.PermissionTypeMapper;
 import vigionline.common.database.mapper.RoleMapper;
 import vigionline.common.database.mapper.UserMapper;
+import vigionline.common.model.Location;
 import vigionline.common.model.PermissionType;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
@@ -92,5 +94,31 @@ public class TestDatabaseAccess {
 		
 		//DELETE
 		Assert.assertTrue(ptMapper.delete(permType.getIdPermissionType()) != 0 );	
+	}
+	
+	@Test
+	public void testLocationCRUD() throws SQLException
+	{
+		LocationMapper lMapper = new LocationMapper();
+		Location location = new Location();
+		location.setName("Location"+System.currentTimeMillis());
+			
+		// CREATE
+		int uid = lMapper.insert(location);
+		location.setIdLocation(uid);
+		Assert.assertTrue( uid != 0);
+				
+		// READ
+		Location dbLocation = lMapper.getById(location.getIdLocation());
+		Assert.assertEquals(location.getName(), dbLocation.getName());
+		
+		// UPDATE
+		dbLocation.setName("Teste");
+		lMapper.update(dbLocation);
+		Location dbLocation2 = lMapper.getById(dbLocation.getIdLocation());
+		Assert.assertEquals("Teste", dbLocation2.getName());
+		
+		//DELETE
+		Assert.assertTrue(lMapper.delete(location.getIdLocation()) != 0 );	
 	}
 }

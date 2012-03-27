@@ -1,38 +1,17 @@
 package vigionline.common.database;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import vigionline.common.database.connector.MySqlConnector;
+import vigionline.common.database.mapper.RoleMapper;
 import vigionline.common.database.mapper.UserMapper;
+import vigionline.common.model.Role;
 import vigionline.common.model.User;
 
 public class TestDatabaseAccess {
 
-	@Test
-	public void testDatabaseAccess()
-	{
-		Connection con = MySqlConnector.getConnection();
-		Statement prep;
-		try {
-			prep = con.createStatement();
-			ResultSet rs = prep.executeQuery("show tables");
-			while(rs.next())
-			{
-				System.out.println(rs.getString(1));
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	@Test
 	public void testUserCRUD() throws SQLException
 	{
@@ -59,5 +38,31 @@ public class TestDatabaseAccess {
 		
 		//DELETE
 		Assert.assertTrue(uMapper.delete(user.getIdUser()) != 0 );	
+	}
+	
+	@Test
+	public void testRoleCRUD() throws SQLException
+	{
+		RoleMapper rMapper = new RoleMapper();
+		Role role = new Role();
+		role.setName("Role"+System.currentTimeMillis());
+			
+		// CREATE
+		int uid = rMapper.insert(role);
+		role.setIdRole(uid);
+		Assert.assertTrue( uid != 0);
+				
+		// READ
+		Role dbRole = rMapper.getById(role.getIdRole());
+		Assert.assertEquals(role.getName(), dbRole.getName());
+		
+		// UPDATE
+		dbRole.setName("Teste");
+		rMapper.update(dbRole);
+		Role dbRole2 = rMapper.getById(dbRole.getIdRole());
+		Assert.assertEquals("Teste", dbRole2.getName());
+		
+		//DELETE
+		Assert.assertTrue(rMapper.delete(role.getIdRole()) != 0 );	
 	}
 }

@@ -5,8 +5,10 @@ import java.sql.SQLException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import vigionline.common.database.mapper.PermissionTypeMapper;
 import vigionline.common.database.mapper.RoleMapper;
 import vigionline.common.database.mapper.UserMapper;
+import vigionline.common.model.PermissionType;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
 
@@ -64,5 +66,31 @@ public class TestDatabaseAccess {
 		
 		//DELETE
 		Assert.assertTrue(rMapper.delete(role.getIdRole()) != 0 );	
+	}
+	
+	@Test
+	public void testPermissionTypeCRUD() throws SQLException
+	{
+		PermissionTypeMapper ptMapper = new PermissionTypeMapper();
+		PermissionType permType = new PermissionType();
+		permType.setType("PermissionType"+System.currentTimeMillis());
+			
+		// CREATE
+		int uid = ptMapper.insert(permType);
+		permType.setIdPermissionType(uid);
+		Assert.assertTrue( uid != 0);
+				
+		// READ
+		PermissionType dbPermType = ptMapper.getById(permType.getIdPermissionType());
+		Assert.assertEquals(permType.getType(), dbPermType.getType());
+		
+		// UPDATE
+		dbPermType.setType("Teste");
+		ptMapper.update(dbPermType);
+		PermissionType dbPermType2 = ptMapper.getById(dbPermType.getIdPermissionType());
+		Assert.assertEquals("Teste", dbPermType2.getType());
+		
+		//DELETE
+		Assert.assertTrue(ptMapper.delete(permType.getIdPermissionType()) != 0 );	
 	}
 }

@@ -55,5 +55,4 @@ public class UserMapper extends Mapper<User> {
 		prep.setInt(1, id);
 		return prep;
 	}
-
 }

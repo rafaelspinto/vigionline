@@ -7,11 +7,15 @@ import org.junit.Test;
 
 import vigionline.common.database.mapper.CameraMapper;
 import vigionline.common.database.mapper.LocationMapper;
+import vigionline.common.database.mapper.ManufacturerMapper;
+import vigionline.common.database.mapper.ModelMapper;
 import vigionline.common.database.mapper.PermissionTypeMapper;
 import vigionline.common.database.mapper.RoleMapper;
 import vigionline.common.database.mapper.UserMapper;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Location;
+import vigionline.common.model.Manufacturer;
+import vigionline.common.model.Model;
 import vigionline.common.model.PermissionType;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
@@ -127,10 +131,36 @@ public class TestDatabaseAccess {
 	@Test
 	public void testCameraCRUD() throws SQLException
 	{
+		// Location
+		Location loc = new Location();
+		loc.setName("TestLoc");
+		LocationMapper lMapper = new LocationMapper();
+		int locId = lMapper.insert(loc);
+		
+		// Manufacturer
+		Manufacturer manufacturer = new Manufacturer();
+		manufacturer.setName("TestManufacturer"+System.currentTimeMillis());
+		
+		ManufacturerMapper manMapper = new ManufacturerMapper();
+		int manUid = manMapper.insert(manufacturer);
+		
+		// Model
+		Model model = new Model();
+		model.setName("TestModel");
+		model.setIdManufacturer(manUid);
+		model.setVideoUrl("video");
+		
+		ModelMapper modMapper = new ModelMapper();
+		int modUid = modMapper.insert(model);
+		
+		// Camera
+		
 		CameraMapper cMapper = new CameraMapper();
 		Camera camera = new Camera();
 		camera.setName("Camera"+System.currentTimeMillis());
 		camera.setUrl("http://localhost");
+		camera.setIdLocation(locId);
+		camera.setIdModel(modUid);
 		
 		// CREATE
 		int uid = cMapper.insert(camera);
@@ -148,6 +178,11 @@ public class TestDatabaseAccess {
 		Assert.assertEquals("Teste", dbCamera2.getName());
 		
 		//DELETE
-		Assert.assertTrue(cMapper.delete(camera.getIdCamera()) != 0 );	
+		Assert.assertTrue(cMapper.delete(camera.getIdCamera()) != 0 );
+		
+		// CLEANUP
+		lMapper.delete(locId);
+		modMapper.delete(modUid);
+		manMapper.delete(manUid);
 	}
 }

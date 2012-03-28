@@ -34,7 +34,9 @@ public class Main {
         final Map<String, String> initParams = new HashMap<String, String>();
 
         initParams.put("com.sun.jersey.config.property.packages", "vigionline");
-
+        initParams.put("com.sun.jersey.config.property.JSPTemplatesBasePath", "/vwc/view");
+        initParams.put("com.sun.jersey.config.property.WebPageContentRegex","/(images|js|jsp|css|styles)/.*");
+        
         System.out.println("Starting Vigionline...");
         return GrizzlyWebContainerFactory.create(BASE_URI, initParams);
     }

@@ -38,13 +38,14 @@ public class Main {
         final Map<String, String> initParams = new HashMap<String, String>();
 
         initParams.put(PackagesResourceConfig.PROPERTY_PACKAGES, "vigionline");
-        initParams.put(ServletContainer.PROPERTY_WEB_PAGE_CONTENT_REGEX, "/(images|css|views)/.*");
+        initParams.put(ServletContainer.PROPERTY_WEB_PAGE_CONTENT_REGEX, "/(image|css|views)/.*");
         initParams.put(ServletContainer.JSP_TEMPLATES_BASE_PATH, "/views");
         initParams.put(ServletContainer.FEATURE_FILTER_FORWARD_ON_404, "true");
         initParams.put(ResourceConfig.FEATURE_IMPLICIT_VIEWABLES, "true");
         initParams.put(ResourceConfig.FEATURE_REDIRECT, "true");
         initParams.put(ResourceConfig.FEATURE_TRACE, "true");
-        
+        initParams.put(ServletContainer.PROPERTY_FILTER_CONTEXT_PATH, "/*");
+   
         System.out.println("Starting Vigionline...");
         return GrizzlyWebContainerFactory.create(BASE_URI, initParams);
     }

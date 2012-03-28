@@ -7,13 +7,13 @@ import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.view.Viewable;
 
-@Path("locations")
+@Path("/locations")
 public class LocationsController {
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public Viewable getLocations()
+	public Viewable getLocationsHtml()
 	{
-		return new Viewable("/locations.jsp",this);
+		return new Viewable("/locations", this);
 	}
 }

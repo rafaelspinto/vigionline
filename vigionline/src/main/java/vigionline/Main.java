@@ -2,6 +2,10 @@
 package vigionline;
 
 import com.sun.jersey.api.container.grizzly2.servlet.GrizzlyWebContainerFactory;
+import com.sun.jersey.api.core.PackagesResourceConfig;
+import com.sun.jersey.api.core.ResourceConfig;
+import com.sun.jersey.spi.container.servlet.ServletContainer;
+
 import org.glassfish.grizzly.http.server.HttpServer;
 import java.io.IOException;
 import java.net.URI;
@@ -33,9 +37,13 @@ public class Main {
     protected static HttpServer startServer() throws IOException {
         final Map<String, String> initParams = new HashMap<String, String>();
 
-        initParams.put("com.sun.jersey.config.property.packages", "vigionline");
-        initParams.put("com.sun.jersey.config.property.JSPTemplatesBasePath", "/vwc/view");
-        initParams.put("com.sun.jersey.config.property.WebPageContentRegex","/(images|js|jsp|css|styles)/.*");
+        initParams.put(PackagesResourceConfig.PROPERTY_PACKAGES, "vigionline");
+        initParams.put(ServletContainer.PROPERTY_WEB_PAGE_CONTENT_REGEX, "/(images|css|views)/.*");
+        initParams.put(ServletContainer.JSP_TEMPLATES_BASE_PATH, "/views");
+        initParams.put(ServletContainer.FEATURE_FILTER_FORWARD_ON_404, "true");
+        initParams.put(ResourceConfig.FEATURE_IMPLICIT_VIEWABLES, "true");
+        initParams.put(ResourceConfig.FEATURE_REDIRECT, "true");
+        initParams.put(ResourceConfig.FEATURE_TRACE, "true");
         
         System.out.println("Starting Vigionline...");
         return GrizzlyWebContainerFactory.create(BASE_URI, initParams);

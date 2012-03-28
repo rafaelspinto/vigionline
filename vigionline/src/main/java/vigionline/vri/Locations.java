@@ -27,7 +27,7 @@ public class Locations {
 		try {
 			locations = _database.getLocations();
 		} catch (SQLException e) {
-			throw new WebApplicationException(404);
+			throw new WebApplicationException(500);
 		}
 		if( locations == null || locations.size() == 0)
 			throw new WebApplicationException(404);

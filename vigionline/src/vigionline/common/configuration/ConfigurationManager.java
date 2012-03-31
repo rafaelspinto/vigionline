@@ -15,7 +15,7 @@ public class ConfigurationManager {
 	{
 		_properties = new Properties();
 		try {
-			_properties.loadFromXML(this.getClass().getClassLoader().getResourceAsStream("vigionline/resources/vigionline.properties"));
+			_properties.loadFromXML(this.getClass().getResourceAsStream("vigionline.properties"));
 		} catch (InvalidPropertiesFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

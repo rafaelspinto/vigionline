@@ -15,7 +15,7 @@ import vigionline.common.database.IDatabase;
 import vigionline.common.model.Location;
 
 @Path("/api/locations")
-public class Locations {
+public class LocationsResource {
 
 	private final IDatabase _database = DatabaseLocator.Get();
 	

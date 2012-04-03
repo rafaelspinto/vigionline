@@ -1,8 +1,15 @@
 <!-- ------------------------------------------------------ -->
+<%@page import="javax.servlet.http.Cookie"%>
 <%@page import="vigionline.common.lang.MessageLocator"%>
 <%
-        String baseUrl = "/vigionline/";
-		MessageLocator messages = new MessageLocator(request.getParameter("lang"),request.getParameter("country"));
+        String baseUrl = request.getContextPath();
+		String lang = "", country = "";
+		for( Cookie c : request.getCookies() )
+		{
+			if( c.getName().equals("lang") ) { lang = c.getValue();}
+			else if ( c.getName().equals("country") ) { country = c.getValue();}
+		}
+		MessageLocator messages = new MessageLocator(lang, country);
 %>
 <!-- ------------------------------------------------------ -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -19,3 +26,10 @@
 <body>
 <%@ include file="menu.jsp"%>
 <div class="container">
+<ul class="breadcrumb">
+		<li>
+	    	<a href="${pageContext.request.contextPath}">Home</a> <span class="divider">/</span>
+	  	</li>
+	  </ul>
+<div class="hero-unit">
+	

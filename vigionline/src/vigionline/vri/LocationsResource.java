@@ -20,9 +20,9 @@ import vigionline.common.model.Location;
 
 @Path("/api/locations")
 public class LocationsResource {
-
-	private final IDatabase _database = DatabaseLocator.Get();
 	
+	private final IDatabase _database = DatabaseLocator.Get();
+		
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public List<Location> getLocations()

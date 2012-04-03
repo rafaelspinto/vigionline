@@ -7,7 +7,7 @@ import com.sun.jersey.api.view.Viewable;
 
 @Path("/")
 public class HomeController {
-
+	
 	@GET
 	public Viewable index()
 	{

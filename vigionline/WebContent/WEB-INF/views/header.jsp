@@ -1,6 +1,8 @@
 <!-- ------------------------------------------------------ -->
+<%@page import="vigionline.common.lang.MessageLocator"%>
 <%
         String baseUrl = "/vigionline/";
+		MessageLocator messages = new MessageLocator(request.getParameter("lang"),request.getParameter("country"));
 %>
 <!-- ------------------------------------------------------ -->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"

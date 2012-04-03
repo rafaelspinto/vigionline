@@ -4,7 +4,7 @@
                 <a class="brand" href="${pageContext.request.contextPath}">Vigionline</a>
                 <ul class="nav">
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Locations <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= messages.getMessage("locations") %> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                       <li><a href="${pageContext.request.contextPath}/locations/create">Create Location</a></li>
                       <li class="divider"></li>

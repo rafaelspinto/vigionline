@@ -6,8 +6,7 @@
 	<li><a href="${pageContext.request.contextPath}/locations/create">Create Location</a></li>
 	
 </ul>
-${it }
 <c:forEach var="item" items="${it}">
-	${item.name}<br />
+	<a class="btn btn-primary btn-large" href="${pageContext.request.contextPath}/api/locations/${item.idLocation }">${item.name}</a>
 </c:forEach>
 <%@ include file="footer.jsp"%>

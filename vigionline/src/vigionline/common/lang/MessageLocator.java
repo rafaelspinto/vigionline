@@ -41,7 +41,11 @@ public class MessageLocator {
 	// Default constructor
 	public MessageLocator()	{	this("en","EN"); }
 	
-	public String getMessage(String msg) { return this._messages.getString(msg); }
+	public String getMessage(String msg) 
+	{
+		String m = this._messages.getString(msg); 
+		return  m != null ? Character.toUpperCase(m.charAt(0)) + m.substring(1) : m;
+	}
 	public String getLanguage() { return this._language; }
 	public String getCountry() { return this._country; }
 }

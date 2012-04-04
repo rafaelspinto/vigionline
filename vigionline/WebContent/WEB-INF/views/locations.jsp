@@ -6,7 +6,7 @@
 	<ul>
 		<c:forEach var="item" items="${it}">
 			<li>
-				<a href="${pageContext.request.contextPath}/api/locations/${item.idLocation }">	${item.name}</a>
+				<a href="${pageContext.request.contextPath}/locations/${item.idLocation }">	${item.name}</a>
 			</li>
 		</c:forEach>
 	</ul>

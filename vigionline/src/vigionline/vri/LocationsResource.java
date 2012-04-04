@@ -68,4 +68,18 @@ public class LocationsResource {
 			return Response.status(500).build();
 		}
 	}
+	
+	@POST
+	@Path("{idLocation}/edit")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response updateLocation(@FormParam("idLocation") int idLocation, Location location)
+	{
+		location.setIdLocation(idLocation);
+		try {
+			_database.updateLocation(location);
+			return Response.status(200).build();
+		} catch (SQLException e) {
+			return Response.status(500).build();
+		}
+	}
 }

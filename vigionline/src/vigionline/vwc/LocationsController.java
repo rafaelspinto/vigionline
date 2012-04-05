@@ -34,14 +34,14 @@ public class LocationsController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable createLocationForm()
 	{
-		return new Viewable("/create_location", new Location());
+		return new Viewable("/create_location");
 	}
 	
 	@POST
 	@Path("create")
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Viewable getLocationByIdHtml(@FormParam("name") String name)
+	public Viewable createLocation(@FormParam("name") String name)
 	{
 		return Controller.getResponse(_locationsResource.createLocation(name), "Location Created Successfully", "Location Create Failed");
 	}
@@ -68,11 +68,20 @@ public class LocationsController {
 	@Path("{idLocation}/edit")
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Viewable updateLocation(@PathParam("idLocation") int idLocation, @FormParam("name") String name)
+	public Viewable updateLocation(@FormParam("idLocation") int idLocation, @FormParam("name") String name)
 	{
 		Location location = new Location();
 		location.setName(name);
 		location.setIdLocation(idLocation);
-		return Controller.getResponse(_locationsResource.updateLocation(idLocation, location), "Location Updated Successfully", "Location Update Failed");
+		return Controller.getResponse(_locationsResource.updateLocation(idLocation, name), "Location Updated Successfully", "Location Update Failed");
+	}
+	
+	@POST
+	@Path("{idLocation}/delete")
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Viewable deleteLocation(@PathParam("idLocation") int idLocation)
+	{
+		return Controller.getResponse(_locationsResource.deleteLocation(idLocation), "Location Deleted Successfully", "Location Delete Failed");
 	}
 }

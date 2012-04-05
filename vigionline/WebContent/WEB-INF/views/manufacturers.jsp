@@ -4,18 +4,18 @@
 		<!-- Begin Navigation -->
 		<ul class="breadcrumb">
 			<li><a href="<%=baseUrl %>">Home</a> <span class="divider">/</span></li>
-			<li class="active"><%=messages.getMessage("locations") %></li>
+			<li class="active"><%=messages.getMessage("manufacturers") %></li>
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
-			<a class="btn btn-primary" href="<%= baseUrl %>/locations/create"><%= messages.getMessage("create_location") %></a>
+			<a class="btn btn-primary" href="<%= baseUrl %>/manufacturers/create"><%= messages.getMessage("create_manufacturer") %></a>
 		</div>
 		<div class="well">
 			<div class="pagination pagination-centered">
 				<ul>
 					<c:forEach var="item" items="${it}">
 						<li>
-							<a href="<%=baseUrl %>/locations/${item.idLocation }">	${item.name}</a>
+							<a href="<%=baseUrl %>/manufacturers/${item.idManufacturer }">	${item.name}</a>
 						</li>
 					</c:forEach>
 				</ul>

@@ -25,11 +25,5 @@
 </head>
 <body>
 <%@ include file="menu.jsp"%>
-<div class="container">
-<ul class="breadcrumb">
-		<li>
-	    	<a href="${pageContext.request.contextPath}">Home</a> <span class="divider">/</span>
-	  	</li>
-	  </ul>
-<div class="hero-unit">
+	
 	

@@ -16,81 +16,77 @@ import javax.ws.rs.core.Response;
 
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
-import vigionline.common.model.Location;
+import vigionline.common.model.Manufacturer;
 
-@Path("/api/locations")
-public class LocationsResource {
-	
+public class ManufacturersResource {
+
 	private final IDatabase _database = DatabaseLocator.Get();
-		
+	
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public List<Location> getLocations()
+	public List<Manufacturer> getManufacturers()
 	{	
-		List<Location> locations = null;
+		List<Manufacturer> manufacturers = null;
 		try {
-			locations = _database.getLocations();
+			manufacturers = _database.getManufacturers();
 		} catch (SQLException e) {
 			throw new WebApplicationException(500);
 		}
-		if( locations == null || locations.size() == 0)
+		if( manufacturers == null || manufacturers.size() == 0)
 			throw new WebApplicationException(404);
-		return locations;
+		return manufacturers;
 	}
-	
+
 	@GET
-	@Path("{idLocation}")
+	@Path("{idManufacturer}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Location getLocation(@PathParam("idLocation") int idLocation)
-	{		
-		Location location = null;
+	public Manufacturer getManufacturer(@PathParam("idManufacturer") int idManufacturer) {
+		Manufacturer manufacturer = null;
 		try {
-			location = _database.getLocation(idLocation);
+			manufacturer = _database.getManufacturer(idManufacturer);
 		} catch (SQLException e) {
 			throw new WebApplicationException(500);
 		}
-		if( location == null )
+		if( manufacturer == null )
 			throw new WebApplicationException(404);
-		return location;
+		return manufacturer;
 	}
-	
+
+	@POST
+	@Path("{idManufacturer}/edit")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response updateManufacturer(int idManufacturer,
+			String name) {
+		Manufacturer manufacturer = new Manufacturer();
+		manufacturer.setIdManufacturer(idManufacturer);
+		manufacturer.setName(name);
+		try {
+			_database.updateManufacturer(manufacturer);
+			return Response.status(200).build();
+		} catch (SQLException e) {
+			return Response.status(500).build();
+		}
+	}
+
 	@POST
 	@Path("create")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response createLocation(@FormParam("name") String name)
-	{
-		Location location = new Location();
-		location.setName(name);
+	public Response createManufacturer(String name) {
+		Manufacturer manufacturer = new Manufacturer();
+		manufacturer.setName(name);
 		try {
-			_database.createLocation(location);
+			_database.createManufacturer(manufacturer);
 			return Response.status(200).build();
 		} catch (SQLException e) {
 			return Response.status(500).build();
 		}
 	}
-	
-	@POST
-	@Path("{idLocation}/edit")
+
+	@Path("{idManufacturer}/delete")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response updateLocation(@FormParam("idLocation") int idLocation, @FormParam("name") String name)
-	{
-		Location location = new Location();
-		location.setIdLocation(idLocation);
-		location.setName(name);
+	public Response deleteManufacturer(@FormParam("idManufacturer") int idManufacturer) {
 		try {
-			_database.updateLocation(location);
-			return Response.status(200).build();
-		} catch (SQLException e) {
-			return Response.status(500).build();
-		}
-	}
-	
-	@Path("{idLocation}/delete")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response deleteLocation(@FormParam("idLocation") int idLocation)
-	{
-		try {
-			_database.deleteLocation(idLocation);
+			_database.deleteManufacturer(idManufacturer);
 			return Response.status(200).build();
 		} catch (SQLException e) {
 			return Response.status(500).build();

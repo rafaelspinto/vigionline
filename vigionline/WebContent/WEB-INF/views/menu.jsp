@@ -1,16 +1,11 @@
-<div id="navbar-example" class="navbar navbar-static">
+<div class="navbar navbar-static">
             <div class="navbar-inner">
               <div class="container" style="width: auto;">
                 <a class="brand" href="${pageContext.request.contextPath}">Vigionline</a>
                 <ul class="nav">
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= messages.getMessage("locations") %><b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="${pageContext.request.contextPath}/locations/create"><%= messages.getMessage("create_location") %></a></li>
-                      <li class="divider"></li>
-                      <li><a href="${pageContext.request.contextPath}/locations"><%= messages.getMessage("view_all_locations") %></a></li>
-                    </ul>
-                  </li>
+                  <li><a href="<%= baseUrl %>/locations"><%= messages.getMessage("locations") %></a></li>
+                  <li class="divider-vertical"></li>
+                  <li><a href="<%= baseUrl %>/manufacturers"><%= messages.getMessage("manufacturers") %></a></li>
                 </ul>
                 <ul class="nav pull-right">
                 	<li id="fat-menu" class="dropdown">

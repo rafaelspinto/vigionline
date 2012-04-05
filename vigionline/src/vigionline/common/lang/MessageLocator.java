@@ -43,8 +43,9 @@ public class MessageLocator {
 	
 	public String getMessage(String msg) 
 	{
-		String m = this._messages.getString(msg); 
-		return  m != null ? Character.toUpperCase(m.charAt(0)) + m.substring(1) : m;
+		String m = null;
+		try	{	m = this._messages.getString(msg);} catch(MissingResourceException mre) { }
+		return  m != null ? Character.toUpperCase(m.charAt(0)) + m.substring(1) : msg;
 	}
 	public String getLanguage() { return this._language; }
 	public String getCountry() { return this._country; }

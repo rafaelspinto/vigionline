@@ -1,6 +1,8 @@
+<%@page import="vigionline.vwc.Message"%>
 <%@ include file="header.jsp"%>
-<div class="alert alert-success">
-${it.message}
-</div>
-<a href="${it.nextUrl }">Back</a>
+	<div class="container">
+		<div class="well">
+			<div class="alert alert-success"><% Message msg = (Message) request.getAttribute("it");%><%=messages.getMessage(msg.getMessage()) %></div>		
+		</div>
+	</div>
 <%@ include file="footer.jsp"%>

@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Manufacturer;
+import vigionline.common.model.Model;
 
 public class ManufacturersResource {
 
@@ -82,6 +83,7 @@ public class ManufacturersResource {
 		}
 	}
 
+	@POST
 	@Path("{idManufacturer}/delete")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response deleteManufacturer(@FormParam("idManufacturer") int idManufacturer) {
@@ -91,5 +93,20 @@ public class ManufacturersResource {
 		} catch (SQLException e) {
 			return Response.status(500).build();
 		}
+	}
+	
+	@GET
+	@Path("{idManufacturer}/models")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public List<Model> getManufacturerModels(@PathParam("idManufacturer") int idManufacturer) {
+		List<Model> models = null;
+		try {
+			models = _database.getModelsByManufacturer(idManufacturer);
+		} catch (SQLException e) {
+			throw new WebApplicationException(500);
+		}
+		if( models == null )
+			throw new WebApplicationException(404);
+		return models;
 	}
 }

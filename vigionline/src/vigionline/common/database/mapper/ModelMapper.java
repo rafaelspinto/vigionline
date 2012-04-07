@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
+import vigionline.common.database.connector.MySqlConnector;
 import vigionline.common.model.Model;
 
 public class ModelMapper extends Mapper<Model> {
@@ -97,5 +99,12 @@ public class ModelMapper extends Mapper<Model> {
 		PreparedStatement prep = con.prepareStatement("DELETE FROM Model WHERE idModel = ?");
 		prep.setInt(1, id);
 		return prep;
+	}
+
+	public List<Model> getModelsByManufacturer(int idManufacturer) throws SQLException {
+		Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con.prepareStatement(getAllQuery() + " WHERE idManufacturer = ?");
+		prep.setInt(1, idManufacturer);
+		return getListByPreparedStatement(prep);
 	}
 }

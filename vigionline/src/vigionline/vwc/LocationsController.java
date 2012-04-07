@@ -43,7 +43,7 @@ public class LocationsController {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Viewable createLocation(@FormParam("name") String name)
 	{
-		return Controller.getResponse(_locationsResource.createLocation(name), "Location Created Successfully", "Location Create Failed");
+		return Controller.getResponse(_locationsResource.createLocation(name), "create_location_succeeded", "create_location_failed");
 	}
 	
 	@GET
@@ -73,7 +73,7 @@ public class LocationsController {
 		Location location = new Location();
 		location.setName(name);
 		location.setIdLocation(idLocation);
-		return Controller.getResponse(_locationsResource.updateLocation(idLocation, name), "Location Updated Successfully", "Location Update Failed");
+		return Controller.getResponse(_locationsResource.updateLocation(idLocation, name), "update_location_succeeded", "update_location_failed");
 	}
 	
 	@POST
@@ -82,6 +82,6 @@ public class LocationsController {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Viewable deleteLocation(@PathParam("idLocation") int idLocation)
 	{
-		return Controller.getResponse(_locationsResource.deleteLocation(idLocation), "Location Deleted Successfully", "Location Delete Failed");
+		return Controller.getResponse(_locationsResource.deleteLocation(idLocation), "delete_location_succeeded", "delete_location_failed");
 	}
 }

@@ -11,7 +11,7 @@
 			<form class="form-inline" action="<%= baseUrl %>/locations/${it.idLocation }/delete" method="POST">
 				<input type="hidden" name="idLocation" value="${it.idLocation }" />
 				<a class="btn btn-primary" href="<%= baseUrl %>/locations/${it.idLocation }/edit"><%= messages.getMessage("edit_location") %></a>
-				<input type="submit" class="btn btn-danger" href="" value="<%= messages.getMessage("delete_location") %>">
+				<input type="submit" class="btn btn-danger" value="<%= messages.getMessage("delete_location") %>">
 			</form>
 		</div>
 		<div class="well">

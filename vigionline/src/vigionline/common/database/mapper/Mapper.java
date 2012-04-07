@@ -49,6 +49,21 @@ public abstract class Mapper<T> {
 		return obj;
 	}
 	
+	public List<T> getListByPreparedStatement(PreparedStatement prep) throws SQLException
+	{
+		List<T> list = new LinkedList<T>();
+		try
+		{
+			ResultSet rs = prep.executeQuery();
+			while(rs.next()) { 	list.add(getObject(rs)); }
+			rs.close();
+		}finally
+		{
+			prep.close();
+		}
+		return list;
+	}
+	
 	public int insert(T elem) throws SQLException
 	{
 		int res = 0;

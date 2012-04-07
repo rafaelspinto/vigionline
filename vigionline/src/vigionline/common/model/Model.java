@@ -19,7 +19,7 @@ public class Model implements Serializable {
 	public int getWidth() { return _width; }
 	public void setWidth(int width) {	this._width = width; }
 	public int getHeight() { return _height; }
-	public void setHeight(int _height) { this._height = _height; }
+	public void setHeight(int height) { this._height = height; }
 	public int getBeginLinesToDiscard() { return _beginLinesToDiscard; }
 	public void setBeginLinesToDiscard(int beginLinesToDiscard) { this._beginLinesToDiscard = beginLinesToDiscard; }
 	public int getEndLinesToDiscard() { return _endLinesToDiscard; }

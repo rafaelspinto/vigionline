@@ -1,6 +1,8 @@
 package vigionline.vwc;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -12,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import vigionline.common.model.Manufacturer;
+import vigionline.common.model.Model;
 import vigionline.vri.ManufacturersResource;
 
 import com.sun.jersey.api.view.Viewable;
@@ -20,7 +23,7 @@ import com.sun.jersey.api.view.Viewable;
 public class ManufacturersController {
 
 	private ManufacturersResource _manufacturersResource = new ManufacturersResource();
-	
+		
 	@GET
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable getManufacturers()
@@ -34,8 +37,11 @@ public class ManufacturersController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable getManufacturer(@PathParam("idManufacturer") int idManufacturer)
 	{
-		Manufacturer manufacturer = _manufacturersResource.getManufacturer(idManufacturer);
-		return new Viewable("/manufacturer", manufacturer);
+		List<Model> models = _manufacturersResource.getManufacturerModels(idManufacturer); 
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("manufacturer", _manufacturersResource.getManufacturer(idManufacturer));
+		data.put("models", models);
+		return new Viewable("/manufacturer", data);
 	}
 	
 	@GET
@@ -53,7 +59,7 @@ public class ManufacturersController {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Viewable updateManufacturer(@FormParam("idManufacturer") int idManufacturer, @FormParam("name") String name)
 	{
-		return Controller.getResponse(_manufacturersResource.updateManufacturer(idManufacturer, name), "Manufacturer Updated Successfully", "Manufacturer Update Failed");
+		return Controller.getResponse(_manufacturersResource.updateManufacturer(idManufacturer, name), "update_manufacturer_succeeded", "update_manufacturer_failed");
 	}
 	
 	@GET
@@ -70,7 +76,7 @@ public class ManufacturersController {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Viewable createManufacturer(@FormParam("name") String name)
 	{
-		return Controller.getResponse(_manufacturersResource.createManufacturer(name), "Manufacturer Created Successfully", "Manufacturer Create Failed");
+		return Controller.getResponse(_manufacturersResource.createManufacturer(name), "create_manufacturer_succeeded", "create_manufacturer_failed");
 	}
 	
 	@POST
@@ -79,6 +85,6 @@ public class ManufacturersController {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Viewable deleteManufacturer(@FormParam("idManufacturer") int idManufacturer)
 	{
-		return Controller.getResponse(_manufacturersResource.deleteManufacturer(idManufacturer), "Manufacturer Updated Successfully", "Manufacturer Update Failed");
+		return Controller.getResponse(_manufacturersResource.deleteManufacturer(idManufacturer), "delete_manufacturer_succeeded", "delete_manufacturer_failed");
 	}
 }

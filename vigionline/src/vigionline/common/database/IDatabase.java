@@ -5,6 +5,7 @@ import java.util.List;
 
 import vigionline.common.model.Location;
 import vigionline.common.model.Manufacturer;
+import vigionline.common.model.Model;
 import vigionline.common.model.Permission;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
@@ -47,4 +48,11 @@ public interface IDatabase {
 	public int updateManufacturer(Manufacturer manufacturer) throws SQLException;
 	public int createManufacturer(Manufacturer manufacturer) throws SQLException;
 	public int deleteManufacturer(int idManufacturer) throws SQLException;
+	
+	/** Models **/
+	public List<Model> getModelsByManufacturer(int idManufacturer) throws SQLException;
+	public List<Model> getModels() throws SQLException;
+	public Model getModel(int idModel) throws SQLException;
+	public int updateModel(Model model) throws SQLException;
+	public int deleteModel(int idModel) throws SQLException;
 }

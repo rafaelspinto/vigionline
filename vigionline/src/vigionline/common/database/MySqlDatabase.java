@@ -5,11 +5,13 @@ import java.util.List;
 
 import vigionline.common.database.mapper.LocationMapper;
 import vigionline.common.database.mapper.ManufacturerMapper;
+import vigionline.common.database.mapper.ModelMapper;
 import vigionline.common.database.mapper.PermissionMapper;
 import vigionline.common.database.mapper.RoleMapper;
 import vigionline.common.database.mapper.UserMapper;
 import vigionline.common.model.Location;
 import vigionline.common.model.Manufacturer;
+import vigionline.common.model.Model;
 import vigionline.common.model.Permission;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
@@ -161,5 +163,31 @@ public class MySqlDatabase implements IDatabase {
 	@Override
 	public int deleteManufacturer(int idManufacturer) throws SQLException {
 		return new ManufacturerMapper().delete(idManufacturer);
+	}
+
+	@Override
+	public List<Model> getModelsByManufacturer(int idManufacturer)
+			throws SQLException {
+		return new ModelMapper().getModelsByManufacturer(idManufacturer);
+	}
+
+	@Override
+	public List<Model> getModels() throws SQLException {
+		return new ModelMapper().getAll();
+	}
+
+	@Override
+	public Model getModel(int idModel) throws SQLException {
+		return new ModelMapper().getById(idModel);
+	}
+
+	@Override
+	public int updateModel(Model model) throws SQLException {
+		return new ModelMapper().update(model);
+	}
+
+	@Override
+	public int deleteModel(int idModel) throws SQLException {
+		return new ModelMapper().delete(idModel);
 	}
 }

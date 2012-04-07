@@ -6,6 +6,8 @@
                   <li><a href="<%= baseUrl %>/locations"><%= messages.getMessage("locations") %></a></li>
                   <li class="divider-vertical"></li>
                   <li><a href="<%= baseUrl %>/manufacturers"><%= messages.getMessage("manufacturers") %></a></li>
+                  <li class="divider-vertical"></li>
+                  <li><a href="<%= baseUrl %>/models"><%= messages.getMessage("models") %></a></li>
                 </ul>
                 <ul class="nav pull-right">
                 	<li id="fat-menu" class="dropdown">
@@ -21,4 +23,4 @@
                 </ul>
               </div>
             </div>
-          </div> <!-- /navbar-example -->
+          </div>

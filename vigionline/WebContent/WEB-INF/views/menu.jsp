@@ -8,6 +8,8 @@
                   <li><a href="<%= baseUrl %>/manufacturers"><%= messages.getMessage("manufacturers") %></a></li>
                   <li class="divider-vertical"></li>
                   <li><a href="<%= baseUrl %>/models"><%= messages.getMessage("models") %></a></li>
+                  <li><a href="<%= baseUrl %>/actions"><%= messages.getMessage("actions") %></a></li>
+                  <li><a href="<%= baseUrl %>/cameras"><%= messages.getMessage("cameras") %></a></li>
                 </ul>
                 <ul class="nav pull-right">
                 	<li id="fat-menu" class="dropdown">

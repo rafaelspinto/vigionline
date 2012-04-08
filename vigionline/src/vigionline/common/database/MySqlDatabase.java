@@ -3,12 +3,16 @@ package vigionline.common.database;
 import java.sql.SQLException;
 import java.util.List;
 
+import vigionline.common.database.mapper.ActionMapper;
+import vigionline.common.database.mapper.CameraMapper;
 import vigionline.common.database.mapper.LocationMapper;
 import vigionline.common.database.mapper.ManufacturerMapper;
 import vigionline.common.database.mapper.ModelMapper;
 import vigionline.common.database.mapper.PermissionMapper;
 import vigionline.common.database.mapper.RoleMapper;
 import vigionline.common.database.mapper.UserMapper;
+import vigionline.common.model.Action;
+import vigionline.common.model.Camera;
 import vigionline.common.model.Location;
 import vigionline.common.model.Manufacturer;
 import vigionline.common.model.Model;
@@ -189,5 +193,55 @@ public class MySqlDatabase implements IDatabase {
 	@Override
 	public int deleteModel(int idModel) throws SQLException {
 		return new ModelMapper().delete(idModel);
+	}
+
+	@Override
+	public List<Action> getActions() throws SQLException {
+		return new ActionMapper().getAll();
+	}
+
+	@Override
+	public Action getAction(int idAction) throws SQLException {
+		return new ActionMapper().getById(idAction);
+	}
+
+	@Override
+	public int createModel(Model model) throws SQLException {
+		return new ModelMapper().insert(model);
+	}
+
+	@Override
+	public int createAction(Action action) throws SQLException {
+		return new ActionMapper().insert(action);
+	}
+
+	@Override
+	public int updateAction(Action action) throws SQLException {
+		return new ActionMapper().update(action);
+	}
+
+	@Override
+	public int deleteAction(int idAction) throws SQLException {
+		return new ActionMapper().delete(idAction);
+	}
+
+	@Override
+	public List<Camera> getCameras() throws SQLException {
+		return new CameraMapper().getAll();
+	}
+
+	@Override
+	public Camera getCamera(int idCamera) throws SQLException {
+		return new CameraMapper().getById(idCamera);
+	}
+
+	@Override
+	public int updateCamera(Camera camera) throws SQLException {
+		return new CameraMapper().update(camera);
+	}
+
+	@Override
+	public int deleteCamera(int idCamera) throws SQLException {
+		return new CameraMapper().delete(idCamera);
 	}
 }

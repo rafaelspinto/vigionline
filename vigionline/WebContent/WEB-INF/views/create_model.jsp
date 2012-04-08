@@ -9,7 +9,7 @@
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
-			<form class="well" action="<%= baseUrl %>/models/${it.model.idModel }/edit" method="POST">
+			<form class="well" action="<%= baseUrl %>/models/create" method="POST">
 				<input type="hidden" name="idModel" value="${it.model.idModel }" />
 				<label for="name"><%= messages.getMessage("name") %></label><input name="name" value="${it.model.name }" />
 				<label for="videoUrl"><%= messages.getMessage("video_url") %></label><input name="videoUrl" value="${it.model.videoUrl }" />

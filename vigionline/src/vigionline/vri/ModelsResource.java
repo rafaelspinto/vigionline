@@ -8,6 +8,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -17,6 +18,7 @@ import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Model;
 
+@Path("/api/models")
 public class ModelsResource {
 
 	private final IDatabase _database = DatabaseLocator.Get();
@@ -31,7 +33,7 @@ public class ModelsResource {
 		} catch (SQLException e) {
 			throw new WebApplicationException(500);
 		}
-		if( models == null || models.size() == 0)
+		if( models == null )
 			throw new WebApplicationException(404);
 		return models;
 	}
@@ -39,7 +41,7 @@ public class ModelsResource {
 	@GET
 	@Path("{idModel}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Model getModel(int idModel) {
+	public Model getModel(@PathParam("idModel") int idModel) {
 		Model model = null;
 		try	{
 			model = _database.getModel(idModel);
@@ -53,7 +55,6 @@ public class ModelsResource {
 
 	@POST
 	@Path("{idModel}/edit")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response updateModel(Model model) {
 		try {
 			_database.updateModel(model);
@@ -69,6 +70,17 @@ public class ModelsResource {
 	public Response deleteModel(@FormParam("idModel")int idModel) {
 		try {
 			_database.deleteModel(idModel);
+			return Response.status(200).build();
+		} catch (SQLException e) {
+			return Response.status(500).build();
+		}
+	}
+	
+	@POST
+	@Path("create")
+	public Response createModel(Model model) {
+		try {
+			_database.createModel(model);
 			return Response.status(200).build();
 		} catch (SQLException e) {
 			return Response.status(500).build();

@@ -53,11 +53,48 @@ public class CamerasResource {
 	}
 
 	@POST
+	@Path("create")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response createCamera(
+			@FormParam("name") String name,
+			@FormParam("url") String url,
+			@FormParam("port") int port,
+			@FormParam("username") String username,
+			@FormParam("password") String password,
+			@FormParam("idLocation") int idLocation,
+			@FormParam("idModel") int idModel
+	) 
+	{
+		Camera camera = new Camera();
+		camera.setName(name);
+		camera.setUrl(url);
+		camera.setPort(port);
+		camera.setUsername(username);
+		camera.setPassword(password);
+		camera.setIdLocation(idLocation);
+		camera.setIdModel(idModel);
+		try {
+			_database.createCamera(camera);
+			return Response.status(200).build();
+		} catch (SQLException e) {
+			return Response.status(500).build();
+		}
+	}
+	
+	@POST
 	@Path("{idAction}/edit")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response updateCamera(int idCamera, String name, String url,
-			int port, String username, String password, int idLocation,
-			int idModel) {
+	public Response updateCamera(
+			@FormParam("idCamera") int idCamera,
+			@FormParam("name") String name,
+			@FormParam("url") String url,
+			@FormParam("port") int port,
+			@FormParam("username") String username,
+			@FormParam("password") String password,
+			@FormParam("idLocation") int idLocation,
+			@FormParam("idModel") int idModel
+	) 
+	{
 		Camera camera = new Camera();
 		camera.setIdCamera(idCamera);
 		camera.setName(name);

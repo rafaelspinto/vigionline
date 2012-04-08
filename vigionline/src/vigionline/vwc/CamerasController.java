@@ -55,6 +55,42 @@ public class CamerasController {
 	}
 	
 	@GET
+	@Path("create")
+	@Produces(MediaType.TEXT_HTML)
+	public Viewable createCameraForm()
+	{
+		Camera camera = new Camera();
+		ManufacturersResource manResource = new ManufacturersResource();
+		List<Manufacturer> manufacturers = manResource.getManufacturers();
+		List<Model> models = manResource.getManufacturerModels(manufacturers.get(0).getIdManufacturer());
+		LocationsResource locResource = new LocationsResource(); 
+		List<Location> locations = locResource.getLocations();
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("camera", camera);
+		data.put("locations", locations);
+		data.put("manufacturers", manufacturers);
+		data.put("models", models);
+		return new Viewable("/create_camera", data);
+	}
+	
+	@POST
+	@Path("create")
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Viewable createCamera(
+			@FormParam("name") String name,
+			@FormParam("url") String url,
+			@FormParam("port") int port,
+			@FormParam("username") String username,
+			@FormParam("password") String password,
+			@FormParam("idLocation") int idLocation,
+			@FormParam("idModel") int idModel
+	)
+	{
+		return Controller.getResponse(_camerasResource.createCamera(name, url, port, username, password, idLocation, idModel), "create_camera_succeeded", "create_camera_failed");
+	}
+	
+	@GET
 	@Path("{idCamera}/edit")
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable editCameraForm(@PathParam("idCamera") int idCamera)

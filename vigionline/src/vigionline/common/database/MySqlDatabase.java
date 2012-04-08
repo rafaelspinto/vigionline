@@ -244,4 +244,9 @@ public class MySqlDatabase implements IDatabase {
 	public int deleteCamera(int idCamera) throws SQLException {
 		return new CameraMapper().delete(idCamera);
 	}
+
+	@Override
+	public int createCamera(Camera camera) throws SQLException {
+		return new CameraMapper().insert(camera);
+	}
 }

@@ -71,4 +71,5 @@ public interface IDatabase {
 	public Camera getCamera(int idCamera) throws SQLException;
 	public int updateCamera(Camera camera) throws SQLException;
 	public int deleteCamera(int idCamera) throws SQLException;
+	public int createCamera(Camera camera) throws SQLException;
 }

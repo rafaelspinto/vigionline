@@ -8,9 +8,6 @@
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
-			<a class="btn btn-primary" href="<%= baseUrl %>/users/create"><%= messages.getMessage("create_user") %></a>
-		</div>
-		<div class="well">
 			<div class="pagination pagination-centered">
 				<ul>
 					<c:forEach var="item" items="${it}">

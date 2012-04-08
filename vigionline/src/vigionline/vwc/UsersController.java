@@ -1,6 +1,8 @@
 package vigionline.vwc;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -13,7 +15,9 @@ import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.view.Viewable;
 
+import vigionline.common.model.Role;
 import vigionline.common.model.User;
+import vigionline.vri.RolesResource;
 import vigionline.vri.UsersResource;
 
 @Path("/users")
@@ -33,7 +37,11 @@ public class UsersController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable getUserHTML(@PathParam("idUser") int idUser) {
 		User user = _usersResource.getUser(idUser);
-		return new Viewable("/user", user);
+		List<Role> roles = _usersResource.getUserRoles(idUser);
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("user", user);
+		data.put("roles", roles);
+		return new Viewable("/user", data);
 	}
 
 	@GET
@@ -60,7 +68,13 @@ public class UsersController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable editUserForm(@PathParam("idUser") int idUser) {
 		User user = _usersResource.getUser(idUser);
-		return new Viewable("/edit_user", user);
+		List<Role> roles = _usersResource.getUserRoles(idUser);
+		List<Role> allRoles = new RolesResource().getRoles();
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("user", user);
+		data.put("roles", roles);
+		data.put("allRoles", allRoles);
+		return new Viewable("/edit_user", data);
 	}
 
 	@POST

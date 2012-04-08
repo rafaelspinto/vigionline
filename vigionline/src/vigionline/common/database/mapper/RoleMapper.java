@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
+import vigionline.common.database.connector.MySqlConnector;
 import vigionline.common.model.Role;
 
 public class RoleMapper extends Mapper<Role> {
@@ -51,5 +53,12 @@ public class RoleMapper extends Mapper<Role> {
 		PreparedStatement prep = con.prepareStatement("DELETE FROM Role WHERE idRole = ?");
 		prep.setInt(1, id);
 		return prep;
+	}
+
+	public List<Role> getByUserId(int idUser) throws SQLException{
+		Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con.prepareStatement("SELECT R.idRole, R.name FROM Role R INNER JOIN UserRole UR ON R.idRole = UR.idRole WHERE UR.idUser = ?");
+		prep.setInt(1, idUser);
+		return getListByPreparedStatement(prep);
 	}
 }

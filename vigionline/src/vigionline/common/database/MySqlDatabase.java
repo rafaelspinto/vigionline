@@ -249,4 +249,9 @@ public class MySqlDatabase implements IDatabase {
 	public int createCamera(Camera camera) throws SQLException {
 		return new CameraMapper().insert(camera);
 	}
+
+	@Override
+	public List<Role> getRolesForUser(int idUser) throws SQLException {
+		return new RoleMapper().getByUserId(idUser);
+	}
 }

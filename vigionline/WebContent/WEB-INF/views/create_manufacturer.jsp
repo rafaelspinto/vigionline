@@ -8,7 +8,7 @@
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
-			<form class="form-inline" action="<%= baseUrl %>/manufacturers/create" method="POST">
+			<form class="well" action="<%= baseUrl %>/manufacturers/create" method="POST">
 				<label for="name"><%= messages.getMessage("name") %></label>
 				<input name="name" />
 				<input class="btn" type="submit" value="<%= messages.getMessage("submit") %>" />

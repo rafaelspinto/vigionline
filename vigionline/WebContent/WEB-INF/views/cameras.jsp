@@ -8,9 +8,6 @@
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
-			<a class="btn btn-primary" href="<%= baseUrl %>/cameras/create"><%= messages.getMessage("create_camera") %></a>
-		</div>
-		<div class="well">
 			<div class="pagination pagination-centered">
 				<ul>
 					<c:forEach var="item" items="${it}">

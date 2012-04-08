@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
+import vigionline.common.model.Role;
 import vigionline.common.model.User;
 
 @Path("/api/users")
@@ -50,6 +51,21 @@ public class UsersResource {
 		if (user == null)
 			throw new WebApplicationException(404);
 		return user;
+	}
+	
+	@GET
+	@Path("{idUser}/roles")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<Role> getUserRoles(@PathParam("idUser") int idUser) {
+		List<Role> roles = null;
+		try {
+			roles = _database.getRolesForUser(idUser);
+		} catch (SQLException e) {
+			throw new WebApplicationException(500);
+		}
+		if (roles == null)
+			throw new WebApplicationException(404);
+		return roles;
 	}
 
 	@POST

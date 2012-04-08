@@ -27,6 +27,7 @@ public interface IDatabase {
 	public Role getRole(int idRole) throws SQLException;
 	public int updateRole(Role role) throws SQLException;
 	public int deleteRole(int idRole) throws SQLException;
+	public List<Role> getRolesForUser(int idUser) throws SQLException;
 
 	/** Permission **/
 	public int createPermission(Permission permission) throws SQLException;

@@ -21,6 +21,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-latest.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-alert.js"></script>
 <title>Vigionline</title>
 </head>
 <body>

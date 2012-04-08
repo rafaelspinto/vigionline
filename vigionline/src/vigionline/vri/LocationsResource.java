@@ -33,7 +33,7 @@ public class LocationsResource {
 		} catch (SQLException e) {
 			throw new WebApplicationException(500);
 		}
-		if( locations == null || locations.size() == 0)
+		if( locations == null )
 			throw new WebApplicationException(404);
 		return locations;
 	}

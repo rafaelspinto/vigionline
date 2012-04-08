@@ -59,6 +59,35 @@ public class ModelsController {
 		return new Viewable("/create_model", data);
 	}
 	
+	@POST
+	@Path("create")
+	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Viewable createModel(
+			@FormParam("name") String name,
+			@FormParam("videoUrl") String videoUrl,
+			@FormParam("audioUrl") String audioUrl,
+			@FormParam("idManufacturer") int idManufacturer,
+			@FormParam("mjpeg") boolean mjpeg,
+			@FormParam("width") int width,
+			@FormParam("height") int height,
+			@FormParam("beginLinesToDiscard") int beginLinesToDiscard,
+			@FormParam("endLinesToDiscard") int endLinesToDiscard
+	)
+	{
+		Model model = new Model();
+		model.setName(name);
+		model.setVideoUrl(videoUrl);
+		model.setAudioUrl(audioUrl);
+		model.setIdManufacturer(idManufacturer);
+		model.setIsMJPEG(mjpeg);
+		model.setWidth(width);
+		model.setHeight(height);
+		model.setBeginLinesToDiscard(beginLinesToDiscard);
+		model.setEndLinesToDiscard(endLinesToDiscard);
+		return Controller.getResponse(_modelsResource.createModel(model), "create_model_succeeded", "create_model_failed");
+	}
+	
 	@GET
 	@Path("{idModel}/edit")
 	@Produces(MediaType.TEXT_HTML)

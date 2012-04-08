@@ -19,6 +19,7 @@ import vigionline.common.database.IDatabase;
 import vigionline.common.model.Manufacturer;
 import vigionline.common.model.Model;
 
+@Path("/api/manufacturers")
 public class ManufacturersResource {
 
 	private final IDatabase _database = DatabaseLocator.Get();
@@ -33,7 +34,7 @@ public class ManufacturersResource {
 		} catch (SQLException e) {
 			throw new WebApplicationException(500);
 		}
-		if( manufacturers == null || manufacturers.size() == 0)
+		if( manufacturers == null)
 			throw new WebApplicationException(404);
 		return manufacturers;
 	}
@@ -72,7 +73,7 @@ public class ManufacturersResource {
 	@POST
 	@Path("create")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response createManufacturer(String name) {
+	public Response createManufacturer(@FormParam("name") String name) {
 		Manufacturer manufacturer = new Manufacturer();
 		manufacturer.setName(name);
 		try {

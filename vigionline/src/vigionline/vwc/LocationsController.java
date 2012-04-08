@@ -23,7 +23,7 @@ public class LocationsController {
 	
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public Viewable getLocationsHtml()
+	public Viewable getLocationsHTML()
 	{
 		List<Location> locations = _locationsResource.getLocations();
 		return new Viewable("/locations", locations);

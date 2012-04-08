@@ -3,6 +3,8 @@ package vigionline.common.database;
 import java.sql.SQLException;
 import java.util.List;
 
+import vigionline.common.model.Action;
+import vigionline.common.model.Camera;
 import vigionline.common.model.Location;
 import vigionline.common.model.Manufacturer;
 import vigionline.common.model.Model;
@@ -53,6 +55,20 @@ public interface IDatabase {
 	public List<Model> getModelsByManufacturer(int idManufacturer) throws SQLException;
 	public List<Model> getModels() throws SQLException;
 	public Model getModel(int idModel) throws SQLException;
+	public int createModel(Model model) throws SQLException;
 	public int updateModel(Model model) throws SQLException;
 	public int deleteModel(int idModel) throws SQLException;
+	
+	/** Actions **/
+	public List<Action> getActions() throws SQLException;
+	public Action getAction(int idAction) throws SQLException;
+	public int createAction(Action action) throws SQLException;
+	public int updateAction(Action action) throws SQLException;
+	public int deleteAction(int idAction) throws SQLException;
+
+	/** Cameras **/
+	public List<Camera> getCameras() throws SQLException;
+	public Camera getCamera(int idCamera) throws SQLException;
+	public int updateCamera(Camera camera) throws SQLException;
+	public int deleteCamera(int idCamera) throws SQLException;
 }

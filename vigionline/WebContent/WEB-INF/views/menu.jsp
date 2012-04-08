@@ -14,6 +14,8 @@
                   <li><a href="<%= baseUrl %>/cameras"><%= messages.getMessage("cameras") %></a></li>
                   <li class="divider-vertical"></li>
                   <li><a href="<%= baseUrl %>/users"><%= messages.getMessage("users") %></a></li>
+                   <li class="divider-vertical"></li>
+                  <li><a href="<%= baseUrl %>/roles"><%= messages.getMessage("roles") %></a></li>
                 </ul>
                 <ul class="nav pull-right">
                 	<li id="fat-menu" class="dropdown">

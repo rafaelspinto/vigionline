@@ -8,7 +8,7 @@
                   		<%= messages.getMessage("locations") %>
                        	<b class="caret"></b>
                     </a>
-                  	<ul id="locations" class="dropdown-menu">
+                  	<ul id="menu-locations" class="dropdown-menu">
                   		<li><a href="<%= baseUrl %>/locations"><%= messages.getMessage("all") %></a></li>
                       	<li class="divider"></li>
                       	<li><a href="<%= baseUrl %>/locations/create"><%= messages.getMessage("create_location") %></a></li>
@@ -20,12 +20,11 @@
                   		<%= messages.getMessage("manufacturers") %>
                        	<b class="caret"></b>
                     </a>
-                  	<ul id="manufacturers" class="dropdown-menu">
-                  		<li>
-                  			<a href="<%= baseUrl %>/manufacturers"><%= messages.getMessage("all") %></a></li>
-                      		<li class="divider"></li>
-                      		<a href="<%= baseUrl %>/manufacturers/create"><%= messages.getMessage("create_manufacturer") %></a></li>
-                    	</ul>	
+                  	<ul id="menu-manufacturers" class="dropdown-menu">
+                  		<li><a href="<%= baseUrl %>/manufacturers"><%= messages.getMessage("all") %></a></li>
+                      	<li class="divider"></li>
+                      	<li><a href="<%= baseUrl %>/manufacturers/create"><%= messages.getMessage("create_manufacturer") %></a></li>
+                    </ul>	
                   </li>
                   <li class="divider-vertical"></li>
                   <li class="dropdown">
@@ -33,12 +32,11 @@
                   		<%= messages.getMessage("models") %>
                        	<b class="caret"></b>
                     </a>
-                  	<ul class="dropdown-menu">
-                  		<li>
-                  			<a href="<%= baseUrl %>/models"><%= messages.getMessage("all") %></a></li>
-                      		<li class="divider"></li>
-                      		<a href="<%= baseUrl %>/models/create"><%= messages.getMessage("create_model") %></a></li>
-                    	</ul>	
+                  	<ul id="menu-models" class="dropdown-menu">
+                  		<li><a href="<%= baseUrl %>/models"><%= messages.getMessage("all") %></a></li>
+                      	<li class="divider"></li>
+                      	<li><a href="<%= baseUrl %>/models/create"><%= messages.getMessage("create_model") %></a></li>
+                    </ul>	
                   </li>
                   <li class="divider-vertical"></li>
                   <li class="dropdown">
@@ -46,12 +44,11 @@
                   		<%= messages.getMessage("actions") %>
                        	<b class="caret"></b>
                     </a>
-                  	<ul class="dropdown-menu">
-                  		<li>
-                  			<a href="<%= baseUrl %>/actions"><%= messages.getMessage("all") %></a></li>
-                      		<li class="divider"></li>
-                      		<a href="<%= baseUrl %>/actions/create"><%= messages.getMessage("create_action") %></a></li>
-                    	</ul>	
+                  	<ul id="menu-actions" class="dropdown-menu">
+                  		<li><a href="<%= baseUrl %>/actions"><%= messages.getMessage("all") %></a></li>
+                      	<li class="divider"></li>
+                      	<li><a href="<%= baseUrl %>/actions/create"><%= messages.getMessage("create_action") %></a></li>
+                    </ul>	
                   </li>
                   <li class="divider-vertical"></li>
                   <li class="dropdown">
@@ -59,25 +56,23 @@
                   		<%= messages.getMessage("cameras") %>
                        	<b class="caret"></b>
                     </a>
-                  	<ul class="dropdown-menu">
-                  		<li>
-                  			<a href="<%= baseUrl %>/cameras"><%= messages.getMessage("all") %></a></li>
-                      		<li class="divider"></li>
-                      		<a href="<%= baseUrl %>/cameras/create"><%= messages.getMessage("create_camera") %></a></li>
-                    	</ul>	
+                  	<ul id="menu-cameras" class="dropdown-menu">
+                  		<li><a href="<%= baseUrl %>/cameras"><%= messages.getMessage("all") %></a></li>
+                      	<li class="divider"></li>
+                      	<li><a href="<%= baseUrl %>/cameras/create"><%= messages.getMessage("create_camera") %></a></li>
+                    </ul>	
                   </li>
                   <li class="divider-vertical"></li>
                   <li class="dropdown">
                   	<a class="dropdown-toggle" data-toggle="dropdown" href="#" >
-                  		<%= messages.getMessage("users") %>
+               			<%= messages.getMessage("users") %>
                        	<b class="caret"></b>
                     </a>
-                  	<ul class="dropdown-menu">
-                  		<li>
-                  			<a href="<%= baseUrl %>/users"><%= messages.getMessage("all") %></a></li>
-                      		<li class="divider"></li>
-                      		<a href="<%= baseUrl %>/users/create"><%= messages.getMessage("create_user") %></a></li>
-                    	</ul>	
+                  	<ul id="menu-users" class="dropdown-menu">
+                  		<li><a href="<%= baseUrl %>/users"><%= messages.getMessage("all") %></a></li>
+                      	<li class="divider"></li>
+                      	<li><a href="<%= baseUrl %>/users/create"><%= messages.getMessage("create_user") %></a></li>
+                    </ul>	
                   </li>
                   <li class="divider-vertical"></li>
                    <li class="dropdown">
@@ -85,12 +80,11 @@
                   		<%= messages.getMessage("roles") %>
                        	<b class="caret"></b>
                     </a>
-                  	<ul class="dropdown-menu">
-                  		<li>
-                  			<a href="<%= baseUrl %>/roles"><%= messages.getMessage("all") %></a></li>
-                      		<li class="divider"></li>
-                      		<a href="<%= baseUrl %>/roles/create"><%= messages.getMessage("create_role") %></a></li>
-                    	</ul>	
+                  	<ul id="menu-roles" class="dropdown-menu">
+                  		<li><a href="<%= baseUrl %>/roles"><%= messages.getMessage("all") %></a></li>
+                      	<li class="divider"></li>
+                      	<li><a href="<%= baseUrl %>/roles/create"><%= messages.getMessage("create_role") %></a></li>
+                    </ul>	
                   </li>
                   <li class="divider-vertical"></li>
                 </ul>

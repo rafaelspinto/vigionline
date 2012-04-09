@@ -8,14 +8,17 @@
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
-			<form class="form-inline" action="<%= baseUrl %>/locations/${it.idLocation }/delete" method="POST">
+			<form class="close" action="<%= baseUrl %>/locations/${it.idLocation }/delete" method="POST">
 				<input type="hidden" name="idLocation" value="${it.idLocation }" />
-				<a class="btn btn-primary" href="<%= baseUrl %>/locations/${it.idLocation }/edit"><%= messages.getMessage("edit_location") %></a>
 				<input type="submit" class="btn btn-danger" value="<%= messages.getMessage("delete_location") %>">
 			</form>
-		</div>
-		<div class="well">
 			<input name="name" value="${it.name }" readonly="readonly" />			
 		</div>
 	</div>
+	<script type="text/javascript">
+		$(function()
+		{
+			AppendToMenu("locations", "<%= baseUrl %>/locations/${it.idLocation }/edit", "<%= messages.getMessage("edit_location") %>");
+		});
+	</script>
 <%@ include file="footer.jsp"%>

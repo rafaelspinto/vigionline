@@ -1,4 +1,4 @@
-<div class="navbar navbar-static">
+<div id="menu" class="navbar navbar-static">
             <div class="navbar-inner">
               <div class="container" style="width: auto;">
                 <a class="brand" href="${pageContext.request.contextPath}">Vigionline</a>
@@ -8,12 +8,11 @@
                   		<%= messages.getMessage("locations") %>
                        	<b class="caret"></b>
                     </a>
-                  	<ul class="dropdown-menu">
-                  		<li>
-                  			<a href="<%= baseUrl %>/locations"><%= messages.getMessage("all") %></a></li>
-                      		<li class="divider"></li>
-                      		<a href="<%= baseUrl %>/locations/create"><%= messages.getMessage("create_location") %></a></li>
-                    	</ul>	
+                  	<ul id="locations" class="dropdown-menu">
+                  		<li><a href="<%= baseUrl %>/locations"><%= messages.getMessage("all") %></a></li>
+                      	<li class="divider"></li>
+                      	<li><a href="<%= baseUrl %>/locations/create"><%= messages.getMessage("create_location") %></a></li>
+                    </ul>	
                   </li>
                   <li class="divider-vertical"></li>
                   <li class="dropdown">
@@ -21,7 +20,7 @@
                   		<%= messages.getMessage("manufacturers") %>
                        	<b class="caret"></b>
                     </a>
-                  	<ul class="dropdown-menu">
+                  	<ul id="manufacturers" class="dropdown-menu">
                   		<li>
                   			<a href="<%= baseUrl %>/manufacturers"><%= messages.getMessage("all") %></a></li>
                       		<li class="divider"></li>

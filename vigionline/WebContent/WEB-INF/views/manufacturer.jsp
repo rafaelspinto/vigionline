@@ -9,13 +9,10 @@
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
-			<form class="form-inline" action="<%= baseUrl %>/manufacturers/${it.manufacturer.idManufacturer }/delete" method="POST">
+			<form class="close" action="<%= baseUrl %>/manufacturers/${it.manufacturer.idManufacturer }/delete" method="POST">
 				<input type="hidden" name="idManufacturer" value="${it.manufacturer.idManufacturer }" />
-				<a class="btn btn-primary" href="<%= baseUrl %>/manufacturers/${it.manufacturer.idManufacturer }/edit"><%= messages.getMessage("edit_manufacturer") %></a>
 				<input type="submit" class="btn btn-danger" value="<%= messages.getMessage("delete_manufacturer") %>">
 			</form>
-		</div>
-		<div class="well">
 			<h1><%= messages.getMessage("data") %></h1>
 			<input name="name" value="${it.manufacturer.name }" readonly="readonly" />			
 		</div>
@@ -31,4 +28,10 @@
 				</tbody>	
 			</table>			
 	</div>
+	<script type="text/javascript">
+		$(function()
+		{
+			AppendToMenu("manufacturers", "<%= baseUrl %>/manufacturers/${it.manufacturer.idManufacturer }/edit", "<%= messages.getMessage("edit_manufacturer") %>");
+		});
+	</script>
 <%@ include file="footer.jsp"%>

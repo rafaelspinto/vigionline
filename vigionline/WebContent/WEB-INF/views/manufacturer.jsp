@@ -31,7 +31,7 @@
 	<script type="text/javascript">
 		$(function()
 		{
-			AppendToMenu("manufacturers", "<%= baseUrl %>/manufacturers/${it.manufacturer.idManufacturer }/edit", "<%= messages.getMessage("edit_manufacturer") %>");
+			AppendToMenu("menu-manufacturers", "<%= baseUrl %>/manufacturers/${it.manufacturer.idManufacturer }/edit", "<%= messages.getMessage("edit_manufacturer") %>");
 		});
 	</script>
 <%@ include file="footer.jsp"%>

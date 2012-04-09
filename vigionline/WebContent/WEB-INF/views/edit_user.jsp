@@ -10,13 +10,6 @@
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
-			<form class="form-inline" action="<%= baseUrl %>/users/${it.user.idUser }/delete" method="POST">
-				<input type="hidden" name="idUser" value="${it.user.idUser }" />
-				<a class="btn btn-primary" href="<%= baseUrl %>/users/${it.user.idUser }/edit"><%= messages.getMessage("edit_user") %></a>
-				<input type="submit" class="btn btn-danger" value="<%= messages.getMessage("delete_user") %>">
-			</form>
-		</div>
-		<div class="well">
 			<form class="well" action="<%= baseUrl %>/users/${it.user.idUser }/edit" method="POST">
 				<input type="hidden" name="idUser" value="${it.user.idUser }" />
 				<label for="name"><%= messages.getMessage("name") %></label>

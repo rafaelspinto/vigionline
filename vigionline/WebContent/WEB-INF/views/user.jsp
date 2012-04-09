@@ -9,19 +9,16 @@
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
-			<form class="form-inline" action="<%= baseUrl %>/users/${it.user.idUser }/delete" method="POST">
+			<form class="close" action="<%= baseUrl %>/users/${it.user.idUser }/delete" method="POST">
 				<input type="hidden" name="idUser" value="${it.user.idUser }" />
-				<a class="btn btn-primary" href="<%= baseUrl %>/users/${it.user.idUser }/edit"><%= messages.getMessage("edit_user") %></a>
 				<input type="submit" class="btn btn-danger" value="<%= messages.getMessage("delete_user") %>">
 			</form>
-		</div>
-		<div class="well">
-				<label for="name"><%= messages.getMessage("name") %></label>
-				<input name="name" value="${it.user.name }" readonly="readonly" />
-				<label for="username"><%= messages.getMessage("username") %></label>
-				<input name="username" value="${it.user.username }" readonly="readonly"/>
-				<label for="password"><%= messages.getMessage("password") %></label>
-				<input type="password" name="password" value="${it.user.password }" readonly="readonly"/>	
+			<label for="name"><%= messages.getMessage("name") %></label>
+			<input name="name" value="${it.user.name }" readonly="readonly" />
+			<label for="username"><%= messages.getMessage("username") %></label>
+			<input name="username" value="${it.user.username }" readonly="readonly"/>
+			<label for="password"><%= messages.getMessage("password") %></label>
+			<input type="password" name="password" value="${it.user.password }" readonly="readonly"/>	
 		</div>
 		<div class="well">
 			<table class="table table-bordered">
@@ -42,4 +39,11 @@
 					</tbody>	
 				</table>
 		</div>
+		<script type="text/javascript">
+			$(function()
+			{
+				AppendToMenu("menu-users", "<%= baseUrl %>/users/${it.user.idUser }/edit", "<%= messages.getMessage("edit_user") %>");
+			});
+		</script>
+	</div>
 <%@ include file="footer.jsp"%>

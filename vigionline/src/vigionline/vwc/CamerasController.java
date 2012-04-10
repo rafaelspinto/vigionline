@@ -1,6 +1,7 @@
 package vigionline.vwc;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +63,11 @@ public class CamerasController {
 		Camera camera = new Camera();
 		ManufacturersResource manResource = new ManufacturersResource();
 		List<Manufacturer> manufacturers = manResource.getManufacturers();
-		List<Model> models = manResource.getManufacturerModels(manufacturers.get(0).getIdManufacturer());
+		List<Model> models = null;
+		if( manufacturers.size() > 0 )
+			models = manResource.getManufacturerModels(manufacturers.get(0).getIdManufacturer());
+		else
+			models = new LinkedList<Model>();
 		LocationsResource locResource = new LocationsResource(); 
 		List<Location> locations = locResource.getLocations();
 		Map<String, Object> data = new HashMap<String, Object>();

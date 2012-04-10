@@ -18,11 +18,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-latest.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-dropdown.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap-alert.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/vigionline.js"></script>
+<link rel="stylesheet" href="<%=baseUrl %>/css/bootstrap.css">
+<script type="text/javascript" src="<%=baseUrl %>/js/jquery-latest.js"></script>
+<script type="text/javascript" src="<%=baseUrl %>/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="<%=baseUrl %>/js/bootstrap-alert.js"></script>
+<script type="text/javascript" src="<%=baseUrl %>/js/vigionline.js"></script>
 <title>Vigionline</title>
 </head>
 <body>

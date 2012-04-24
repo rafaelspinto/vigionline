@@ -11,6 +11,7 @@ import vigionline.common.model.Model;
 import vigionline.common.model.Permission;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
+import vigionline.common.model.UserRole;
 
 public interface IDatabase {
 	/** User **/
@@ -73,4 +74,7 @@ public interface IDatabase {
 	public int updateCamera(Camera camera) throws SQLException;
 	public int deleteCamera(int idCamera) throws SQLException;
 	public int createCamera(Camera camera) throws SQLException;
+	
+	/** UserRole **/
+	public List<UserRole> getUsersRoles() throws SQLException;
 }

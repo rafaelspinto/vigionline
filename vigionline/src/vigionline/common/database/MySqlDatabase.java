@@ -11,6 +11,7 @@ import vigionline.common.database.mapper.ModelMapper;
 import vigionline.common.database.mapper.PermissionMapper;
 import vigionline.common.database.mapper.RoleMapper;
 import vigionline.common.database.mapper.UserMapper;
+import vigionline.common.database.mapper.UserRoleMapper;
 import vigionline.common.model.Action;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Location;
@@ -19,6 +20,7 @@ import vigionline.common.model.Model;
 import vigionline.common.model.Permission;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
+import vigionline.common.model.UserRole;
 
 public class MySqlDatabase implements IDatabase {
 
@@ -253,5 +255,10 @@ public class MySqlDatabase implements IDatabase {
 	@Override
 	public List<Role> getRolesForUser(int idUser) throws SQLException {
 		return new RoleMapper().getByUserId(idUser);
+	}
+
+	@Override
+	public List<UserRole> getUsersRoles() throws SQLException {
+		return new UserRoleMapper().getAll();
 	}
 }

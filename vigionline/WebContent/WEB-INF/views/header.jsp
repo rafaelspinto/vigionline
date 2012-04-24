@@ -4,10 +4,14 @@
 <%
         String baseUrl = request.getContextPath();
 		String lang = "", country = "";
-		for( Cookie c : request.getCookies() )
+		Cookie[] cookies = request.getCookies(); 
+		if( cookies != null )
 		{
-			if( c.getName().equals("lang") ) { lang = c.getValue();}
-			else if ( c.getName().equals("country") ) { country = c.getValue();}
+			for( Cookie c :  cookies )
+			{
+				if( c.getName().equals("lang") ) { lang = c.getValue();}
+				else if ( c.getName().equals("country") ) { country = c.getValue();}
+			}	
 		}
 		MessageLocator messages = new MessageLocator(lang, country);
 %>

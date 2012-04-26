@@ -1,17 +1,17 @@
 package vigionline.vce.stream;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.IOException;
 
 import vigionline.common.model.Model;
 
 public class StreamParser {
-	private DataInputStream _dis;
+	private BufferedInputStream _bis;
 	private Model _model;
 
-	public StreamParser(DataInputStream dis, Model model) {
-		_dis = dis;
+	public StreamParser(BufferedInputStream bis, Model model) {
+		_bis = bis;
 		_model = model;
 	}
 
@@ -29,7 +29,7 @@ public class StreamParser {
 					String t = "";
 					if (byteBuf != null) {
 						try {
-							read = _dis.read(byteBuf, 0, lineEndBytes.length);
+							read = _bis.read(byteBuf, 0, lineEndBytes.length);
 							t = new String(byteBuf);
 							if (t.equals(lineEnd))
 								endOfEncapsulation = true;
@@ -56,7 +56,7 @@ public class StreamParser {
 		try {
 			while (!endOfJPEG && curr != -1) {
 				try {
-					curr = _dis.read();
+					curr = _bis.read();
 					if (prev == 0xff && curr == 0xd9) // end of JPEG 0xFF
 					{
 						endOfJPEG = true;
@@ -83,7 +83,7 @@ public class StreamParser {
 
 	private byte[] readMJPGStream() {
 		byte[] image = null;
-		if (_dis != null) {
+		if (_bis != null) {
 			removeEncapsulation(_model.getBeginLinesToDiscard());
 			image = readJPG();
 			removeEncapsulation(_model.getEndLinesToDiscard());
@@ -97,7 +97,7 @@ public class StreamParser {
 		int read = 0;
 		byte[] result = null;
 		try {
-			while (counter < n && (read = _dis.read()) != -1) {
+			while (counter < n && (read = _bis.read()) != -1) {
 				bos.write(read);
 				if (read == '\n')
 					counter++;

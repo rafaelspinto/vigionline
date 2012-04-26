@@ -9,6 +9,12 @@
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
+			<ul class="thumbnails">
+				<li class="span3">
+					<img src="<%=baseUrl %>/api/cameras/${it.camera.idCamera}/stream" alt="" width="320">
+					<h5>${it.camera.name }</h5>
+				</li>
+			</ul>
 			<form class="close" action="<%= baseUrl %>/cameras/${it.camera.idCamera }/delete" method="POST">
 				<input type="hidden" name="idCamera" value="${it.camera.idCamera }" />
 				<input type="submit" class="btn btn-danger" value="<%= messages.getMessage("delete_camera") %>">

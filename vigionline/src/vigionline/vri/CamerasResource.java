@@ -1,7 +1,12 @@
 package vigionline.vri;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -11,12 +16,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+
+import com.sun.jersey.api.core.HttpContext;
 
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
+import vigionline.common.model.Model;
+import vigionline.vce.stream.CameraStreamReaderFactory;
 
 @Path("/api/cameras")
 public class CamerasResource {
@@ -55,16 +66,12 @@ public class CamerasResource {
 	@POST
 	@Path("create")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response createCamera(
-			@FormParam("name") String name,
-			@FormParam("url") String url,
-			@FormParam("port") int port,
+	public Response createCamera(@FormParam("name") String name,
+			@FormParam("url") String url, @FormParam("port") int port,
 			@FormParam("username") String username,
 			@FormParam("password") String password,
 			@FormParam("idLocation") int idLocation,
-			@FormParam("idModel") int idModel
-	) 
-	{
+			@FormParam("idModel") int idModel) {
 		Camera camera = new Camera();
 		camera.setName(name);
 		camera.setUrl(url);
@@ -80,21 +87,17 @@ public class CamerasResource {
 			return Response.status(500).build();
 		}
 	}
-	
+
 	@POST
 	@Path("{idAction}/edit")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response updateCamera(
-			@FormParam("idCamera") int idCamera,
-			@FormParam("name") String name,
-			@FormParam("url") String url,
+	public Response updateCamera(@FormParam("idCamera") int idCamera,
+			@FormParam("name") String name, @FormParam("url") String url,
 			@FormParam("port") int port,
 			@FormParam("username") String username,
 			@FormParam("password") String password,
 			@FormParam("idLocation") int idLocation,
-			@FormParam("idModel") int idModel
-	) 
-	{
+			@FormParam("idModel") int idModel) {
 		Camera camera = new Camera();
 		camera.setIdCamera(idCamera);
 		camera.setName(name);
@@ -121,6 +124,54 @@ public class CamerasResource {
 			return Response.status(200).build();
 		} catch (SQLException e) {
 			return Response.status(500).build();
+		}
+	}
+
+	@GET
+	@Path("{idCamera}/stream")
+	public StreamingOutput getStreamFromCamera(final @Context HttpContext hc,
+			@PathParam("idCamera") final int idCamera) {
+
+		try {
+			final Camera camera = _database.getCamera(idCamera);
+			final Model model = _database.getModel(camera.getIdModel());
+			
+			return new StreamingOutput() {
+
+				@Override
+				public void write(OutputStream outputStream)
+						throws IOException, WebApplicationException {
+
+					Map<String, String> parameters = new HashMap<String, String>();
+					parameters.put("boundary", "--myboundary");
+					MediaType entityMediaType = new MediaType("multipart",
+							"x-mixed-replace", parameters);
+
+					hc.getResponse().getHttpHeaders()
+							.putSingle("Content-Type", entityMediaType);
+					hc.getResponse().getHttpHeaders().remove("Content-Length");
+
+					Iterable<byte[]> iterable = new CameraStreamReaderFactory(
+							camera, model).getCameraStreamReader().images();
+					Iterator<byte[]> iter = iterable.iterator();
+
+					if (iter != null) {
+						while (iter.hasNext()) {
+
+							outputStream.write("--myboundary\r\n".getBytes());
+							outputStream
+									.write("Content-Type: image/jpeg\r\n\r\n"
+											.getBytes());
+							outputStream.write(iter.next());
+							outputStream.flush();
+						}
+					}
+					outputStream.close();
+				}
+			};
+		} catch (SQLException e) {
+			// TODO : Define output
+			return null;
 		}
 	}
 }

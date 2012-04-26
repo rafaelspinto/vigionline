@@ -37,8 +37,8 @@ public class ConnectionManager {
 		Security.setProperty("http.keepAlive", "false");
 
 		// Proxy
-		ProxyManager prx = new ProxyManager();
-		prx.setProxy();
+		//ProxyManager prx = new ProxyManager();
+		//prx.setProxy();
 
 		try {
 			URL url = new URL(_url);
@@ -48,14 +48,25 @@ public class ConnectionManager {
 			_connection.addRequestProperty("Connection", "close");
 			_connection.setDoInput(true);
 			_connection.setDoOutput(false);
-			_connection.setReadTimeout(30 * 1000);
+			_connection.setReadTimeout(60 * 1000);
 			try {
+				synchronized(_connection)
+				{
+					_connection.wait(10000);
+				}
 				_connection.connect();
 			} catch (ConnectException e) {
 				// TODO : Log
+				System.out.println("DEBUG : url = "+_url);
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} catch (IOException e) {
 			// TODO : Log
+			System.out.println("DEBUG : url = "+_url);
+			e.printStackTrace();
 		}
 	}
 }

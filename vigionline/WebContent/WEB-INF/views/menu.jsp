@@ -3,7 +3,9 @@
               <div class="container" style="width: auto;">
                 <a class="brand" href="${pageContext.request.contextPath}">Vigionline</a>
                 <ul class="nav">
-                  <li class="dropdown">
+                	<li><a href="<%= baseUrl %>/console"><%= messages.getMessage("console") %></a></li>
+                	<li class="divider-vertical"></li>
+                  	<li class="dropdown">
                   	<a class="dropdown-toggle" data-toggle="dropdown" href="#" >
                   		<%= messages.getMessage("locations") %>
                        	<b class="caret"></b>

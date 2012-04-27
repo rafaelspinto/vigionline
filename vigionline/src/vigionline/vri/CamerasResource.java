@@ -129,7 +129,7 @@ public class CamerasResource {
 		try {
 			final Camera camera = _database.getCamera(idCamera);
 			final Model model = _database.getModel(camera.getIdModel());
-			StreamingOutput sOut = new CameraStreamingOutput(camera, model, hc, 5);
+			StreamingOutput sOut = new CameraStreamingOutput(camera, model, hc);
 			return Response.ok(sOut).build();
 		} catch (Exception e) {
 			// TODO : Define output

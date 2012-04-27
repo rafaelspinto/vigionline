@@ -42,7 +42,7 @@
 	            $(".thumbnails").css('display', 'none').css('display', 'block');
 	    }
 	    $(document).ready(function(){
-            setSize(160,120);
-    });
+            setSize(320,240);
+    	});
 	</script>		
 <%@ include file="footer.jsp"%>

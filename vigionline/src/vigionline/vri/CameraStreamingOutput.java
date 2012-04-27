@@ -22,14 +22,11 @@ public class CameraStreamingOutput implements StreamingOutput {
 	private final Camera _camera;
 	private final Model _model;
 	private final HttpContext _httpContext;
-	private int _maxTries;
 
-	public CameraStreamingOutput(Camera camera, Model model, HttpContext hc,
-			int maxTries) {
+	public CameraStreamingOutput(Camera camera, Model model, HttpContext hc) {
 		this._camera = camera;
 		this._model = model;
 		this._httpContext = hc;
-		this._maxTries = maxTries;
 	}
 
 	@Override
@@ -45,31 +42,25 @@ public class CameraStreamingOutput implements StreamingOutput {
 				.putSingle("Content-Type", entityMediaType);
 		_httpContext.getResponse().getHttpHeaders().remove("Content-Length");
 
-		int nrTries = 0;
-		while (nrTries < _maxTries) {
-			try {
-				Iterable<byte[]> iterable = new CameraStreamReaderFactory(
-						_camera, _model).getCameraStreamReader().images();
-				Iterator<byte[]> iter = iterable.iterator();
+		try {
+			Iterable<byte[]> iterable = new CameraStreamReaderFactory(_camera,
+					_model).getCameraStreamReader().images();
+			Iterator<byte[]> iter = iterable.iterator();
 
-				if (iter != null) {
-					while (iter.hasNext()) {
+			if (iter != null) {
+				while (iter.hasNext()) {
 
-						outputStream.write("--myboundary\r\n".getBytes());
-						outputStream.write("Content-Type: image/jpeg\r\n\r\n"
-								.getBytes());
-						outputStream.write(iter.next());
-						outputStream.flush();
-					}
+					outputStream.write("--myboundary\r\n".getBytes());
+					outputStream.write("Content-Type: image/jpeg\r\n\r\n"
+							.getBytes());
+					outputStream.write(iter.next());
+					outputStream.flush();
 				}
-				outputStream.close();
-			} catch (SocketException se) {
-				se.printStackTrace();
-				nrTries++;
-			} finally {
-				if (nrTries == _maxTries)
-					throw new WebApplicationException(404);
 			}
+			outputStream.close();
+		} catch (SocketException se) {
+			se.printStackTrace();
+			throw new WebApplicationException(404);
 		}
 	}
 }

@@ -1,25 +1,19 @@
 package vigionline.vce.stream;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 
-import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 
 public class CameraStreamReaderFactory {
 
 	private ConnectionManager _conManager;
 	private StreamParser _streamParser;
-	private CameraStreamReader _cameraStreamReader;
+	private CameraStreamIterator _cameraStreamIterator;
 
-	public CameraStreamReaderFactory(Camera camera, Model model)
+	public CameraStreamReaderFactory(ConnectionManager conManager, Model model)
 			throws IOException {
-		_conManager = new ConnectionManager(camera.getUrl() + ":"
-				+ camera.getPort() + "/" + model.getVideoUrl(),
-				camera.getUsername(), camera.getPassword());
-		_streamParser = new StreamParser(new BufferedInputStream(_conManager
-				.getConnection().getInputStream()), model);
-		_cameraStreamReader = new CameraStreamReader(_streamParser);
+		_streamParser = new StreamParser(conManager.getInputStream(), model);
+		_cameraStreamIterator = new CameraStreamIterator(_streamParser);
 	}
 
 	public ConnectionManager getConnectionManager() {
@@ -30,7 +24,7 @@ public class CameraStreamReaderFactory {
 		return _streamParser;
 	}
 
-	public CameraStreamReader getCameraStreamReader() {
-		return _cameraStreamReader;
+	public CameraStreamIterator getCameraStreamIterator() {
+		return _cameraStreamIterator;
 	}
 }

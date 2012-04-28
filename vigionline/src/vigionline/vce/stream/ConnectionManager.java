@@ -1,72 +1,61 @@
 package vigionline.vce.stream;
 
 import java.io.IOException;
-import java.net.ConnectException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.Security;
+import java.io.InputStream;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.AbstractHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 public class ConnectionManager {
 
-	private HttpURLConnection _connection;
 	private String _url, _username, _password;
+	private HttpClient _httpClient;
+	private InputStream _inputStream;
+	private HttpResponse _httpResponse;
 
 	public ConnectionManager(String url, String user, String pwd) {
 		this._url = url;
 		this._username = user;
 		this._password = pwd;
+		this._httpClient = new DefaultHttpClient();
+		this._inputStream = null;
 	}
 
-	public HttpURLConnection getConnection() {
-		if (_connection == null) {
-			connect();
+	public InputStream getInputStream() throws ClientProtocolException,
+			IOException {
+		if (_inputStream == null) {
+			((AbstractHttpClient) _httpClient).getCredentialsProvider()
+					.setCredentials(
+							AuthScope.ANY,
+							new UsernamePasswordCredentials(_username,
+									_password));
+
+			HttpGet httpget = new HttpGet(_url);
+			_httpResponse = _httpClient.execute(httpget);
+			HttpEntity entity = _httpResponse.getEntity();
+			_inputStream = entity.getContent();
 		}
-		return _connection;
+		return _inputStream;
 	}
 
-	private void connect() {
-		// Authentication
-		Authenticator authenticator = new Authenticator(_username, _password);
-		String encodedAuthorization = authenticator.getEncodedAuthorization();
-
-		// Network optimizations
-		Security.setProperty("sun.net.inetaddr.ttl", "0");
-		Security.setProperty("sun.net.inetaddr.negative.ttl", "0");
-		Security.setProperty("networkaddress.cache.ttl", "0");
-		Security.setProperty("networkaddress.cache.negative.ttl", "0");
-		Security.setProperty("http.keepAlive", "false");
-
-		// Proxy
-		//ProxyManager prx = new ProxyManager();
-		//prx.setProxy();
-
-		try {
-			URL url = new URL(_url);
-			_connection = (HttpURLConnection) url.openConnection();
-			_connection.addRequestProperty("Authorization", "Basic "
-					+ encodedAuthorization);
-			_connection.addRequestProperty("Connection", "close");
-			_connection.setDoInput(true);
-			_connection.setDoOutput(false);
-			_connection.setReadTimeout(60 * 1000);
+	public boolean isUrlReady() {
+		if (_httpResponse == null) {
 			try {
-				synchronized(_connection)
-				{
-					_connection.wait(10000);
-				}
-				_connection.connect();
-			} catch (ConnectException e) {
-				// TODO : Log
-				System.out.println("DEBUG : url = "+_url);
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				getInputStream();
+			} catch (ClientProtocolException e) {
+				return false;
+			} catch (IOException e) {
+				return false;
 			}
-		} catch (IOException e) {
-			// TODO : Log
-			System.out.println("DEBUG : url = "+_url);
-			e.printStackTrace();
 		}
+		return (_httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK);
 	}
 }

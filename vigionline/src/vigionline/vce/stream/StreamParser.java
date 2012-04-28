@@ -3,16 +3,19 @@ package vigionline.vce.stream;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import vigionline.common.model.Model;
 
 public class StreamParser {
 	private BufferedInputStream _bis;
 	private Model _model;
+	private boolean _isEndOfStream;
 
-	public StreamParser(BufferedInputStream bis, Model model) {
-		_bis = bis;
+	public StreamParser(InputStream inputStream, Model model) {
+		_bis = new BufferedInputStream(inputStream);
 		_model = model;
+		_isEndOfStream = false;
 	}
 
 	private int removeEncapsulation(int n) {
@@ -71,6 +74,8 @@ public class StreamParser {
 				}
 			}
 		} finally {
+			if (curr == -1)
+				_isEndOfStream = true;
 			try {
 				outputStream.close();
 			} catch (IOException e) {
@@ -115,5 +120,9 @@ public class StreamParser {
 			return readMJPGStream();
 		else
 			return readJPG();
+	}
+
+	public boolean isEndOfStream() {
+		return _isEndOfStream;
 	}
 }

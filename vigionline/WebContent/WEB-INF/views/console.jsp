@@ -4,6 +4,7 @@
 	<input id="w160" type="button" value="160x120">
 	<input id="w320" type="button" value="320x240">
 	<input id="w640" type="button" value="640x480">
+	<input id="w1024" type="button" value="1024x768">
 		<ul class="thumbnails">
 			<c:forEach var="camera" items="${it.cameras}">
 				<li class="span3">
@@ -26,23 +27,27 @@
 		});
 		
 		$("#w160").click(function() {
-            setSize('160','120');
+            setSize('160','120','2');
 	    });
 	    $("#w320").click(function() {
-	            setSize('320','240');
+	            setSize('320','240','3');
 	    });
 	    $("#w640").click(function() {
-	            setSize('640','480');
+	            setSize('640','480','4');
 	    });
+	    $("#w1024").click(function() {
+            setSize('1024','768','6');
+    	});
 	    
-	    function setSize(w, h)
+	    function setSize(w, h, s)
 	    {
 	            $(".thumb").attr('width',w);
 	            $(".thumb").attr('height',h);
+	            $('.thumbnails li').attr('class','span'+s);
 	            $(".thumbnails").css('display', 'none').css('display', 'block');
 	    }
 	    $(document).ready(function(){
-            setSize(320,240);
+            setSize(320,240,'3');
     	});
 	</script>		
 <%@ include file="footer.jsp"%>

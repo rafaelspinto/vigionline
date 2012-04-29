@@ -1,15 +1,22 @@
 package vigionline.vce.stream;
 
-import java.util.Iterator;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
-public class CameraStreamIterator implements Iterator<byte[]> {
+import org.apache.http.client.ClientProtocolException;
+
+import vigionline.common.model.Model;
+
+public class CameraStreamIterator extends StreamIterator<byte[]> {
 
 	private StreamParser _streamParser;
-	private byte[] _prev, _next;
+	private ConnectionManager _connectionManager;
 
-	public CameraStreamIterator(StreamParser streamParser) {
-		this._streamParser = streamParser;
+	public CameraStreamIterator(ConnectionManager conManager, Model model)
+			throws ClientProtocolException, IOException {
+		this._connectionManager = conManager;
+		this._streamParser = new StreamParser(conManager.getInputStream(),
+				model);
 		this._next = _streamParser.readImageFromStream();
 	}
 
@@ -34,5 +41,10 @@ public class CameraStreamIterator implements Iterator<byte[]> {
 
 	public boolean isEndOfStream() {
 		return _streamParser.isEndOfStream();
+	}
+
+	@Override
+	public void shutdown() {
+		_connectionManager.shutdown();
 	}
 }

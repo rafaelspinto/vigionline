@@ -20,8 +20,8 @@ import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
+import vigionline.vce.stream.CameraStreamIterator;
 import vigionline.vce.stream.ConnectionManager;
-import vigionline.vce.stream.UriBuilder;
 
 import com.sun.jersey.api.core.HttpContext;
 
@@ -131,14 +131,17 @@ public class CamerasResource {
 		try {
 			final Camera camera = _database.getCamera(idCamera);
 			final Model model = _database.getModel(camera.getIdModel());
-			
-			ConnectionManager conManager = new ConnectionManager(UriBuilder.buildVideoUri(camera, model), camera.getUsername(), camera.getPassword());
-			if(conManager.isUrlReady())
-			{
-				StreamingOutput sOut = new CameraStreamingOutput(conManager, model, hc);
+
+			/** Direct View from Source **/
+			ConnectionManager conManager = new ConnectionManager(camera, model);
+			CameraStreamIterator iter = new CameraStreamIterator(conManager,
+					model);
+
+			if (conManager.isUrlReady()) {
+				StreamingOutput sOut = new CameraStreamingOutput(iter, hc);
 				return Response.ok(sOut).build();
 			}
-			return Response.serverError().build();			
+			return Response.serverError().build();
 		} catch (Exception e) {
 			// TODO : Define output
 			return Response.status(404).build();

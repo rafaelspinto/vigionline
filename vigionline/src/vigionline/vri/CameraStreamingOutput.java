@@ -10,23 +10,17 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
-import vigionline.common.model.Model;
-import vigionline.vce.stream.CameraStreamIterator;
-import vigionline.vce.stream.CameraStreamReaderFactory;
-import vigionline.vce.stream.ConnectionManager;
+import vigionline.vce.stream.StreamIterator;
 
 import com.sun.jersey.api.core.HttpContext;
 
 public class CameraStreamingOutput implements StreamingOutput {
 
-	private final Model _model;
-	private final ConnectionManager _connectionManager;
 	private final HttpContext _httpContext;
+	private StreamIterator<byte[]> _iterator;
 
-	public CameraStreamingOutput(ConnectionManager conManager, Model model,
-			HttpContext hc) {
-		this._model = model;
-		this._connectionManager = conManager;
+	public CameraStreamingOutput(StreamIterator<byte[]> iterator, HttpContext hc) {
+		this._iterator = iterator;
 		this._httpContext = hc;
 	}
 
@@ -44,17 +38,15 @@ public class CameraStreamingOutput implements StreamingOutput {
 		_httpContext.getResponse().getHttpHeaders().remove("Content-Length");
 
 		try {
-			CameraStreamIterator iter = new CameraStreamReaderFactory(
-					_connectionManager, _model).getCameraStreamIterator();
 
-			while (!iter.isEndOfStream()) {
-				if (iter != null) {
-					while (iter.hasNext()) {
+			while (!_iterator.isEndOfStream()) {
+				if (_iterator != null) {
+					while (_iterator.hasNext()) {
 
 						outputStream.write("--myboundary\r\n".getBytes());
 						outputStream.write("Content-Type: image/jpeg\r\n\r\n"
 								.getBytes());
-						outputStream.write(iter.next());
+						outputStream.write(_iterator.next());
 						outputStream.flush();
 					}
 				}
@@ -63,6 +55,9 @@ public class CameraStreamingOutput implements StreamingOutput {
 		} catch (SocketException se) {
 			se.printStackTrace();
 			throw new WebApplicationException(404);
+		} finally {
+			outputStream = null;
+			_iterator.shutdown();
 		}
 	}
 }

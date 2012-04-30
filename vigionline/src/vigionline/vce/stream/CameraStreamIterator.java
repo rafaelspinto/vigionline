@@ -9,7 +9,7 @@ import vigionline.common.model.Model;
 
 public class CameraStreamIterator extends StreamIterator<byte[]> {
 
-	private StreamParser _streamParser;
+	protected StreamParser _streamParser;
 	private ConnectionManager _connectionManager;
 
 	public CameraStreamIterator(ConnectionManager conManager, Model model)

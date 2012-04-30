@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import vigionline.common.configuration.ConfigurationManager;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 
@@ -35,6 +38,16 @@ public class ConnectionManager {
 		if (_inputStream == null) {
 			_httpClient.getCredentialsProvider().setCredentials(AuthScope.ANY,
 					new UsernamePasswordCredentials(_username, _password));
+
+			ConfigurationManager conf = ConfigurationManager.getInstance();
+
+			if (conf.hasProxy()) {
+				HttpHost proxy = new HttpHost(conf.getProxyHost(),
+						conf.getProxyPort());
+				_httpClient.getParams().setParameter(
+						ConnRoutePNames.DEFAULT_PROXY, proxy);
+			}
+			
 			HttpGet httpget = new HttpGet(_url);
 			_httpResponse = _httpClient.execute(httpget);
 			HttpEntity entity = _httpResponse.getEntity();

@@ -1,7 +1,9 @@
 package vigionline.vri;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -14,7 +16,6 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
 
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
@@ -22,6 +23,7 @@ import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 import vigionline.vce.stream.CameraStreamIterator;
 import vigionline.vce.stream.ConnectionManager;
+import vigionline.vce.stream.StreamIterator;
 
 import com.sun.jersey.api.core.HttpContext;
 
@@ -133,15 +135,26 @@ public class CamerasResource {
 			final Model model = _database.getModel(camera.getIdModel());
 
 			/** Direct View from Source **/
-			ConnectionManager conManager = new ConnectionManager(camera, model);
-			CameraStreamIterator iter = new CameraStreamIterator(conManager,
+			final ConnectionManager conManager = new ConnectionManager(camera,
 					model);
+		
+			/*** SET HEADERS ***/
+			Map<String, String> parameters = new HashMap<String, String>();
+			parameters.put("boundary", "--myboundary");
+			MediaType entityMediaType = new MediaType("multipart",
+					"x-mixed-replace", parameters);
 
-			if (conManager.isUrlReady()) {
-				StreamingOutput sOut = new CameraStreamingOutput(iter, hc);
-				return Response.ok(sOut).build();
-			}
-			return Response.serverError().build();
+			hc.getResponse().getHttpHeaders()
+					.putSingle("Content-Type", entityMediaType);
+			hc.getResponse().getHttpHeaders().remove("Content-Length");
+
+			/*** ADD OUTPUT TO STREAM CLONER ***/
+			StreamIterator<byte[]> iterator = new CameraStreamIterator(
+					conManager, model);
+			CameraStreamingOutput sOut = new CameraStreamingOutput(iterator, hc);
+
+			return Response.ok(sOut).build();
+			// return Response.serverError().build();
 		} catch (Exception e) {
 			// TODO : Define output
 			return Response.status(404).build();

@@ -137,7 +137,7 @@ public class CamerasResource {
 			/** Direct View from Source **/
 			final ConnectionManager conManager = new ConnectionManager(camera,
 					model);
-		
+
 			/*** SET HEADERS ***/
 			Map<String, String> parameters = new HashMap<String, String>();
 			parameters.put("boundary", "--myboundary");
@@ -149,7 +149,7 @@ public class CamerasResource {
 			hc.getResponse().getHttpHeaders().remove("Content-Length");
 
 			/*** ADD OUTPUT TO STREAM CLONER ***/
-			StreamIterator<byte[]> iterator = new CameraStreamIterator(
+			final StreamIterator<byte[]> iterator = new CameraStreamIterator(
 					conManager, model);
 			CameraStreamingOutput sOut = new CameraStreamingOutput(iterator, hc);
 
@@ -157,6 +157,7 @@ public class CamerasResource {
 			// return Response.serverError().build();
 		} catch (Exception e) {
 			// TODO : Define output
+			e.printStackTrace();
 			return Response.status(404).build();
 		}
 	}

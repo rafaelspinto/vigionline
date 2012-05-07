@@ -44,9 +44,16 @@ public class ConfigurationManager {
 	/************ Program Settings **************/
 
 	public boolean hasProxy() {
-		String proxyHost = getString("proxyHost");
-		int proxyPort = getInt("proxyPort");
-
+		String proxyHost = "";
+		int proxyPort = 0;
+		try
+		{
+			proxyHost = getString("proxyHost");
+			proxyPort = getInt("proxyPort");
+		}catch(NumberFormatException nfe)
+		{
+			return false;
+		}
 		return proxyHost != null && !proxyHost.isEmpty() && proxyPort > 0;
 	}
 

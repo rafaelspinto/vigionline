@@ -12,8 +12,8 @@
 		<filter-name>jersey</filter-name>
 		<filter-class>com.sun.jersey.spi.container.servlet.ServletContainer</filter-class>
 		<init-param>
-  			<param-name>com.sun.jersey.config.property.packages</param-name>
-  			<param-value>vigionline</param-value>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>vigionline</param-value>
 		</init-param>
 		<init-param>
 			<param-name>com.sun.jersey.config.feature.Redirect</param-name>
@@ -33,4 +33,7 @@
 		<filter-name>jersey</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<listener>
+		<listener-class>vigionline.vce.stream.CameraConnectionContextListener</listener-class>
+	</listener>
 </web-app>

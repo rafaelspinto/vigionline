@@ -1,10 +1,15 @@
 package vigionline.vri;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -16,11 +21,14 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+import javax.xml.ws.ServiceMode;
 
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
+import vigionline.vce.stream.CameraConnectionHandler;
 import vigionline.vce.stream.CameraStreamIterator;
 import vigionline.vce.stream.ConnectionManager;
 import vigionline.vce.stream.StreamIterator;
@@ -31,6 +39,9 @@ import com.sun.jersey.api.core.HttpContext;
 public class CamerasResource {
 
 	private final IDatabase _database = DatabaseLocator.Get();
+
+	private @Context
+	ServletContext _context;
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -127,38 +138,60 @@ public class CamerasResource {
 
 	@GET
 	@Path("{idCamera}/stream")
-	public Response getStreamFromCamera(final @Context HttpContext hc,
+	public StreamingOutput getStreamFromCamera(final @Context HttpContext hc,
 			@PathParam("idCamera") final int idCamera) {
 
 		try {
 			final Camera camera = _database.getCamera(idCamera);
 			final Model model = _database.getModel(camera.getIdModel());
 
-			/** Direct View from Source **/
-			final ConnectionManager conManager = new ConnectionManager(camera,
-					model);
 
-			/*** SET HEADERS ***/
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put("boundary", "--myboundary");
-			MediaType entityMediaType = new MediaType("multipart",
-					"x-mixed-replace", parameters);
+			CameraConnectionHandler cch = (CameraConnectionHandler) _context
+					.getAttribute("CameraConnectionHandler");
 
-			hc.getResponse().getHttpHeaders()
-					.putSingle("Content-Type", entityMediaType);
-			hc.getResponse().getHttpHeaders().remove("Content-Length");
+			final BlockingQueue<byte[]> queue = new LinkedBlockingQueue<byte[]>();
+			final CameraConnectionHandler.CameraHandler cHandler = cch
+					.submitConsumer(camera, model, queue);
 
-			/*** ADD OUTPUT TO STREAM CLONER ***/
-			final StreamIterator<byte[]> iterator = new CameraStreamIterator(
-					conManager, model);
-			CameraStreamingOutput sOut = new CameraStreamingOutput(iterator, hc);
+			return new StreamingOutput() {
 
-			return Response.ok(sOut).build();
-			// return Response.serverError().build();
+				@Override
+				public void write(OutputStream outputStream)
+						throws IOException, WebApplicationException {
+					
+					/*** SET HEADERS ***/
+					Map<String, String> parameters = new HashMap<String, String>();
+					parameters.put("boundary", "--myboundary");
+					MediaType entityMediaType = new MediaType("multipart",
+							"x-mixed-replace", parameters);
+
+					hc.getResponse().getHttpHeaders()
+							.putSingle("Content-Type", entityMediaType);
+					hc.getResponse().getHttpHeaders().remove("Content-Length");
+
+					try {
+						while (true) {
+							byte[] img = queue.take();
+							outputStream.write("--myboundary\r\n".getBytes());
+							outputStream
+									.write("Content-Type: image/jpeg\r\n\r\n"
+											.getBytes());
+							outputStream.write(img);
+							outputStream.flush();
+						}
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} finally {
+						cHandler.removeRequester(queue);
+						outputStream.close();
+					}
+				}
+			};
+
 		} catch (Exception e) {
-			// TODO : Define output
-			e.printStackTrace();
-			return Response.status(404).build();
+			return null;
 		}
+
 	}
 }

@@ -10,9 +10,9 @@ import vigionline.common.model.Model;
 
 public final class StreamHandler {
 
-	private ExecutorService _threadPool;
-	private Map<Integer, StreamProducer> _producers;
-	private Map<Integer, StreamBroker> _brokers;
+	private final ExecutorService _threadPool;
+	private final Map<Integer, StreamProducer> _producers;
+	private final Map<Integer, StreamBroker> _brokers;
 
 	public StreamHandler() {
 		this._threadPool = Executors.newCachedThreadPool();
@@ -39,6 +39,8 @@ public final class StreamHandler {
 	}
 
 	public void shutdown() {
+		_brokers.clear();
+		_producers.clear();
 		_threadPool.shutdown();
 	}
 }

@@ -26,18 +26,15 @@ public class StreamProducer implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("Started Producer");
+		ConnectionManager conManager = null;
+		StreamIterator<byte[]> iterator = null;
 		try {
-			ConnectionManager conManager = new ConnectionManager(_camera,
-					_model);
-			StreamIterator<byte[]> iterator = new CameraStreamIterator(
-					conManager, _model);
+			conManager = new ConnectionManager(_camera, _model);
+			iterator = new CameraStreamIterator(conManager, _model);
 
 			while (iterator.hasNext() && !_stopProducing && !_broker.isEmpty()) {
 				_broker.put(iterator.next());
 			}
-
-			_broker._isProducing = Boolean.FALSE;
 		} catch (InterruptedException ie) {
 			// TODO Auto-generated catch block
 			ie.printStackTrace();
@@ -47,6 +44,10 @@ public class StreamProducer implements Runnable {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			conManager = null;
+			iterator = null;
+			_broker._isProducing = Boolean.FALSE;
 		}
 	}
 

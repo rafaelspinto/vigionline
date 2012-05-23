@@ -1,7 +1,6 @@
 package vigionline.vri;
 
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -133,12 +132,9 @@ public class CamerasResource {
 	@Produces("multipart/x-mixed-replace;boundary=--myboundary")
 	public Response getStreamFromCamera(final @Context HttpContext hc,
 			@PathParam("idCamera") final int idCamera) {
-
 		try {
 			final Camera camera = _database.getCamera(idCamera);
 			final Model model = _database.getModel(camera.getIdModel());
-			System.out.println(new Date(System.currentTimeMillis())+" - Received Request for camera = "	+ camera.getIdCamera());
-
 			StreamHandler cch = ((StreamHandler) sHandler.getAttribute("StreamHandler"));
 			StreamBroker broker = cch.getBroker(camera, model);
 			int idQueue = broker.addQueue();

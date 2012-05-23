@@ -24,6 +24,7 @@ public class CameraStreamingOutput implements StreamingOutput {
 		this._httpContext = hc;
 	}
 
+	// Virtualizar Stream
 	@Override
 	public void write(OutputStream outputStream) throws IOException,
 			WebApplicationException {

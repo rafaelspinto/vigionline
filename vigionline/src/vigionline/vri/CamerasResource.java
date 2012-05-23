@@ -1,13 +1,7 @@
 package vigionline.vri;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -21,17 +15,14 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-import javax.xml.ws.ServiceMode;
 
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
-import vigionline.vce.stream.CameraConnectionHandler;
-import vigionline.vce.stream.CameraStreamIterator;
-import vigionline.vce.stream.ConnectionManager;
-import vigionline.vce.stream.StreamIterator;
+import vigionline.vce.stream.virtual.StreamBroker;
+import vigionline.vce.stream.virtual.StreamConsumer;
+import vigionline.vce.stream.virtual.StreamHandler;
 
 import com.sun.jersey.api.core.HttpContext;
 
@@ -41,7 +32,7 @@ public class CamerasResource {
 	private final IDatabase _database = DatabaseLocator.Get();
 
 	private @Context
-	ServletContext _context;
+	ServletContext sHandler;
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -138,60 +129,22 @@ public class CamerasResource {
 
 	@GET
 	@Path("{idCamera}/stream")
-	public StreamingOutput getStreamFromCamera(final @Context HttpContext hc,
+	public Response getStreamFromCamera(final @Context HttpContext hc,
 			@PathParam("idCamera") final int idCamera) {
 
 		try {
 			final Camera camera = _database.getCamera(idCamera);
 			final Model model = _database.getModel(camera.getIdModel());
+			System.out.println("Received Request for camera = "	+ camera.getIdCamera());
 
-
-			CameraConnectionHandler cch = (CameraConnectionHandler) _context
-					.getAttribute("CameraConnectionHandler");
-
-			final BlockingQueue<byte[]> queue = new LinkedBlockingQueue<byte[]>();
-			final CameraConnectionHandler.CameraHandler cHandler = cch
-					.submitConsumer(camera, model, queue);
-
-			return new StreamingOutput() {
-
-				@Override
-				public void write(OutputStream outputStream)
-						throws IOException, WebApplicationException {
-					
-					/*** SET HEADERS ***/
-					Map<String, String> parameters = new HashMap<String, String>();
-					parameters.put("boundary", "--myboundary");
-					MediaType entityMediaType = new MediaType("multipart",
-							"x-mixed-replace", parameters);
-
-					hc.getResponse().getHttpHeaders()
-							.putSingle("Content-Type", entityMediaType);
-					hc.getResponse().getHttpHeaders().remove("Content-Length");
-
-					try {
-						while (true) {
-							byte[] img = queue.take();
-							outputStream.write("--myboundary\r\n".getBytes());
-							outputStream
-									.write("Content-Type: image/jpeg\r\n\r\n"
-											.getBytes());
-							outputStream.write(img);
-							outputStream.flush();
-						}
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} finally {
-						cHandler.removeRequester(queue);
-						outputStream.close();
-					}
-				}
-			};
+			StreamHandler cch = ((StreamHandler) sHandler.getAttribute("StreamHandler"));
+			StreamBroker broker = cch.getBroker(camera, model);
+			int idQueue = broker.addQueue();
+			cch.initProducer(broker, camera, model);
+			return Response.ok(new StreamConsumer(idQueue, broker, hc)).build();
 
 		} catch (Exception e) {
-			return null;
+			throw new WebApplicationException(500);
 		}
-
 	}
 }

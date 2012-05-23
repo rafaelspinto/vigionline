@@ -26,6 +26,7 @@ public class StreamProducer implements Runnable {
 
 	@Override
 	public void run() {
+		System.out.println("Started Producer");
 		try {
 			ConnectionManager conManager = new ConnectionManager(_camera,
 					_model);

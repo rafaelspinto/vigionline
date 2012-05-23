@@ -28,29 +28,14 @@ public final class StreamHandler {
 		}
 		return broker;
 	}
-	
-//	public StreamProducer startProducer(Camera camera, Model model, StreamBroker broker) {
-//		StreamProducer producer = null;
-//		if ((producer = _producers.get(camera.getIdCamera())) == null) {
-//			producer = new StreamProducer(broker, camera, model);
-//			_producers.put(camera.getIdCamera(), producer);
-//			_threadPool.submit(producer);
-//		}
-//		return producer;
-//	}
 
 	public void initProducer(StreamBroker broker, Camera camera, Model model) {
 		StreamProducer producer = null;
 		if ((producer = _producers.get(camera.getIdCamera())) == null) {
-			//StreamBroker broker = new StreamBroker();
 			producer = new StreamProducer(broker, camera, model);
 			_producers.put(camera.getIdCamera(), producer);
 			_threadPool.submit(producer);
-			//return broker;
-			//return producer.getBroker();
 		}
-		//return _brokers.get(camera.getIdCamera());
-		//return producer.getBroker();
 	}
 
 	public void shutdown() {

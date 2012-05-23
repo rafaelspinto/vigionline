@@ -140,7 +140,7 @@ public class CamerasResource {
 			System.out.println(new Date(System.currentTimeMillis())+" - Received Request for camera = "	+ camera.getIdCamera());
 
 			StreamHandler cch = ((StreamHandler) sHandler.getAttribute("StreamHandler"));
-			StreamBroker broker = ((StreamBroker) sHandler.getAttribute("StreamBroker"));
+			StreamBroker broker = cch.getBroker(camera, model);
 			int idQueue = broker.addQueue();
 			cch.initProducer(broker, camera, model);
 			StreamConsumer consumer = new StreamConsumer(idQueue, broker);

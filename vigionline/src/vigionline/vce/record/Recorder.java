@@ -34,6 +34,7 @@ public class Recorder implements Runnable {
 		this._model = model;
 		this._directory = ConfigurationManager.getInstance()
 				.getImageDirectory();
+		this._imageMapper = new ImageMapper();
 	}
 
 	@Override
@@ -43,14 +44,12 @@ public class Recorder implements Runnable {
 			while (!STOP_RECORDING.booleanValue()) {
 				iterator = StreamIteratorFactory.getLocalStreamIterator(
 						_streamHandler, _camera, _model);
-				System.out.println("Entering Saving image");
 				while (iterator.hasNext()) {
 					byte[] image = iterator.next();
 					try {
 						Date date = new Date(System.currentTimeMillis());
 						writeToDB(image, date);
 						writeToDisk(image, date);
-						System.out.println("Saving image");
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

@@ -33,10 +33,11 @@ public class ImageMapper extends Mapper<Image> {
 	@Override
 	protected PreparedStatement getInsertStatement(Image image, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("INSERT INTO Image (date, filename, size) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
-		prep.setDate(1, image.getDate());
-		prep.setString(2, image.getFilename());
-		prep.setInt(3, image.getSize());
+		PreparedStatement prep = con.prepareStatement("INSERT INTO Image (idCamera, date, filename, size) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+		prep.setInt(1, image.getIdCamera());
+		prep.setDate(2, image.getDate());
+		prep.setString(3, image.getFilename());
+		prep.setInt(4, image.getSize());
 		return prep;
 	}
 

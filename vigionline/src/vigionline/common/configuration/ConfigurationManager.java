@@ -65,7 +65,7 @@ public class ConfigurationManager {
 		return getInt("proxyPort");
 	}
 	
-	public int getImageDirectory() {
-		return getInt("imageDirectory");
+	public String getImageDirectory() {
+		return getString("imageDirectory");
 	}
 }

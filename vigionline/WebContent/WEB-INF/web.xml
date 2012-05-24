@@ -36,4 +36,7 @@
 	<listener>
 		<listener-class>vigionline.vce.stream.virtual.CameraConnectionContextListener</listener-class>
 	</listener>
+	<listener>
+		<listener-class>vigionline.vce.record.RecordContextListener</listener-class>
+	</listener>
 </web-app>

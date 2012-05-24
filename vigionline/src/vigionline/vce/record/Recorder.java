@@ -4,41 +4,50 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Calendar;
-import java.sql.Date;
 
+import vigionline.common.configuration.ConfigurationManager;
 import vigionline.common.database.mapper.ImageMapper;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Image;
-import vigionline.vce.stream.iterator.StreamIterator;
+import vigionline.common.model.Model;
+import vigionline.vce.stream.iterator.LocalStreamIterator;
+import vigionline.vce.stream.iterator.StreamIteratorFactory;
+import vigionline.vce.stream.virtual.StreamHandler;
 
 public class Recorder implements Runnable {
 
 	public Boolean STOP_RECORDING = Boolean.FALSE;
 	private Camera _camera;
+	private Model _model;
 	private ImageMapper _imageMapper;
-	private StreamIterator<byte[]> _iterator;
+	private StreamHandler _streamHandler;
 	private String _directory;
 	private long _timestamp;
 	private final long MAXIMUM_LAST_RECORDING_TIME = 1000 * 30;
 
-	public Recorder(StreamIterator<byte[]> iterator, Camera camera,
-			String directory) {
-		this._iterator = iterator;
+	public Recorder(StreamHandler streamHandler, Camera camera, Model model) {
+		this._streamHandler = streamHandler;
 		this._camera = camera;
-		this._directory = directory;
+		this._model = model;
+		this._directory = ConfigurationManager.getInstance().getImageDirectory();
 	}
 
 	@Override
 	public void run() {
-		while (!STOP_RECORDING) {
-			while (_iterator.hasNext()) {
-				byte[] image = _iterator.next();
+		//System.out.println("Entering runnable "+STOP_RECORDING.booleanValue()+" iter="+_iterator.hasNext());
+		LocalStreamIterator iterator = StreamIteratorFactory.getLocalStreamIterator(_streamHandler, _camera, _model);
+		while (!STOP_RECORDING.booleanValue()) {
+			System.out.println("Entering Saving image");
+			while (iterator.hasNext()) {
+				byte[] image = iterator.next();
 				try {
 					Date date = new Date(System.currentTimeMillis());
 					writeToDB(image, date);
 					writeToDisk(image, date);
+					System.out.println("Saving image");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -100,6 +109,7 @@ public class Recorder implements Runnable {
 			_imageMapper.insert(image);
 		} catch (IOException e) {
 			// Could not write to disk
+			e.printStackTrace();
 		} finally {
 			img = null;
 			image = null;

@@ -20,12 +20,11 @@ import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
+import vigionline.vce.record.RecordHandler;
 import vigionline.vce.stream.iterator.LocalStreamIterator;
 import vigionline.vce.stream.iterator.StreamIteratorFactory;
 import vigionline.vce.stream.virtual.StreamConsumer;
 import vigionline.vce.stream.virtual.StreamHandler;
-
-import com.sun.jersey.api.core.HttpContext;
 
 @Path("/api/cameras")
 public class CamerasResource {
@@ -33,7 +32,7 @@ public class CamerasResource {
 	private final IDatabase _database = DatabaseLocator.Get();
 
 	private @Context
-	ServletContext sHandler;
+	ServletContext _contextHandler;
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -131,15 +130,29 @@ public class CamerasResource {
 	@GET
 	@Path("{idCamera}/stream")
 	@Produces("multipart/x-mixed-replace;boundary=--myboundary")
-	public Response getStreamFromCamera(final @Context HttpContext hc,
-			@PathParam("idCamera") final int idCamera) {
+	public Response getStreamFromCamera(@PathParam("idCamera") final int idCamera) {
 		try {
 			final Camera camera = _database.getCamera(idCamera);
 			final Model model = _database.getModel(camera.getIdModel());
-			StreamHandler streamHandler = ((StreamHandler) sHandler.getAttribute("StreamHandler"));
+			StreamHandler streamHandler = ((StreamHandler) _contextHandler.getAttribute("StreamHandler"));
 			LocalStreamIterator iterator = StreamIteratorFactory.getLocalStreamIterator(streamHandler, camera, model);
 			StreamConsumer consumer = new StreamConsumer(iterator);
 			return Response.ok(consumer).build();
+		} catch (Exception e) {
+			throw new WebApplicationException(500);
+		}
+	}
+	
+	@GET
+	@Path("{idCamera}/record")
+	public Response startRecord(@PathParam("idCamera") final int idCamera) {
+		try {
+			final Camera camera = _database.getCamera(idCamera);
+			final Model model = _database.getModel(camera.getIdModel());
+			RecordHandler recordHandler = ((RecordHandler) _contextHandler.getAttribute("RecordHandler"));
+			StreamHandler streamHandler = ((StreamHandler) _contextHandler.getAttribute("StreamHandler"));
+			recordHandler.submitRecorder(camera, model, streamHandler);
+			return Response.ok().build();
 		} catch (Exception e) {
 			throw new WebApplicationException(500);
 		}

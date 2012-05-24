@@ -20,6 +20,8 @@ import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
+import vigionline.vce.stream.iterator.LocalStreamIterator;
+import vigionline.vce.stream.iterator.StreamIteratorFactory;
 import vigionline.vce.stream.virtual.StreamBroker;
 import vigionline.vce.stream.virtual.StreamConsumer;
 import vigionline.vce.stream.virtual.StreamHandler;
@@ -135,11 +137,9 @@ public class CamerasResource {
 		try {
 			final Camera camera = _database.getCamera(idCamera);
 			final Model model = _database.getModel(camera.getIdModel());
-			StreamHandler cch = ((StreamHandler) sHandler.getAttribute("StreamHandler"));
-			StreamBroker broker = cch.getBroker(camera, model);
-			int idQueue = broker.addQueue();
-			cch.initProducer(broker, camera, model);
-			StreamConsumer consumer = new StreamConsumer(idQueue, broker);
+			StreamHandler streamHandler = ((StreamHandler) sHandler.getAttribute("StreamHandler"));
+			LocalStreamIterator iterator = StreamIteratorFactory.getLocalStreamIterator(streamHandler, camera, model);
+			StreamConsumer consumer = new StreamConsumer(iterator);
 			return Response.ok(consumer).build();
 		} catch (Exception e) {
 			throw new WebApplicationException(500);

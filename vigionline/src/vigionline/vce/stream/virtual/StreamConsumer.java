@@ -6,14 +6,14 @@ import java.io.OutputStream;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
 
+import vigionline.vce.stream.iterator.LocalStreamIterator;
+
 public final class StreamConsumer implements StreamingOutput {
 
-	private StreamBroker _broker;
-	private int _idQueue;
+	private LocalStreamIterator _iterator;
 
-	public StreamConsumer(int idQueue, StreamBroker broker) {
-		this._broker = broker;
-		this._idQueue = idQueue;
+	public StreamConsumer(LocalStreamIterator iterator) {
+		this._iterator = iterator;
 	}
 
 	@Override
@@ -21,20 +21,16 @@ public final class StreamConsumer implements StreamingOutput {
 			WebApplicationException {
 
 		try {
-			byte[] image = _broker.get(_idQueue);
-			while (_broker._isProducing || image != null) {
+			while (_iterator.hasNext()) {
 				outputStream.write("--myboundary\r\n".getBytes());
 				outputStream.write("Content-Type: image/jpeg\r\n\r\n"
 						.getBytes());
-				outputStream.write(image);
+				outputStream.write(_iterator.next());
 				outputStream.flush();
-				image = _broker.get(_idQueue);
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		} finally {
 			outputStream.close();
-			_broker.removeQueue(_idQueue);
+			_iterator.shutdown();
 		}
 	}
 }

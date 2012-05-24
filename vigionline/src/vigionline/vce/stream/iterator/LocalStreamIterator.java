@@ -1,6 +1,5 @@
 package vigionline.vce.stream.iterator;
 
-import vigionline.vce.stream.StreamIterator;
 import vigionline.vce.stream.virtual.StreamBroker;
 
 public class LocalStreamIterator extends StreamIterator<byte[]> {

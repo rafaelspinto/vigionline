@@ -7,8 +7,8 @@ import org.apache.http.client.ClientProtocolException;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 import vigionline.vce.stream.ConnectionManager;
-import vigionline.vce.stream.StreamIterator;
 import vigionline.vce.stream.iterator.RemoteStreamIterator;
+import vigionline.vce.stream.iterator.StreamIterator;
 
 public class StreamProducer implements Runnable {
 

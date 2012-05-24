@@ -5,11 +5,11 @@ import vigionline.vce.stream.virtual.StreamBroker;
 public class LocalStreamIterator extends StreamIterator<byte[]> {
 
 	private StreamBroker _broker;
-	private int _idQueue;
+	private int _idConsumer;
 
-	public LocalStreamIterator(StreamBroker broker, int idQueue) {
+	public LocalStreamIterator(StreamBroker broker, int idConsumer) {
 		this._broker = broker;
-		this._idQueue = idQueue;
+		this._idConsumer = idConsumer;
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class LocalStreamIterator extends StreamIterator<byte[]> {
 	@Override
 	public byte[] next() {
 		try {
-			return _broker.get(_idQueue);
+			return _broker.get(_idConsumer);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,6 +40,6 @@ public class LocalStreamIterator extends StreamIterator<byte[]> {
 
 	@Override
 	public void shutdown() {
-		_broker.removeQueue(_idQueue);
+		_broker.removeQueue(_idConsumer);
 	}
 }

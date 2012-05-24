@@ -22,7 +22,6 @@ import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 import vigionline.vce.stream.iterator.LocalStreamIterator;
 import vigionline.vce.stream.iterator.StreamIteratorFactory;
-import vigionline.vce.stream.virtual.StreamBroker;
 import vigionline.vce.stream.virtual.StreamConsumer;
 import vigionline.vce.stream.virtual.StreamHandler;
 

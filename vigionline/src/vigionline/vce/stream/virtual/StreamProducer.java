@@ -6,9 +6,9 @@ import org.apache.http.client.ClientProtocolException;
 
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
-import vigionline.vce.stream.CameraStreamIterator;
 import vigionline.vce.stream.ConnectionManager;
 import vigionline.vce.stream.StreamIterator;
+import vigionline.vce.stream.iterator.RemoteStreamIterator;
 
 public class StreamProducer implements Runnable {
 
@@ -30,7 +30,7 @@ public class StreamProducer implements Runnable {
 		StreamIterator<byte[]> iterator = null;
 		try {
 			conManager = new ConnectionManager(_camera, _model);
-			iterator = new CameraStreamIterator(conManager, _model);
+			iterator = new RemoteStreamIterator(conManager, _model);
 
 			while (iterator.hasNext() && !_stopProducing && !_broker.isEmpty()) {
 				_broker.put(iterator.next());

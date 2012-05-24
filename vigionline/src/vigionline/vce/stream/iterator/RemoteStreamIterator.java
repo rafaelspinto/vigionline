@@ -1,4 +1,4 @@
-package vigionline.vce.stream;
+package vigionline.vce.stream.iterator;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
@@ -6,13 +6,16 @@ import java.util.NoSuchElementException;
 import org.apache.http.client.ClientProtocolException;
 
 import vigionline.common.model.Model;
+import vigionline.vce.stream.ConnectionManager;
+import vigionline.vce.stream.StreamIterator;
+import vigionline.vce.stream.StreamParser;
 
-public class CameraStreamIterator extends StreamIterator<byte[]> {
+public class RemoteStreamIterator extends StreamIterator<byte[]> {
 
 	protected StreamParser _streamParser;
 	private ConnectionManager _connectionManager;
 
-	public CameraStreamIterator(ConnectionManager conManager, Model model)
+	public RemoteStreamIterator(ConnectionManager conManager, Model model)
 			throws ClientProtocolException, IOException {
 		this._connectionManager = conManager;
 		this._streamParser = new StreamParser(conManager.getInputStream(),

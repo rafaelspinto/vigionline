@@ -10,7 +10,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
-import vigionline.vce.stream.StreamIterator;
+import vigionline.vce.stream.iterator.StreamIterator;
 
 import com.sun.jersey.api.core.HttpContext;
 

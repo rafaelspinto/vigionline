@@ -1,4 +1,4 @@
-package vigionline.vce.stream;
+package vigionline.vce.stream.iterator;
 
 import java.util.Iterator;
 

@@ -7,7 +7,6 @@ import org.apache.http.client.ClientProtocolException;
 
 import vigionline.common.model.Model;
 import vigionline.vce.stream.ConnectionManager;
-import vigionline.vce.stream.StreamIterator;
 import vigionline.vce.stream.StreamParser;
 
 public class RemoteStreamIterator extends StreamIterator<byte[]> {

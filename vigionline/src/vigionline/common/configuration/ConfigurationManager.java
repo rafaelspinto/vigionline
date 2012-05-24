@@ -64,4 +64,8 @@ public class ConfigurationManager {
 	public int getProxyPort() {
 		return getInt("proxyPort");
 	}
+	
+	public int getImageDirectory() {
+		return getInt("imageDirectory");
+	}
 }

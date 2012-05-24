@@ -32,30 +32,37 @@ public class Recorder implements Runnable {
 		this._streamHandler = streamHandler;
 		this._camera = camera;
 		this._model = model;
-		this._directory = ConfigurationManager.getInstance().getImageDirectory();
+		this._directory = ConfigurationManager.getInstance()
+				.getImageDirectory();
 	}
 
 	@Override
 	public void run() {
-		//System.out.println("Entering runnable "+STOP_RECORDING.booleanValue()+" iter="+_iterator.hasNext());
-		LocalStreamIterator iterator = StreamIteratorFactory.getLocalStreamIterator(_streamHandler, _camera, _model);
-		while (!STOP_RECORDING.booleanValue()) {
-			System.out.println("Entering Saving image");
-			while (iterator.hasNext()) {
-				byte[] image = iterator.next();
-				try {
-					Date date = new Date(System.currentTimeMillis());
-					writeToDB(image, date);
-					writeToDisk(image, date);
-					System.out.println("Saving image");
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		LocalStreamIterator iterator = null;
+		try {
+			while (!STOP_RECORDING.booleanValue()) {
+				iterator = StreamIteratorFactory.getLocalStreamIterator(
+						_streamHandler, _camera, _model);
+				System.out.println("Entering Saving image");
+				while (iterator.hasNext()) {
+					byte[] image = iterator.next();
+					try {
+						Date date = new Date(System.currentTimeMillis());
+						writeToDB(image, date);
+						writeToDisk(image, date);
+						System.out.println("Saving image");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
+		} finally {
+			if (iterator != null)
+				iterator.shutdown();
 		}
 	}
 

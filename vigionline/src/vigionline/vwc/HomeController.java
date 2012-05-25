@@ -40,6 +40,13 @@ public class HomeController {
 	}
 	
 	@GET
+	@Path("logon")
+	public Viewable logon()
+	{
+		return new Viewable("/logon");
+	}
+	
+	@GET
 	@Path("setLang")
 	public Response setLang(@QueryParam("country") String country,
 			@QueryParam("lang") String lang)

@@ -21,6 +21,7 @@ import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 import vigionline.vce.record.RecordHandler;
+import vigionline.vce.record.Recorder;
 import vigionline.vce.stream.iterator.LocalStreamIterator;
 import vigionline.vce.stream.iterator.StreamIteratorFactory;
 import vigionline.vce.stream.virtual.StreamConsumer;
@@ -166,6 +167,20 @@ public class CamerasResource {
 			RecordHandler recordHandler = ((RecordHandler) _contextHandler.getAttribute("RecordHandler"));
 			recordHandler.stopRecorder(camera);
 			return Response.ok().build();
+		} catch (Exception e) {
+			throw new WebApplicationException(500);
+		}
+	}
+	
+	@GET
+	@Path("{idCamera}/recordstatus")
+	public Response recordStatus(@PathParam("idCamera") final int idCamera) {
+		try {
+			final Camera camera = _database.getCamera(idCamera);
+			RecordHandler recordHandler = ((RecordHandler) _contextHandler.getAttribute("RecordHandler"));
+			Recorder recorder = recordHandler.getRecorder(camera);
+			boolean recordingStatus = (recorder == null ? false : recorder.stillRecording());
+			return Response.ok(String.valueOf(recordingStatus)).build();
 		} catch (Exception e) {
 			throw new WebApplicationException(500);
 		}

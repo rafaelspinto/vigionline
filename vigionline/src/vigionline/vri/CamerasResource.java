@@ -142,7 +142,7 @@ public class CamerasResource {
 			throw new WebApplicationException(500);
 		}
 	}
-	
+	/*************************** Recording STUFF ***************************/
 	@GET
 	@Path("{idCamera}/record")
 	public Response startRecord(@PathParam("idCamera") final int idCamera) {
@@ -152,6 +152,19 @@ public class CamerasResource {
 			RecordHandler recordHandler = ((RecordHandler) _contextHandler.getAttribute("RecordHandler"));
 			StreamHandler streamHandler = ((StreamHandler) _contextHandler.getAttribute("StreamHandler"));
 			recordHandler.submitRecorder(camera, model, streamHandler);
+			return Response.ok().build();
+		} catch (Exception e) {
+			throw new WebApplicationException(500);
+		}
+	}
+	
+	@GET
+	@Path("{idCamera}/stoprecord")
+	public Response stopRecord(@PathParam("idCamera") final int idCamera) {
+		try {
+			final Camera camera = _database.getCamera(idCamera);
+			RecordHandler recordHandler = ((RecordHandler) _contextHandler.getAttribute("RecordHandler"));
+			recordHandler.stopRecorder(camera);
 			return Response.ok().build();
 		} catch (Exception e) {
 			throw new WebApplicationException(500);

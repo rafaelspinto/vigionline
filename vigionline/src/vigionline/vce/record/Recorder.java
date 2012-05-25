@@ -42,9 +42,10 @@ public class Recorder implements Runnable {
 		LocalStreamIterator iterator = null;
 		try {
 			while (!STOP_RECORDING.booleanValue()) {
+				System.out.println("Recorder Started");
 				iterator = StreamIteratorFactory.getLocalStreamIterator(
 						_streamHandler, _camera, _model);
-				while (iterator.hasNext()) {
+				while (iterator.hasNext() && !STOP_RECORDING.booleanValue()) {
 					byte[] image = iterator.next();
 					try {
 						Date date = new Date(System.currentTimeMillis());
@@ -62,6 +63,7 @@ public class Recorder implements Runnable {
 		} finally {
 			if (iterator != null)
 				iterator.shutdown();
+			System.out.println("Recorder Stopped");
 		}
 	}
 

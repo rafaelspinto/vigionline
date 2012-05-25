@@ -22,13 +22,21 @@ public class RecordHandler {
 		return _recorders.get(camera.getIdCamera());
 	}
 
-	public void submitRecorder(Camera camera, Model model, StreamHandler streamHandler) {
+	public void submitRecorder(Camera camera, Model model,
+			StreamHandler streamHandler) {
 		Recorder recorder = null;
 		if ((recorder = getRecorder(camera)) == null) {
 			recorder = new Recorder(streamHandler, camera, model);
 			_recorders.put(camera.getIdCamera(), recorder);
 			_threadPool.submit(recorder);
 			System.out.println("Submitting recorder");
+		}
+	}
+
+	public void stopRecorder(Camera camera) {
+		Recorder recorder = getRecorder(camera);
+		if (recorder != null) {
+			recorder.STOP_RECORDING = Boolean.TRUE;
 		}
 	}
 

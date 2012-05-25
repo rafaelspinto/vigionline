@@ -1,5 +1,6 @@
 package vigionline.vri;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -22,6 +24,7 @@ import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 import vigionline.vce.record.RecordHandler;
 import vigionline.vce.record.Recorder;
+import vigionline.vce.stream.iterator.DatabaseStreamIterator;
 import vigionline.vce.stream.iterator.LocalStreamIterator;
 import vigionline.vce.stream.iterator.StreamIteratorFactory;
 import vigionline.vce.stream.virtual.StreamConsumer;
@@ -128,6 +131,7 @@ public class CamerasResource {
 		}
 	}
 
+	/*************************** Stream STUFF ***************************/
 	@GET
 	@Path("{idCamera}/stream")
 	@Produces("multipart/x-mixed-replace;boundary=--myboundary")
@@ -140,6 +144,20 @@ public class CamerasResource {
 			StreamConsumer consumer = new StreamConsumer(iterator);
 			return Response.ok(consumer).build();
 		} catch (Exception e) {
+			throw new WebApplicationException(500);
+		}
+	}
+	
+	@GET
+	@Path("{idCamera}/recordedstream")
+	@Produces("multipart/x-mixed-replace;boundary=--myboundary")
+	public Response getRecordedStream(@PathParam("idCamera") final int idCamera, @QueryParam("date") final String initialDate) {
+		try {
+			DatabaseStreamIterator iterator = new DatabaseStreamIterator(idCamera, Date.valueOf(initialDate));		
+			StreamConsumer consumer = new StreamConsumer(iterator);
+			return Response.ok(consumer).build();
+		} catch (Exception e) {
+			e.printStackTrace();
 			throw new WebApplicationException(500);
 		}
 	}

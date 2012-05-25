@@ -6,13 +6,13 @@ import java.io.OutputStream;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
 
-import vigionline.vce.stream.iterator.LocalStreamIterator;
+import vigionline.vce.stream.iterator.StreamIterator;
 
 public final class StreamConsumer implements StreamingOutput {
 
-	private LocalStreamIterator _iterator;
+	private StreamIterator<byte[]> _iterator;
 
-	public StreamConsumer(LocalStreamIterator iterator) {
+	public StreamConsumer(StreamIterator<byte[]> iterator) {
 		this._iterator = iterator;
 	}
 

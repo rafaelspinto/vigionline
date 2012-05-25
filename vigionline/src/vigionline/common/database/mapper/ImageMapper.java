@@ -1,11 +1,13 @@
 package vigionline.common.database.mapper;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import vigionline.common.database.connector.MySqlConnector;
 import vigionline.common.model.Image;
 
 public class ImageMapper extends Mapper<Image> {
@@ -58,5 +60,15 @@ public class ImageMapper extends Mapper<Image> {
 		PreparedStatement prep = con.prepareStatement("DELETE FROM Image WHERE idImage = ?");
 		prep.setInt(1, id);
 		return prep;
+	}
+	
+	public ResultSet getImagesFrom(int idCamera, Date date) throws SQLException
+	{
+		Connection con = MySqlConnector.getConnection();
+		
+		PreparedStatement prep = con.prepareStatement(getAllQuery()+ " WHERE idCamera = ? AND date >= ? ");
+		prep.setInt(1, idCamera);
+		prep.setDate(2, date);
+		return prep.executeQuery();
 	}
 }

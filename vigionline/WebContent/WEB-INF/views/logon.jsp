@@ -2,20 +2,18 @@
 	<div class="container">
 		<!-- Begin Navigation -->
 		<ul class="breadcrumb">
-			<li class="active">Home</li>
+			<li class="active"><%= messages.getMessage("login") %></li>
 		</ul>
 		<!-- End Navigation -->
-		<div class="hero-unit">
-			<h1>Vigionline</h1>
-			
+		<div class="hero-unit">		
 			<form class="well" action="<%= baseUrl %>/logon" method="POST">
 				<label for="username"><%= messages.getMessage("username") %></label>
 				<input name="username" />
 				<label for="password"><%= messages.getMessage("password") %></label>
 				<input id="password" name="password" type="password"/>
+				<br />
 				<input class="btn" type="submit" value="<%= messages.getMessage("login") %>" />
 			</form>	
-		
 		</div>
 	</div>
 <%@ include file="footer.jsp"%>

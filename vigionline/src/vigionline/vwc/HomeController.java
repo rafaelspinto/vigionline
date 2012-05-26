@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.PermitAll;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.NewCookie;
@@ -20,7 +23,7 @@ import com.sun.jersey.api.view.Viewable;
 
 @Path("/")
 public class HomeController {
-	
+
 	@GET
 	public Viewable index()
 	{
@@ -39,11 +42,26 @@ public class HomeController {
 		return new Viewable("/console", data);
 	}
 	
+	@PermitAll
 	@GET
 	@Path("logon")
 	public Viewable logon()
 	{
 		return new Viewable("/logon");
+	}
+	
+	@POST
+	@Path("logon")
+	public Viewable doLogon(@FormParam("username") String username, @FormParam("password") String password)
+	{
+		return new Viewable("/logon");
+	}
+	
+	@GET
+	@Path("logout")
+	public Viewable doLogout()
+	{
+		return new Viewable("/logout");
 	}
 	
 	@GET

@@ -57,6 +57,21 @@ public class ModelMapper extends Mapper<Model> {
 				"beginLinesToDiscard, " +
 				"endLinesToDiscard FROM Model WHERE idModel = ?";
 	}
+	
+	@Override
+	protected String getByNameQuery() {
+		return "SELECT " +
+				"idModel, " +
+				"idManufacturer, " +
+				"name, " +
+				"videoUrl, " +
+				"audioUrl, " +
+				"isMJPEG, " +
+				"width, " +
+				"height, " +
+				"beginLinesToDiscard, " +
+				"endLinesToDiscard FROM Model WHERE name = ?";
+	}
 
 	@Override
 	protected PreparedStatement getInsertStatement(Model model, Connection con)

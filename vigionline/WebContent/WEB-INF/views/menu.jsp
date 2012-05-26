@@ -101,6 +101,7 @@
                   	</li>
                   	<li><a href="${pageContext.request.contextPath}/setLang?lang=pt&country=PT"><img src="${pageContext.request.contextPath}/images/portuguese.png"></a></li>
                   	<li><a href="${pageContext.request.contextPath}/setLang?lang=en&country=EN"><img src="${pageContext.request.contextPath}/images/english.png"></a></li>
+                  	<li><a href="${pageContext.request.contextPath}/logout"><%= messages.getMessage("logout") %></a></li>
                 </ul>
               </div>
             </div>

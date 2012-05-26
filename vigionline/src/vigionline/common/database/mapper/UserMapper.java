@@ -29,6 +29,11 @@ public class UserMapper extends Mapper<User> {
 	protected String getByIdQuery() {
 		return "SELECT idUser, name, username, password FROM User WHERE idUser = ?";
 	}
+	
+	@Override
+	protected String getByNameQuery() {
+		return "SELECT idUser, name, username, password FROM User WHERE username = ?";
+	}
 
 	@Override
 	protected PreparedStatement getInsertStatement(User user, Connection con) throws SQLException{

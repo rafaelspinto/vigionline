@@ -4,15 +4,6 @@
 <%
         String baseUrl = request.getContextPath();
 		String lang = request.getParameter("lang"), country = request.getParameter("country");
-		Cookie[] cookies = request.getCookies(); 
-		if( cookies != null )
-		{
-			for( Cookie c :  cookies )
-			{
-				if( c.getName().equals("lang") ) { lang = c.getValue();}
-				else if ( c.getName().equals("country") ) { country = c.getValue();}
-			}	
-		}	
 		MessageLocator messages = new MessageLocator(lang, country);
 %>
 <!-- ------------------------------------------------------ -->
@@ -26,18 +17,19 @@
 <body>
 	<div class="container">
 		<div class="hero-unit">
-			<h2>Vigionline</h2>
 				<form class="well" action="j_security_check" method="POST">
+				<h2>Vigionline</h2>
 					<label for="j_username"><%= messages.getMessage("username") %></label>
 					<input name="j_username" /><br />
 					<label for="j_password"><%= messages.getMessage("password") %></label>
 					<input name="j_password" type="password"/>
 					<br />
 					<input class="btn" type="submit" value="<%= messages.getMessage("login") %>" />
-				</form>
-				<a href="${pageContext.request.contextPath}/logon?lang=pt&country=PT">PT</a> 
-				 |
-                <a href="${pageContext.request.contextPath}/logon?lang=en&country=EN">EN</a>	
+					<hr />
+					<a href="${pageContext.request.contextPath}/logon?lang=pt&country=PT">PT</a> 
+				 	|
+                	<a href="${pageContext.request.contextPath}/logon?lang=en&country=EN">EN</a>
+				</form>	
 		</div>
 	</div>
 </body>

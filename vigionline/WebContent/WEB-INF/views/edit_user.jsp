@@ -9,8 +9,8 @@
 			<li class="active"><%=messages.getMessage("edit_user") %></li>
 		</ul>
 		<!-- End Navigation -->
+		<form class="well" action="<%= baseUrl %>/users/${it.user.idUser }/edit" method="POST">
 		<div class="well">
-			<form class="well" action="<%= baseUrl %>/users/${it.user.idUser }/edit" method="POST">
 				<input type="hidden" name="idUser" value="${it.user.idUser }" />
 				<label for="name"><%= messages.getMessage("name") %></label>
 				<input name="name" value="${it.user.name }" />
@@ -18,8 +18,6 @@
 				<input name="username" value="${it.user.username }" />
 				<label for="password"><%= messages.getMessage("password") %></label>
 				<input type="password" name="password" value="${it.user.password }" />
-				<input class="btn" type="submit" value="<%= messages.getMessage("submit") %>" />
-			</form>	
 		</div>
 		<div class="well">
 			<table class="table table-bordered">
@@ -34,10 +32,12 @@
 						<tr>
 							<td>${role.idRole }</td>
 							<td><a href="<%=baseUrl %>/roles/${role.idRole }">${role.name}</a></td>
-							<td><input type="checkbox"></td>
+							<td><input name="roles" value="${role.name }" type="checkbox"></td>
 						</tr>	
 						</c:forEach>
 					</tbody>	
-				</table>
+				</table>			
 		</div>
+			<input class="btn" type="submit" value="<%= messages.getMessage("submit") %>" />
+		</form>
 <%@ include file="footer.jsp"%>

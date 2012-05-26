@@ -28,6 +28,10 @@
 			<param-name>com.sun.jersey.config.property.WebPageContentRegex</param-name>
 			<param-value>/(images|js|views|css|styles)/.*</param-value>
 		</init-param>
+		<init-param>
+			<param-name>com.sun.jersey.spi.container.ResourceFilters</param-name>
+			<param-value>com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFactory</param-value>
+		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>jersey</filter-name>
@@ -39,4 +43,40 @@
 	<listener>
 		<listener-class>vigionline.vce.record.RecordContextListener</listener-class>
 	</listener>
+
+	<!-- BEGIN Security definitions -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>vigionline</web-resource-name>
+			<url-pattern>/</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>
+			<http-method>DELETE</http-method>
+		</web-resource-collection>
+
+		<auth-constraint>
+			<role-name>admin</role-name>
+			<role-name>user</role-name>
+		</auth-constraint>
+
+		<user-data-constraint>
+			<!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<realm-name>vigionline</realm-name>
+		<form-login-config>
+			<form-login-page>/WEB-INF/views/logon.jsp</form-login-page>
+			<form-error-page>/WEB-INF/views/logon.jsp</form-error-page>
+		</form-login-config>
+	</login-config>
+	<error-page>
+    	<error-code>404</error-code>
+    	<location>/</location>
+	</error-page> 
+	<!-- END Security definitions -->
 </web-app>

@@ -28,6 +28,11 @@ public class RolePermissionMapper extends Mapper<RolePermission> {
 	protected String getByIdQuery() {
 		return "SELECT idRolePermission, idRole, idPermission FROM RolePermission WHERE idRolePermission = ?";
 	}
+	
+	@Override
+	protected String getByNameQuery() {
+		return null;
+	}
 
 	@Override
 	protected PreparedStatement getInsertStatement(RolePermission rolePermission,

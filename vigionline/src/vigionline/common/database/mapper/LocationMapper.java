@@ -27,6 +27,11 @@ public class LocationMapper extends Mapper<Location> {
 	protected String getByIdQuery() {
 		return "SELECT idLocation, name FROM Location WHERE idLocation = ?";
 	}
+	
+	@Override
+	protected String getByNameQuery() {
+		return "SELECT idLocation, name FROM Location WHERE name = ?";
+	}
 
 	@Override
 	protected PreparedStatement getInsertStatement(Location location, Connection con)

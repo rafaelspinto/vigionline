@@ -28,6 +28,11 @@ public class PermissionMapper extends Mapper<Permission> {
 	protected String getByIdQuery() {
 		return "SELECT idPermission, idPermissionType, idCamera FROM Permission WHERE idPermission";
 	}
+	
+	@Override
+	protected String getByNameQuery() {
+		return null;
+	}
 
 	@Override
 	protected PreparedStatement getInsertStatement(Permission perm,

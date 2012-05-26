@@ -27,6 +27,11 @@ public class ManufacturerMapper extends Mapper<Manufacturer> {
 	protected String getByIdQuery() {
 		return "SELECT idManufacturer, name FROM Manufacturer WHERE idManufacturer = ?";
 	}
+	
+	@Override
+	protected String getByNameQuery() {
+		return "SELECT idManufacturer, name FROM Manufacturer WHERE name = ?";
+	}
 
 	@Override
 	protected PreparedStatement getInsertStatement(Manufacturer manufacturer,

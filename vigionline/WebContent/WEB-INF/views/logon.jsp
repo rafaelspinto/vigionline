@@ -1,19 +1,44 @@
-<%@ include file="header.jsp"%>
+<!-- ------------------------------------------------------ -->
+<%@page import="javax.servlet.http.Cookie"%>
+<%@page import="vigionline.common.lang.MessageLocator"%>
+<%
+        String baseUrl = request.getContextPath();
+		String lang = request.getParameter("lang"), country = request.getParameter("country");
+		Cookie[] cookies = request.getCookies(); 
+		if( cookies != null )
+		{
+			for( Cookie c :  cookies )
+			{
+				if( c.getName().equals("lang") ) { lang = c.getValue();}
+				else if ( c.getName().equals("country") ) { country = c.getValue();}
+			}	
+		}	
+		MessageLocator messages = new MessageLocator(lang, country);
+%>
+<!-- ------------------------------------------------------ -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+ <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.css">
+<title>Vigionline</title>
+</head>
+<body>
 	<div class="container">
-		<!-- Begin Navigation -->
-		<ul class="breadcrumb">
-			<li class="active"><%= messages.getMessage("login") %></li>
-		</ul>
-		<!-- End Navigation -->
-		<div class="hero-unit">		
-			<form class="well" action="<%= baseUrl %>/logon" method="POST">
-				<label for="username"><%= messages.getMessage("username") %></label>
-				<input name="username" />
-				<label for="password"><%= messages.getMessage("password") %></label>
-				<input id="password" name="password" type="password"/>
-				<br />
-				<input class="btn" type="submit" value="<%= messages.getMessage("login") %>" />
-			</form>	
+		<div class="hero-unit">
+			<h2>Vigionline</h2>
+				<form class="well" action="j_security_check" method="POST">
+					<label for="j_username"><%= messages.getMessage("username") %></label>
+					<input name="j_username" /><br />
+					<label for="j_password"><%= messages.getMessage("password") %></label>
+					<input name="j_password" type="password"/>
+					<br />
+					<input class="btn" type="submit" value="<%= messages.getMessage("login") %>" />
+				</form>
+				<a href="${pageContext.request.contextPath}/logon?lang=pt&country=PT">PT</a> 
+				 |
+                <a href="${pageContext.request.contextPath}/logon?lang=en&country=EN">EN</a>	
 		</div>
 	</div>
-<%@ include file="footer.jsp"%>
+</body>
+</html>

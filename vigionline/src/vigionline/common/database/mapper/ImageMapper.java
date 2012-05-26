@@ -31,6 +31,11 @@ public class ImageMapper extends Mapper<Image> {
 	protected String getByIdQuery() {
 		return "SELECT idImage, date, filename, size FROM Image WHERE idImage = ?";
 	}
+	
+	@Override
+	protected String getByNameQuery() {
+		return "SELECT idImage, date, filename, size FROM Image WHERE filename = ?";
+	}
 
 	@Override
 	protected PreparedStatement getInsertStatement(Image image, Connection con)

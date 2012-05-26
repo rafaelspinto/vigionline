@@ -30,6 +30,11 @@ public class ActionMapper extends Mapper<Action> {
 	protected String getByIdQuery() {
 		return "SELECT idAction, idModel, name, action1, action2 FROM Action WHERE idAction = ?";
 	}
+	
+	@Override
+	protected String getByNameQuery() {
+		return "SELECT idAction, idModel, name, action1, action2 FROM Action WHERE name = ?";
+	}
 
 	@Override
 	protected PreparedStatement getInsertStatement(Action action, Connection con)

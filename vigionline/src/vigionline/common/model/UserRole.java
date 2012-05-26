@@ -8,12 +8,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class UserRole implements Serializable {
 
 	private static final long serialVersionUID = 8888612632588734880L;
-	private int _idUserRole, _idUser, _idRole;
+	private int _idUserRole;
+	private String _username, _rolename;
 
 	public int getIdUserRole() { return _idUserRole;	}
 	public void setIdUserRole(int idUserRole) {	this._idUserRole = idUserRole; }
-	public int getIdUser() { return _idUser; }
-	public void setIdUser(int idUser) {	this._idUser = idUser;	}
-	public int getIdRole() {	return _idRole; }
-	public void setIdRole(int idRole) {	this._idRole = idRole;	}
+	public String getUsername() { return _username; }
+	public void setUsername(String username) {	this._username = username;	}
+	public String getRolename() {	return _rolename; }
+	public void setRolename(String rolename) {	this._rolename = rolename;	}
 }

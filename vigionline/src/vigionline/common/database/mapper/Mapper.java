@@ -49,6 +49,26 @@ public abstract class Mapper<T> {
 		return obj;
 	}
 	
+	public T getByName(String name) throws SQLException
+	{
+		Connection con = MySqlConnector.getConnection();
+		T obj = null;
+		try
+		{
+			PreparedStatement prep = con.prepareStatement(getByNameQuery());
+			prep.setString(1, name);
+			
+			ResultSet rs = prep.executeQuery();
+			if( rs.next() )
+			{
+				obj = getObject(rs);
+			}
+			rs.close();
+			
+		}finally	{ 	con.close(); 	}
+		return obj;
+	}
+	
 	public List<T> getListByPreparedStatement(PreparedStatement prep) throws SQLException
 	{
 		List<T> list = new LinkedList<T>();
@@ -121,6 +141,7 @@ public abstract class Mapper<T> {
 	/** Queries **/
 	protected abstract String getAllQuery();
 	protected abstract String getByIdQuery();
+	protected abstract String getByNameQuery();
 	
 	/** Prepared Statements **/
 	protected abstract PreparedStatement getInsertStatement(T elem, Connection con)  throws SQLException;

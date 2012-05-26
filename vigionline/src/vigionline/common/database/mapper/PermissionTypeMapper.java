@@ -27,6 +27,11 @@ public class PermissionTypeMapper extends Mapper<PermissionType> {
 	protected String getByIdQuery() {
 		return "SELECT idPermissionType, type FROM PermissionType WHERE idPermissionType = ?";
 	}
+	
+	@Override
+	protected String getByNameQuery() {
+		return "SELECT idPermissionType, type FROM PermissionType WHERE type = ?";
+	}
 
 	@Override
 	protected PreparedStatement getInsertStatement(PermissionType permType,

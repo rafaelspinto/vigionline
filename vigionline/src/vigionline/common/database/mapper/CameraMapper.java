@@ -33,6 +33,11 @@ public class CameraMapper extends Mapper<Camera> {
 	protected String getByIdQuery() {
 		return "SELECT idCamera, idLocation, idModel, name, url, port, username, password FROM Camera WHERE idCamera = ?";
 	}
+	
+	@Override
+	protected String getByNameQuery() {
+		return "SELECT idCamera, idLocation, idModel, name, url, port, username, password FROM Camera WHERE name = ?";
+	}
 
 	@Override
 	protected PreparedStatement getInsertStatement(Camera camera, Connection con)

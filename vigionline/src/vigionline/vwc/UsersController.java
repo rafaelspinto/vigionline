@@ -1,5 +1,6 @@
 package vigionline.vwc;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,10 @@ import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.view.Viewable;
 
+import vigionline.common.database.mapper.UserRoleMapper;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
+import vigionline.common.model.UserRole;
 import vigionline.vri.RolesResource;
 import vigionline.vri.UsersResource;
 
@@ -84,7 +87,23 @@ public class UsersController {
 	public Viewable updateUser(@FormParam("idUser") int idUser,
 			@FormParam("name") String name,
 			@FormParam("username") String username,
-			@FormParam("password") String password) {
+			@FormParam("password") String password,
+			@FormParam("roles") List<String> roles
+			) {
+		
+		UserRoleMapper urMapper = new  UserRoleMapper();
+		for( String rolename : roles )
+		{
+			UserRole ur = new UserRole();
+			ur.setUsername(username);
+			ur.setRolename(rolename);
+			try {
+				urMapper.insert(ur);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return Controller.getResponse(
 				_usersResource.updateUser(idUser, name, username, password),
 				"update_user_succeeded", "update_user_failed");

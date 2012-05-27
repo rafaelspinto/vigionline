@@ -32,21 +32,16 @@ public final class StreamHandler {
 	public synchronized void initProducer(StreamBroker broker, Camera camera, Model model) {
 		StreamProducer producer = null;
 		if ((producer = _producers.get(camera.getIdCamera())) == null) {
-			System.out.println("producer already exists");
 			producer = new StreamProducer(this, broker, camera, model);
 			_producers.put(camera.getIdCamera(), producer);
 			_threadPool.submit(producer);
 		}
 	}
-
-	public void removeBroker(int idCamera)
-	{
-		_brokers.remove(idCamera);
-	}
 	
 	public void removeProducer(int idCamera)
 	{
 		_producers.remove(idCamera);
+		_brokers.remove(idCamera);
 	}
 	
 	public void shutdown() {

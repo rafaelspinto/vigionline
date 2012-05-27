@@ -35,7 +35,7 @@ public class LocalStreamIterator extends StreamIterator<byte[]> {
 
 	@Override
 	public boolean isEndOfStream() {
-		return _broker._isProducing;
+		return ! _broker._isProducing;
 	}
 
 	@Override

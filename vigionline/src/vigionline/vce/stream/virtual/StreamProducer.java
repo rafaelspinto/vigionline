@@ -52,9 +52,7 @@ public class StreamProducer implements Runnable {
 			conManager = null;
 			iterator = null;
 			_broker._isProducing = Boolean.FALSE;
-			_streamHandler.removeProducer(_camera.getIdCamera());
-			_streamHandler.removeBroker(_camera.getIdCamera());
-			System.out.println("Producer exit");
+			_streamHandler.removeProducer(_camera.getIdCamera());			
 		}
 	}
 

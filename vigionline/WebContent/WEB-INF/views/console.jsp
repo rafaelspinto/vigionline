@@ -5,11 +5,13 @@
 	<input id="w320" type="button" value="320x240">
 	<input id="w640" type="button" value="640x480">
 	<input id="w1024" type="button" value="1024x768">
+	<input type="button" class="bt_on .btn btn-success" value="on"/>
+	<input type="button" class="bt_off .btn btn-danger .disabled" value="off"/>
 		<ul class="thumbnails">
 			<c:forEach var="camera" items="${it.cameras}">
 				<li class="span3">
 					<div class="thumbnail">
-						<img src="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream" class="thumb">
+						<img source="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream" src="<%=baseUrl%>/images/no_image.jpg" class="thumb">
 						<c:forEach var="location" items="${it.locations}">
 							<c:if test="${location.idLocation == camera.idLocation }">
 								<h5>${location.name} : ${camera.name }</h5>
@@ -49,5 +51,19 @@
 	    $(document).ready(function(){
             setSize(320,240,'3');
     	});
-	</script>		
+	   $(".bt_on").click(function(e){
+		   $(".thumb").attr("src",'<%=baseUrl%>/images/loading.gif');
+		   e.preventDefault();  
+			$(".thumb").each(function(){
+				var on_src=$(this).attr("source");
+				$(this).attr("src",on_src);
+			});
+		});
+	   $(".bt_off").click(function(e){
+		   e.preventDefault();
+		 	$(".thumb").each(function(){
+				$(this).attr("src",'<%=baseUrl%>/images/no_image.jpg');
+			});
+		});
+	</script>	
 <%@ include file="footer.jsp"%>

@@ -33,4 +33,9 @@ public final class StreamBroker {
 	public boolean isEmpty() {
 		return _queue.isEmpty();
 	}
+	
+	public void clearConsumerQueue()
+	{
+		_queue.clear();
+	}
 }

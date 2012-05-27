@@ -20,7 +20,7 @@ public final class StreamHandler {
 		this._brokers = new ConcurrentHashMap<Integer, StreamBroker>();
 	}
 
-	public StreamBroker getBroker(Camera camera, Model model) {
+	public synchronized StreamBroker getBroker(Camera camera, Model model) {
 		StreamBroker broker = null;
 		if ((broker = _brokers.get(camera.getIdCamera())) == null) {
 			broker = new StreamBroker();
@@ -29,15 +29,26 @@ public final class StreamHandler {
 		return broker;
 	}
 
-	public void initProducer(StreamBroker broker, Camera camera, Model model) {
+	public synchronized void initProducer(StreamBroker broker, Camera camera, Model model) {
 		StreamProducer producer = null;
 		if ((producer = _producers.get(camera.getIdCamera())) == null) {
-			producer = new StreamProducer(broker, camera, model);
+			System.out.println("producer already exists");
+			producer = new StreamProducer(this, broker, camera, model);
 			_producers.put(camera.getIdCamera(), producer);
 			_threadPool.submit(producer);
 		}
 	}
 
+	public void removeBroker(int idCamera)
+	{
+		_brokers.remove(idCamera);
+	}
+	
+	public void removeProducer(int idCamera)
+	{
+		_producers.remove(idCamera);
+	}
+	
 	public void shutdown() {
 		_brokers.clear();
 		_producers.clear();

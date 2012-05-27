@@ -15,57 +15,52 @@ public abstract class Mapper<T> {
 	public List<T> getAll() throws SQLException
 	{
 		List<T> list = new LinkedList<T>();
-		Connection con = MySqlConnector.getConnection();
-		try
-		{
+		try(
+			Connection con = MySqlConnector.getConnection();
 			Statement stm = con.createStatement();
-			
 			ResultSet rs = stm.executeQuery(getAllQuery());
-			while(rs.next()) { 	list.add(getObject(rs)); }
-			rs.close();
-		}finally
+		)
 		{
-			con.close();
+			while(rs.next())  	
+				list.add(getObject(rs));
 		}
 		return list;
 	}
 	public T getById(int id) throws SQLException
 	{
-		Connection con = MySqlConnector.getConnection();
 		T obj = null;
-		try
+		try(
+				Connection con = MySqlConnector.getConnection();
+				PreparedStatement prep = con.prepareStatement(getByIdQuery());				
+			)
 		{
-			PreparedStatement prep = con.prepareStatement(getByIdQuery());
 			prep.setInt(1, id);
-			
 			ResultSet rs = prep.executeQuery();
 			if( rs.next() )
 			{
 				obj = getObject(rs);
 			}
-			rs.close();
-			
-		}finally	{ 	con.close(); 	}
+			rs.close();			
+		}
 		return obj;
 	}
 	
 	public T getByName(String name) throws SQLException
 	{
-		Connection con = MySqlConnector.getConnection();
 		T obj = null;
-		try
+		try(
+				Connection con = MySqlConnector.getConnection();
+				PreparedStatement prep = con.prepareStatement(getByNameQuery());
+			)
 		{
-			PreparedStatement prep = con.prepareStatement(getByNameQuery());
-			prep.setString(1, name);
-			
+			prep.setString(1, name);			
 			ResultSet rs = prep.executeQuery();
 			if( rs.next() )
 			{
 				obj = getObject(rs);
 			}
-			rs.close();
-			
-		}finally	{ 	con.close(); 	}
+			rs.close();	
+		}
 		return obj;
 	}
 	
@@ -86,19 +81,16 @@ public abstract class Mapper<T> {
 	
 	public int insert(T elem) throws SQLException
 	{
-		int res = 0;
-		Connection con = MySqlConnector.getConnection();
-		try
-		{
-			PreparedStatement prep = getInsertStatement(elem, con);
+		int res = 0;	
+		try(
+				Connection con = MySqlConnector.getConnection();
+				PreparedStatement prep = getInsertStatement(elem, con);
+			)
+		{	
 			prep.executeUpdate();
 			ResultSet rs = prep.getGeneratedKeys();
 			if( rs.next() )
 				res = rs.getInt(1);
-		}
-		finally
-		{
-			con.close();
 		}
 		return res;
 	}
@@ -106,15 +98,12 @@ public abstract class Mapper<T> {
 	public int update(T elem) throws SQLException
 	{
 		int res = 0;
-		Connection con = MySqlConnector.getConnection();
-		try
+		try(
+				Connection con = MySqlConnector.getConnection();
+				PreparedStatement prep = getUpdateStatement(elem, con);
+			)
 		{
-			PreparedStatement prep = getUpdateStatement(elem, con);
 			res = prep.executeUpdate();
-		}
-		finally
-		{
-			con.close();
 		}
 		return res;
 	}
@@ -122,15 +111,13 @@ public abstract class Mapper<T> {
 	public int delete(int id) throws SQLException
 	{
 		int res = 0;
-		Connection con = MySqlConnector.getConnection();
-		try
-		{
+		try(
+			Connection con = MySqlConnector.getConnection();
 			PreparedStatement prep = getDeleteStatement(id, con);
-			res = prep.executeUpdate();
-		}
-		finally
+			)
 		{
-			con.close();
+			
+			res = prep.executeUpdate();
 		}
 		return res;
 	}

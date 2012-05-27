@@ -12,12 +12,14 @@ import vigionline.vce.stream.iterator.StreamIterator;
 
 public class StreamProducer implements Runnable {
 
+	private StreamHandler _streamHandler;
 	private StreamBroker _broker;
 	private Camera _camera;
 	private Model _model;
 	private boolean _stopProducing;
 
-	public StreamProducer(StreamBroker broker, Camera camera, Model model) {
+	public StreamProducer(StreamHandler streamHandler, StreamBroker broker, Camera camera, Model model) {
+		this._streamHandler = streamHandler;
 		this._broker = broker;
 		this._camera = camera;
 		this._model = model;
@@ -29,12 +31,14 @@ public class StreamProducer implements Runnable {
 		ConnectionManager conManager = null;
 		StreamIterator<byte[]> iterator = null;
 		try {
+
 			conManager = new ConnectionManager(_camera, _model);
 			iterator = new RemoteStreamIterator(conManager, _model);
 
 			while (iterator.hasNext() && !_stopProducing && !_broker.isEmpty()) {
 				_broker.put(iterator.next());
 			}
+
 		} catch (InterruptedException ie) {
 			// TODO Auto-generated catch block
 			ie.printStackTrace();
@@ -48,6 +52,9 @@ public class StreamProducer implements Runnable {
 			conManager = null;
 			iterator = null;
 			_broker._isProducing = Boolean.FALSE;
+			_streamHandler.removeProducer(_camera.getIdCamera());
+			_streamHandler.removeBroker(_camera.getIdCamera());
+			System.out.println("Producer exit");
 		}
 	}
 

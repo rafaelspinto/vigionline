@@ -22,8 +22,11 @@ public final class StreamBroker {
 	}
 
 	public void put(byte[] image) throws InterruptedException {
-		for (LinkedBlockingQueue<byte[]> q : _queue.values())
-			q.put(image);
+		if(image != null)
+		{
+			for (LinkedBlockingQueue<byte[]> q : _queue.values())
+				q.put(image);
+		}
 	}
 
 	public byte[] get(int q) throws InterruptedException {

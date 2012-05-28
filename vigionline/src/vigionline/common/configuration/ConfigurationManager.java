@@ -44,8 +44,8 @@ public class ConfigurationManager {
 	/************ Program Settings **************/
 
 	public boolean hasProxy() {
-		String proxyHost = "";
-		int proxyPort = 0;
+		String proxyHost = null;
+		int proxyPort = -1;
 		try
 		{
 			proxyHost = getString("proxyHost");
@@ -54,7 +54,7 @@ public class ConfigurationManager {
 		{
 			return false;
 		}
-		return proxyHost != null && !proxyHost.isEmpty() && proxyPort > 0;
+		return proxyHost != null && !proxyHost.isEmpty() && proxyPort > -1;
 	}
 
 	public String getProxyHost() {

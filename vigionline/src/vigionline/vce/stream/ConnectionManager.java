@@ -13,6 +13,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 
 import vigionline.common.configuration.ConfigurationManager;
 import vigionline.common.model.Camera;
@@ -49,6 +50,7 @@ public class ConnectionManager {
 			}
 			
 			HttpGet httpget = new HttpGet(_url);
+			_httpClient.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(10, true));
 			_httpResponse = _httpClient.execute(httpget);
 			HttpEntity entity = _httpResponse.getEntity();
 			_inputStream = entity.getContent();

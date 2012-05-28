@@ -1,18 +1,19 @@
 package vigionline.vce.stream.virtual;
 
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public final class StreamBroker {
 
-	public Map<Integer, LinkedBlockingQueue<byte[]>> _queue = new ConcurrentHashMap<Integer, LinkedBlockingQueue<byte[]>>();
+	public Map<Integer, ArrayBlockingQueue<byte[]>> _queue = new ConcurrentHashMap<Integer, ArrayBlockingQueue<byte[]>>();
 	public Boolean _isProducing = Boolean.TRUE;
 	private int _size = 0;
+	private static int BUFFER_SIZE = 100;
 
 	public int addQueue() {
 		_size++;
-		LinkedBlockingQueue<byte[]> q = new LinkedBlockingQueue<byte[]>();
+		ArrayBlockingQueue<byte[]> q = new ArrayBlockingQueue<byte[]>(BUFFER_SIZE);
 		_queue.put(_size, q);
 		return _size;
 	}
@@ -24,8 +25,8 @@ public final class StreamBroker {
 	public void put(byte[] image) throws InterruptedException {
 		if(image != null)
 		{
-			for (LinkedBlockingQueue<byte[]> q : _queue.values())
-				q.put(image);
+			for (ArrayBlockingQueue<byte[]> q : _queue.values())
+				q.offer(image);
 		}
 	}
 

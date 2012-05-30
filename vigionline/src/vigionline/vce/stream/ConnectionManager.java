@@ -12,8 +12,12 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
+import org.apache.http.impl.conn.SingleClientConnManager;
 
 import vigionline.common.configuration.ConfigurationManager;
 import vigionline.common.model.Camera;
@@ -30,8 +34,19 @@ public class ConnectionManager {
 		this._url = UriBuilder.buildVideoUri(camera, model);
 		this._username = camera.getUsername();
 		this._password = camera.getPassword();
-		this._httpClient = new DefaultHttpClient();
+		
 		this._inputStream = null;
+		/****************************************/
+		 DefaultHttpClient seed = new DefaultHttpClient();
+		    SchemeRegistry registry = new SchemeRegistry();
+		    Scheme http = new Scheme
+		            ("http", PlainSocketFactory.getSocketFactory(), 80);
+		    registry.register(http);
+		    SingleClientConnManager mgr = new VigionlineConnManager(seed.getParams(),
+		        registry);
+		    this._httpClient = new DefaultHttpClient(mgr, seed.getParams());
+		//this._httpClient = new DefaultHttpClient();
+		
 	}
 
 	public InputStream getInputStream() throws ClientProtocolException,

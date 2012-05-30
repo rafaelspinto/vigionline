@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -19,6 +20,7 @@ import vigionline.vri.ManufacturersResource;
 
 import com.sun.jersey.api.view.Viewable;
 
+@RolesAllowed("admin")
 @Path("/manufacturers")
 public class ManufacturersController {
 

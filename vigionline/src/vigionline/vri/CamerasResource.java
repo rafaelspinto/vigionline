@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -30,6 +31,7 @@ import vigionline.vce.stream.iterator.StreamIteratorFactory;
 import vigionline.vce.stream.virtual.StreamConsumer;
 import vigionline.vce.stream.virtual.StreamHandler;
 
+@RolesAllowed("admin")
 @Path("/api/cameras")
 public class CamerasResource {
 
@@ -132,6 +134,7 @@ public class CamerasResource {
 	}
 
 	/*************************** Stream STUFF ***************************/
+	@RolesAllowed({"admin","user"})
 	@GET
 	@Path("{idCamera}/stream")
 	@Produces("multipart/x-mixed-replace;boundary=--myboundary")

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -20,6 +21,7 @@ import vigionline.common.model.Model;
 import vigionline.vri.ManufacturersResource;
 import vigionline.vri.ModelsResource;
 
+@RolesAllowed("admin")
 @Path("/models")
 public class ModelsController {
 

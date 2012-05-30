@@ -2,6 +2,7 @@ package vigionline.vwc;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -16,6 +17,7 @@ import vigionline.vri.RolesResource;
 
 import com.sun.jersey.api.view.Viewable;
 
+@RolesAllowed("admin")
 @Path("/roles")
 public class RolesController {
 

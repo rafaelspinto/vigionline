@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -24,6 +25,7 @@ import vigionline.common.model.Action;
 import vigionline.common.model.Camera;
 import vigionline.vce.ActionExecuter;
 
+@RolesAllowed("admin")
 @Path("/api/actions")
 public class ActionsResource {
 

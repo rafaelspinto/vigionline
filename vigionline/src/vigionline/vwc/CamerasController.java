@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -25,6 +26,7 @@ import vigionline.vri.ModelsResource;
 
 import com.sun.jersey.api.view.Viewable;
 
+@RolesAllowed("admin")
 @Path("/cameras")
 public class CamerasController {
 

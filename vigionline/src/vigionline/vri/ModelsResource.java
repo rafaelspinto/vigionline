@@ -3,6 +3,7 @@ package vigionline.vri;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -18,6 +19,7 @@ import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Model;
 
+@RolesAllowed("admin")
 @Path("/api/models")
 public class ModelsResource {
 

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -23,6 +24,7 @@ import vigionline.common.model.UserRole;
 import vigionline.vri.RolesResource;
 import vigionline.vri.UsersResource;
 
+@RolesAllowed("admin")
 @Path("/users")
 public class UsersController {
 

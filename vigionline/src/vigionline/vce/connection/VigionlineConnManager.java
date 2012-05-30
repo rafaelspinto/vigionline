@@ -1,4 +1,4 @@
-package vigionline.vce.stream;
+package vigionline.vce.connection;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponseFactory;

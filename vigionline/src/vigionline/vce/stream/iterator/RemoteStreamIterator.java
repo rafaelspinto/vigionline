@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 import org.apache.http.client.ClientProtocolException;
 
 import vigionline.common.model.Model;
-import vigionline.vce.stream.ConnectionManager;
+import vigionline.vce.connection.ConnectionManager;
 import vigionline.vce.stream.StreamParser;
 
 public class RemoteStreamIterator extends StreamIterator<byte[]> {

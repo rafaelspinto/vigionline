@@ -1,4 +1,4 @@
-package vigionline.vce.stream;
+package vigionline.vce.connection;
 
 import vigionline.common.configuration.ConfigurationManager;
 

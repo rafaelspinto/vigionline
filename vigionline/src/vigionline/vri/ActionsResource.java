@@ -1,5 +1,6 @@
 package vigionline.vri;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -10,13 +11,18 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.http.client.ClientProtocolException;
+
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Action;
+import vigionline.common.model.Camera;
+import vigionline.vce.ActionExecuter;
 
 @Path("/api/actions")
 public class ActionsResource {
@@ -101,5 +107,32 @@ public class ActionsResource {
 		} catch (SQLException e) {
 			return Response.status(500).build();
 		}
+	}
+
+	@GET
+	@Path("{idAction}/execute")
+	public Response executeAction(@PathParam("idAction") int idAction,
+			@QueryParam("idCamera") int idCamera) {
+		Action action = null;
+		Camera camera = null;
+		try {
+			action = _database.getAction(idAction);
+			camera = _database.getCamera(idCamera);
+
+			if (action != null && action.getIdModel() == camera.getIdModel()) {
+				ActionExecuter ae = new ActionExecuter(camera, action);
+				return Response.status(
+						ae.execute().getStatusLine().getStatusCode()).build();
+			}
+		} catch (SQLException e) {
+			throw new WebApplicationException(500);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		throw new WebApplicationException(404);
 	}
 }

@@ -226,6 +226,11 @@ public class MySqlDatabase implements IDatabase {
 	public int deleteAction(int idAction) throws SQLException {
 		return new ActionMapper().delete(idAction);
 	}
+	
+	@Override
+	public List<Action> getActionsForModel(int idModel) throws SQLException {
+		return new ActionMapper().getByIdModel(idModel);
+	}
 
 	@Override
 	public List<Camera> getCameras() throws SQLException {

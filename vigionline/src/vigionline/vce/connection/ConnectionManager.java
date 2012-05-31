@@ -3,6 +3,8 @@ package vigionline.vce.connection;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.ws.rs.core.HttpHeaders;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
@@ -31,8 +33,10 @@ public class ConnectionManager {
 	public InputStream getInputStream() throws ClientProtocolException,
 			IOException {
 		if (_inputStream == null) {
+			HttpGet getMethod = new HttpGet(_url);
+			getMethod.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
 			_httpClient = HttpClientFactory.getHttpClient(_username, _password);
-			_httpResponse = _httpClient.execute(new HttpGet(_url));
+			_httpResponse = _httpClient.execute(getMethod);
 			_inputStream = _httpResponse.getEntity().getContent();
 		}
 		return _inputStream;

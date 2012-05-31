@@ -74,7 +74,7 @@
 		});
 	   $(".bt_act").click(function () {
 		   var url = $(this).attr("action");
-		   $.get(url, function(){ alert("submitted");});
+		   $.get(url);
 		   return false;
 		  });
 	</script>	

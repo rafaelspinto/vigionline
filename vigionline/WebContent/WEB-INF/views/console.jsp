@@ -15,6 +15,13 @@
 						<c:forEach var="location" items="${it.locations}">
 							<c:if test="${location.idLocation == camera.idLocation }">
 								<h5>${location.name} : ${camera.name }</h5>
+								<c:forEach var="action" items="${ it.actions}">
+									<c:if test="${action.idModel == camera.idModel}">
+										<form action="<%=baseUrl %>/api/actions/${action.idAction }/execute?idCamera=${camera.idCamera}" method="GET" class="form-inline">
+											<input type="submit" class="btn btn-info" value="${action.name}">
+										</form> 
+									</c:if>
+								</c:forEach>
 							</c:if>
 						</c:forEach>
 					</div>
@@ -65,5 +72,9 @@
 				$(this).attr("src",'<%=baseUrl%>/images/no_image.jpg');
 			});
 		});
+	   $('form').submit(function () {
+		   $.get(this.action, function(){ alert("submitted")});
+		   return false;
+		  });
 	</script>	
 <%@ include file="footer.jsp"%>

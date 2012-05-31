@@ -14,8 +14,10 @@ import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
+import vigionline.common.model.Action;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Location;
+import vigionline.vri.ActionsResource;
 import vigionline.vri.CamerasResource;
 import vigionline.vri.LocationsResource;
 
@@ -37,8 +39,11 @@ public class HomeController {
 		List<Camera> cameras = new CamerasResource().getCameras();
 		List<Location> locations = new LocationsResource().getLocations();
 		Map<String, Object> data = new HashMap<String, Object>();
+		List<Action> actions = new ActionsResource().getActions(-1);
+		
 		data.put("cameras", cameras);
 		data.put("locations", locations);
+		data.put("actions", actions);
 		return new Viewable("/console", data);
 	}
 	

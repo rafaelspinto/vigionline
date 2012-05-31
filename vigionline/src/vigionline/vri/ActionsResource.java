@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -33,10 +34,14 @@ public class ActionsResource {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<Action> getActions() {
+	public List<Action> getActions(
+			@DefaultValue("-1") @QueryParam("idModel") final int idModel) {
 		List<Action> actions = null;
 		try {
-			actions = _database.getActions();
+			if (idModel == -1)
+				actions = _database.getActions();
+			else
+				actions = _database.getActionsForModel(idModel);
 		} catch (SQLException e) {
 			throw new WebApplicationException(500);
 		}

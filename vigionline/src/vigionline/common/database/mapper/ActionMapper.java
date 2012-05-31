@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
+import vigionline.common.database.connector.MySqlConnector;
 import vigionline.common.model.Action;
 
 public class ActionMapper extends Mapper<Action> {
@@ -30,7 +32,7 @@ public class ActionMapper extends Mapper<Action> {
 	protected String getByIdQuery() {
 		return "SELECT idAction, idModel, name, action1, action2 FROM Action WHERE idAction = ?";
 	}
-	
+
 	@Override
 	protected String getByNameQuery() {
 		return "SELECT idAction, idModel, name, action1, action2 FROM Action WHERE name = ?";
@@ -39,7 +41,10 @@ public class ActionMapper extends Mapper<Action> {
 	@Override
 	protected PreparedStatement getInsertStatement(Action action, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("INSERT INTO Action (idModel, name, action1, action2) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement prep = con
+				.prepareStatement(
+						"INSERT INTO Action (idModel, name, action1, action2) VALUES(?,?,?,?)",
+						Statement.RETURN_GENERATED_KEYS);
 		prep.setInt(1, action.getIdModel());
 		prep.setString(2, action.getName());
 		prep.setString(3, action.getAction1());
@@ -50,7 +55,10 @@ public class ActionMapper extends Mapper<Action> {
 	@Override
 	protected PreparedStatement getUpdateStatement(Action action, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("UPDATE Action SET idModel = ?, name = ?, action1 = ?, action2 = ? WHERE idAction = ?", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement prep = con
+				.prepareStatement(
+						"UPDATE Action SET idModel = ?, name = ?, action1 = ?, action2 = ? WHERE idAction = ?",
+						Statement.RETURN_GENERATED_KEYS);
 		prep.setInt(1, action.getIdModel());
 		prep.setString(2, action.getName());
 		prep.setString(3, action.getAction1());
@@ -62,8 +70,17 @@ public class ActionMapper extends Mapper<Action> {
 	@Override
 	protected PreparedStatement getDeleteStatement(int id, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("DELETE FROM Action WHERE idAction = ?");
+		PreparedStatement prep = con
+				.prepareStatement("DELETE FROM Action WHERE idAction = ?");
 		prep.setInt(1, id);
 		return prep;
+	}
+
+	public List<Action> getByIdModel(int idModel) throws SQLException {
+		Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con.prepareStatement(getAllQuery()
+				+ " WHERE idModel = ?");
+		prep.setInt(1, idModel);
+		return getListByPreparedStatement(prep);
 	}
 }

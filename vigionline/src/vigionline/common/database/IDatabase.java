@@ -67,6 +67,7 @@ public interface IDatabase {
 	public int createAction(Action action) throws SQLException;
 	public int updateAction(Action action) throws SQLException;
 	public int deleteAction(int idAction) throws SQLException;
+	public List<Action> getActionsForModel(int idModel) throws SQLException;
 
 	/** Cameras **/
 	public List<Camera> getCameras() throws SQLException;

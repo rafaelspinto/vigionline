@@ -33,7 +33,7 @@ public class ActionsController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable getActionsHTML()
 	{
-		List<Action> actions = _actionsResource.getActions();
+		List<Action> actions = _actionsResource.getActions(-1);
 		return new Viewable("/actions", actions);
 	}
 	

@@ -76,7 +76,11 @@
 	</login-config>
 	<error-page>
     	<error-code>404</error-code>
-    	<location>/</location>
+    	<location>/WEB-INF/views/not_found.jsp</location>
+	</error-page> 
+	<error-page>
+    	<error-code>403</error-code>
+    	<location>/WEB-INF/views/not_authorized.jsp</location>
 	</error-page> 
 	<!-- END Security definitions -->
 </web-app>

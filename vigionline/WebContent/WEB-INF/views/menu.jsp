@@ -6,13 +6,64 @@
                 	<li><a href="<%= baseUrl %>/console"><%= messages.getMessage("console") %></a></li>
                 	<li class="divider-vertical"></li>
                   	
-                  	<ul class="nav nav-list">
-					  <li class="nav-header">
-					    <%= messages.getMessage("locations") %>
-					  </li>
-					 <li><a href="<%= baseUrl %>/locations"><%= messages.getMessage("all") %></a></li>
-					</ul>
-                  	
+                 <ul class="nav">
+				  <li class="dropdown">
+				    <a href="#"
+				          class="dropdown-toggle"
+				          data-toggle="dropdown">
+				          <%= messages.getMessage("settings") %>
+				          <b class="caret"></b>
+				    </a>
+				    <ul class="dropdown-menu">
+				      <!-- LOCATIONS -->
+				      <li class="nav-header"><%= messages.getMessage("locations") %></li>
+				      <li><a href="<%= baseUrl %>/locations"><%= messages.getMessage("all") %></a></li>
+				      <li><a href="<%= baseUrl %>/locations/create"><%= messages.getMessage("create_location") %></a></li>
+				      <li class="divider"></li>
+				      
+				      <!-- MANUFACTURERS -->
+				      <li class="nav-header"><%= messages.getMessage("manufacturers") %></li>
+				      <li><a href="<%= baseUrl %>/manufacturers"><%= messages.getMessage("all") %></a></li>
+				      <li><a href="<%= baseUrl %>/manufacturers/create"><%= messages.getMessage("create_manufacturer") %></a></li>
+				      <li class="divider"></li>
+				      
+				      <!-- MODELS -->
+				      <li class="nav-header"><%= messages.getMessage("models") %></li>
+				      <li><a href="<%= baseUrl %>/models"><%= messages.getMessage("all") %></a></li>
+				      <li><a href="<%= baseUrl %>/models/create"><%= messages.getMessage("create_model") %></a></li>
+				      <li class="divider"></li>
+				      
+				       <!-- ACTIONS -->
+				      <li class="nav-header"><%= messages.getMessage("actions") %></li>
+				      <li><a href="<%= baseUrl %>/actions"><%= messages.getMessage("all") %></a></li>
+				      <li><a href="<%= baseUrl %>/actions/create"><%= messages.getMessage("create_action") %></a></li>
+				      <li class="divider"></li>
+				      
+				       <!-- CAMERAS -->
+				      <li class="nav-header"><%= messages.getMessage("cameras") %></li>
+				      <li><a href="<%= baseUrl %>/cameras"><%= messages.getMessage("all") %></a></li>
+				      <li><a href="<%= baseUrl %>/cameras/create"><%= messages.getMessage("create_camera") %></a></li>
+				      <li class="divider"></li>
+				      
+				      <!-- USERS -->
+				      <li class="nav-header"><%= messages.getMessage("users") %></li>
+				      <li><a href="<%= baseUrl %>/users"><%= messages.getMessage("all") %></a></li>
+				      <li><a href="<%= baseUrl %>/users/create"><%= messages.getMessage("create_user") %></a></li>
+				      <li class="divider"></li>
+				      
+				       <!-- ROLES -->
+				      <li class="nav-header"><%= messages.getMessage("roles") %></li>
+				      <li><a href="<%= baseUrl %>/roles"><%= messages.getMessage("all") %></a></li>
+				      <li><a href="<%= baseUrl %>/roles/create"><%= messages.getMessage("create_role") %></a></li>
+				  
+				    </ul>
+				  </li>
+				</ul>
+                 
+                 
+                 
+                 
+                                   	
                   	
                   	
                   	<li class="dropdown">

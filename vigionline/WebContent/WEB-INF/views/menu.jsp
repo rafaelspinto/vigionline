@@ -2,9 +2,19 @@
             <div class="navbar-inner">
               <div class="container" style="width: auto;">
                 <a class="brand" href="${pageContext.request.contextPath}">Vigionline</a>
-                <ul class="nav">
+                <ul class="nav">  
                 	<li><a href="<%= baseUrl %>/console"><%= messages.getMessage("console") %></a></li>
                 	<li class="divider-vertical"></li>
+                  	
+                  	<ul class="nav nav-list">
+					  <li class="nav-header">
+					    <%= messages.getMessage("locations") %>
+					  </li>
+					 <li><a href="<%= baseUrl %>/locations"><%= messages.getMessage("all") %></a></li>
+					</ul>
+                  	
+                  	
+                  	
                   	<li class="dropdown">
                   	<a class="dropdown-toggle" data-toggle="dropdown" href="#" >
                   		<%= messages.getMessage("locations") %>

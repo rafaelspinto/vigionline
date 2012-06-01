@@ -1,5 +1,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="header.jsp"%>
+<%@page import="vigionline.common.model.Action"%>
 <div class="pagination pagination-centered">
 	<input id="w160" type="button" value="160x120"> <input
 		id="w320" type="button" value="320x240"> <input id="w640"
@@ -18,14 +19,15 @@
 							<h5>${location.name} : ${camera.name }</h5>
 							<!-- ------------------- -->
 							<div class="wells">
-								<button class="bt_action btn-info" menu="menu_${camera.idCamera}"><%= messages.getMessage("actions") %></button>				
+								<button class="bt_action btn-mini" menu="menu_${camera.idCamera}"><%= messages.getMessage("actions") %></button>				
 								<ul id="menu_${camera.idCamera}" class="action_menu" style="display:none;">
 									<c:forEach var="action" items="${ it.actions}">
 										<c:if test="${action.idModel == camera.idModel}">
-											<li>
-												<button class="btn-success bt_act span2" value="${action.name}"
-													action="<%=baseUrl %>/api/actions/${action.idAction }/execute?idCamera=${camera.idCamera}">${action.name}</button>
-											</li>
+											
+												<a class="bt_act"
+													action="<%=baseUrl %>/api/actions/${action.idAction }/execute?idCamera=${camera.idCamera}">
+													<img src="<%=baseUrl%>/images/icons/${action.name}.png" />
+												</a>
 										</c:if>
 									</c:forEach>
 								</ul>

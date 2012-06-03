@@ -8,5 +8,10 @@
 		<div class="hero-unit">
 			<h1>Vigionline</h1>
 		</div>
+		               
+                       <c:forEach var="role" items="${roles}">
+                                  ${role.id }
+                       </c:forEach>	
+                  	<!-- --------------- -->
 	</div>
 <%@ include file="footer.jsp"%>

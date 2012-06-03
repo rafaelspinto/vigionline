@@ -20,6 +20,8 @@ public final class MySqlConnector {
 		ds.setDatabaseName(DATABASE_NAME);
 		ds.setUser(USER_NAME);
 		ds.setPassword(PASSWORD);
+		ds.setAutoReconnect(true);
+		ds.setAutoReconnectForPools(true);
 		Connection connection = null;
 		try {
 			connection = ds.getConnection();
@@ -27,18 +29,6 @@ public final class MySqlConnector {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		/**************** Using DriverManager 
-		String DRIVER_NAME = "com.mysql.jdbc.Driver";
-		String CONNECTION_STRING = "jdbc:mysql://localhost:" + DATABASE_PORT + "/" + DATABASE_NAME;
-		int DATABASE_PORT = ConfigurationManager.getInstance().getInt("port");
-		try {
-			Class.forName(DRIVER_NAME).newInstance();			
-			connection = DriverManager.getConnection(CONNECTION_STRING, USER_NAME, PASSWORD);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		*******************************************/
 		return connection;
 	}
 }

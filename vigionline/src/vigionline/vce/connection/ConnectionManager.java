@@ -3,8 +3,6 @@ package vigionline.vce.connection;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.ws.rs.core.HttpHeaders;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
@@ -21,6 +19,7 @@ public class ConnectionManager {
 	private DefaultHttpClient _httpClient;
 	private InputStream _inputStream;
 	private HttpResponse _httpResponse;
+	private HttpGet _getMethod;
 
 	public ConnectionManager(Camera camera, Model model) {
 		this._url = UriBuilder.buildVideoUri(camera, model);
@@ -28,17 +27,14 @@ public class ConnectionManager {
 		this._password = camera.getPassword();
 		this._inputStream = null;
 		this._httpClient = null;
+		this._getMethod = new HttpGet(_url);
 	}
 
 	public InputStream getInputStream() throws ClientProtocolException,
 			IOException {
-		if (_inputStream == null) {
-			HttpGet getMethod = new HttpGet(_url);
-			getMethod.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
-			_httpClient = HttpClientFactory.getHttpClient(_username, _password);
-			_httpResponse = _httpClient.execute(getMethod);
-			_inputStream = _httpResponse.getEntity().getContent();
-		}
+		_httpClient = HttpClientFactory.getHttpClient(_username, _password);
+		_httpResponse = _httpClient.execute(_getMethod);
+		_inputStream = _httpResponse.getEntity().getContent();
 		return _inputStream;
 	}
 

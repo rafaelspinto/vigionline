@@ -13,6 +13,7 @@ public class RemoteStreamIterator extends StreamIterator<byte[]> {
 
 	protected StreamParser _streamParser;
 	private ConnectionManager _connectionManager;
+	private Model _model;
 
 	public RemoteStreamIterator(ConnectionManager conManager, Model model)
 			throws ClientProtocolException, IOException {
@@ -20,6 +21,7 @@ public class RemoteStreamIterator extends StreamIterator<byte[]> {
 		this._streamParser = new StreamParser(conManager.getInputStream(),
 				model);
 		this._next = _streamParser.readImageFromStream();
+		this._model = model;
 	}
 
 	@Override
@@ -32,7 +34,18 @@ public class RemoteStreamIterator extends StreamIterator<byte[]> {
 		if (!hasNext())
 			throw new NoSuchElementException();
 		_prev = _next;
-		_next = _streamParser.readImageFromStream();
+		try {
+			if (!_model.isMJPEG())
+				_streamParser = new StreamParser(
+						_connectionManager.getInputStream(), _model);
+			_next = _streamParser.readImageFromStream();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return _prev;
 	}
 

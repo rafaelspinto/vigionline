@@ -14,10 +14,6 @@ import vigionline.common.configuration.ConfigurationManager;
 
 public class HttpClientFactory extends DefaultHttpClient {
 
-	public HttpClientFactory(String username, String password) {
-
-	}
-
 	@SuppressWarnings("deprecation")
 	public static DefaultHttpClient getHttpClient(String username,
 			String password) {

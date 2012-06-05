@@ -13,8 +13,8 @@ public class MessageLocator {
 	
 	private void setDefaultLocale()
 	{
-		this._language = "en";
-		this._country = "EN";
+		this._language = "pt";
+		this._country = "PT";
 		this._currentLocale = new Locale(this._language, this._country);
 	}
 	

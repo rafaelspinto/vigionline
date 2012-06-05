@@ -1,7 +1,7 @@
 <div id="menu" class="navbar navbar-static">
 	<div class="navbar-inner">
 		<div class="container" style="width: auto;">
-			<a class="brand" href="${pageContext.request.contextPath}">Vigionline <span class="badge badge-info">Versão beta</span></a>
+			<a class="brand" href="${pageContext.request.contextPath}">Vigionline <span class="badge badge-info"><%= messages.getMessage("beta_version") %></span></a>
 			<ul class="nav">
 				<li><a href="<%= baseUrl %>/console"><%= messages.getMessage("console") %></a></li>
 				<li class="divider-vertical"></li>

@@ -7,7 +7,7 @@
 		type="button" value="640x480"> <input id="w1024" type="button"
 		value="1024x768"> <input type="button"
 		class="bt_on .btn btn-success" value="on" /> <input type="button"
-		class="bt_off .btn btn-danger .disabled" value="off" />
+		class="bt_off .btn btn-danger .disabled" value="off" style="display:none"/>
 	<ul class="thumbnails">
 		<c:forEach var="camera" items="${it.cameras}">
 			<li class="span3">
@@ -71,6 +71,8 @@
     	});
 	   $(".bt_on").click(function(e){
 		   $(".thumb").attr("src",'<%=baseUrl%>/images/loading.gif');
+		   $(".bt_off").show();
+		   $(this).hide();
 		   e.preventDefault();  
 			$(".thumb").each(function(){
 				var on_src=$(this).attr("source");
@@ -78,9 +80,14 @@
 			});
 		});
 	   $(".bt_off").click(function(e){
+		   $(".bt_on").show();
+		   $(this).hide();
 		   e.preventDefault();
 		 	$(".thumb").each(function(){
+		 		$(this).hide();
+		 		$(this).attr("src","#");
 				$(this).attr("src",'<%=baseUrl%>/images/no_image.jpg');
+				$(this).show();
 			});
 		});
 	   $(".bt_act").click(function () {

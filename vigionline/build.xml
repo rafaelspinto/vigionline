@@ -1,6 +1,23 @@
 <?xml version="1.0" ?> 
 <project name="vigionline" default="war">
 
+	<patternset id="meta.files">
+		<include name="**/*.properties" />
+	</patternset>
+	
+	<target name="copy.meta.files">
+		<copy todir="build/classes/vigionline/common/configuration/" >
+			<fileset dir="src/vigionline/common/configuration/">
+				<patternset refid="meta.files" />
+			</fileset>
+		</copy>
+		<copy todir="build/classes/vigionline/" >
+			<fileset dir="src/vigionline/">
+				<patternset refid="meta.files" />
+			</fileset>
+		</copy>
+	</target>
+
 	<path id="compile.classpath">
 		<fileset dir="WebContent/WEB-INF/lib">
 			<include name="*.jar"/>
@@ -18,7 +35,7 @@
 		</javac>
 	</target>
 	
-	<target name="war" depends="compile">
+	<target name="war" depends="compile, copy.meta.files">
 		<war destfile="dist/vigionline.war" webxml="WebContent/WEB-INF/web.xml">
 			<fileset dir="WebContent"/>
 			<lib dir="WebContent/WEB-INF/lib"/>

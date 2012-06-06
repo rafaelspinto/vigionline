@@ -1,4 +1,4 @@
 <%
-session.invalidate();
-response.sendRedirect("/vigionline");
+	session.invalidate();
+	response.sendRedirect(request.getContextPath());
 %>

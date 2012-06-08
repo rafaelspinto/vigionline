@@ -34,9 +34,9 @@ public class CamerasController {
 	
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public Viewable getActionsHTML()
+	public Viewable getCamerasHTML()
 	{
-		List<Camera> cameras = _camerasResource.getCameras();
+		List<Camera> cameras = _camerasResource.getCameras(null);
 		return new Viewable("/cameras", cameras);
 	}
 	

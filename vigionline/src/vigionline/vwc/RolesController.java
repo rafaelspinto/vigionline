@@ -49,7 +49,7 @@ public class RolesController {
 	@Path("create")
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Viewable createUser(@FormParam("name") String name) {
+	public Viewable createRole(@FormParam("name") String name) {
 		return Controller.getResponse(_rolesResource.createRole(name),
 				"create_role_succeeded", "create_role_failed");
 	}
@@ -57,7 +57,7 @@ public class RolesController {
 	@GET
 	@Path("{idRole}/edit")
 	@Produces(MediaType.TEXT_HTML)
-	public Viewable editUserForm(@PathParam("idRole") int idRole) {
+	public Viewable editRoleForm(@PathParam("idRole") int idRole) {
 		Role role = _rolesResource.getRole(idRole);
 		return new Viewable("/edit_role", role);
 	}
@@ -66,7 +66,7 @@ public class RolesController {
 	@Path("{idRole}/edit")
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Viewable updateUser(@FormParam("idRole") int idRole,
+	public Viewable updateRole(@FormParam("idRole") int idRole,
 			@FormParam("name") String name) {
 		return Controller.getResponse(_rolesResource.updateRole(idRole, name),
 				"update_role_succeeded", "update_role_failed");

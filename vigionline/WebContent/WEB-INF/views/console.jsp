@@ -1,7 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="header.jsp"%>
 <%@page import="vigionline.common.model.Action"%>
-<div class="pagination pagination-centered">
+<div class="container">
 	<input id="w160" type="button" value="160x120"> <input
 		id="w320" type="button" value="320x240"> <input id="w640"
 		type="button" value="640x480"> <input id="w1024" type="button"
@@ -10,7 +10,7 @@
 		class="bt_off .btn btn-danger .disabled" value="off" style="display:none"/>
 	<ul class="thumbnails">
 		<c:forEach var="camera" items="${it.cameras}">
-			<li class="span3">
+			<li class="span3 offset5">
 				<div class="thumbnail">
 					<img source="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream"
 						src="<%=baseUrl%>/images/no_image.jpg" class="thumb">

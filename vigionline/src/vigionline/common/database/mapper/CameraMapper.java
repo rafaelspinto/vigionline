@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
+import vigionline.common.database.connector.MySqlConnector;
 import vigionline.common.model.Camera;
 
 public class CameraMapper extends Mapper<Camera> {
@@ -33,7 +35,7 @@ public class CameraMapper extends Mapper<Camera> {
 	protected String getByIdQuery() {
 		return "SELECT idCamera, idLocation, idModel, name, url, port, username, password FROM Camera WHERE idCamera = ?";
 	}
-	
+
 	@Override
 	protected String getByNameQuery() {
 		return "SELECT idCamera, idLocation, idModel, name, url, port, username, password FROM Camera WHERE name = ?";
@@ -42,7 +44,10 @@ public class CameraMapper extends Mapper<Camera> {
 	@Override
 	protected PreparedStatement getInsertStatement(Camera camera, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("INSERT INTO Camera (idLocation, idModel, name, url, port, username, password) VALUES(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement prep = con
+				.prepareStatement(
+						"INSERT INTO Camera (idLocation, idModel, name, url, port, username, password) VALUES(?, ?, ?, ?, ?, ?, ?)",
+						Statement.RETURN_GENERATED_KEYS);
 		prep.setInt(1, camera.getIdLocation());
 		prep.setInt(2, camera.getIdModel());
 		prep.setString(3, camera.getName());
@@ -56,7 +61,8 @@ public class CameraMapper extends Mapper<Camera> {
 	@Override
 	protected PreparedStatement getUpdateStatement(Camera camera, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("UPDATE Camera SET idLocation = ?, idModel = ?, name = ?, url = ?, port = ?, username = ?, password = ? WHERE idCamera = ?");
+		PreparedStatement prep = con
+				.prepareStatement("UPDATE Camera SET idLocation = ?, idModel = ?, name = ?, url = ?, port = ?, username = ?, password = ? WHERE idCamera = ?");
 		prep.setInt(1, camera.getIdLocation());
 		prep.setInt(2, camera.getIdModel());
 		prep.setString(3, camera.getName());
@@ -71,8 +77,21 @@ public class CameraMapper extends Mapper<Camera> {
 	@Override
 	protected PreparedStatement getDeleteStatement(int id, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("DELETE FROM Camera WHERE idCamera = ?");
+		PreparedStatement prep = con
+				.prepareStatement("DELETE FROM Camera WHERE idCamera = ?");
 		prep.setInt(1, id);
 		return prep;
+	}
+
+	public List<Camera> getByUsername(String username) throws SQLException {
+		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C" +
+						" INNER JOIN Permission P ON P.idCamera = C.idCamera " +
+						" INNER JOIN User U ON U.username = ? " +
+						" INNER JOIN UserDivision UD ON U.idUser = UD.idUser " +
+						" INNER JOIN Division D ON UD.idDivision = D.idDivision";
+		Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con.prepareStatement(sql);
+		prep.setString(1, username);
+		return getListByPreparedStatement(prep);
 	}
 }

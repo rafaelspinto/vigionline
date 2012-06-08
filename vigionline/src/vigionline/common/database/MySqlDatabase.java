@@ -236,6 +236,11 @@ public class MySqlDatabase implements IDatabase {
 	public List<Camera> getCameras() throws SQLException {
 		return new CameraMapper().getAll();
 	}
+	
+	@Override
+	public List<Camera> getCamerasByUsername(String username) throws SQLException{
+		return new CameraMapper().getByUsername(username);
+	}
 
 	@Override
 	public Camera getCamera(int idCamera) throws SQLException {

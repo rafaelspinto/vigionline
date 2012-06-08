@@ -2,6 +2,7 @@
 <%@ include file="header.jsp"%>
 <%@page import="vigionline.common.model.Action"%>
 <div class="container">
+	${it.username}
 	<input id="w160" type="button" value="160x120"> <input
 		id="w320" type="button" value="320x240"> <input id="w640"
 		type="button" value="640x480"> <input id="w1024" type="button"

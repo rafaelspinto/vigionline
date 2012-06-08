@@ -5,6 +5,7 @@ import java.util.List;
 
 import vigionline.common.model.Action;
 import vigionline.common.model.Camera;
+import vigionline.common.model.Division;
 import vigionline.common.model.Location;
 import vigionline.common.model.Manufacturer;
 import vigionline.common.model.Model;
@@ -79,4 +80,11 @@ public interface IDatabase {
 	
 	/** UserRole **/
 	public List<UserRole> getUsersRoles() throws SQLException;
+	
+	/** Division **/
+	public List<Division> getDivisions() throws SQLException;
+	public Division getDivision(int idDivision) throws SQLException;
+	public int createDivision(Division division) throws SQLException;
+	public int updateDivision(Division division) throws SQLException;
+	public int deleteDivision(int idDivision) throws SQLException;
 }

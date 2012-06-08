@@ -5,6 +5,7 @@ import java.util.List;
 
 import vigionline.common.database.mapper.ActionMapper;
 import vigionline.common.database.mapper.CameraMapper;
+import vigionline.common.database.mapper.DivisionMapper;
 import vigionline.common.database.mapper.LocationMapper;
 import vigionline.common.database.mapper.ManufacturerMapper;
 import vigionline.common.database.mapper.ModelMapper;
@@ -14,6 +15,7 @@ import vigionline.common.database.mapper.UserMapper;
 import vigionline.common.database.mapper.UserRoleMapper;
 import vigionline.common.model.Action;
 import vigionline.common.model.Camera;
+import vigionline.common.model.Division;
 import vigionline.common.model.Location;
 import vigionline.common.model.Manufacturer;
 import vigionline.common.model.Model;
@@ -270,5 +272,30 @@ public class MySqlDatabase implements IDatabase {
 	@Override
 	public List<UserRole> getUsersRoles() throws SQLException {
 		return new UserRoleMapper().getAll();
+	}
+
+	@Override
+	public List<Division> getDivisions() throws SQLException {
+		return new DivisionMapper().getAll();
+	}
+
+	@Override
+	public Division getDivision(int idDivision) throws SQLException {
+		return new DivisionMapper().getById(idDivision);
+	}
+
+	@Override
+	public int createDivision(Division division) throws SQLException {
+		return new DivisionMapper().insert(division);
+	}
+
+	@Override
+	public int updateDivision(Division division) throws SQLException {
+		return new DivisionMapper().update(division);
+	}
+
+	@Override
+	public int deleteDivision(int idDivision) throws SQLException {
+		return new DivisionMapper().delete(idDivision);
 	}
 }

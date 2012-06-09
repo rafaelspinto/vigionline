@@ -1,6 +1,8 @@
 package vigionline.vwc;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
@@ -12,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import vigionline.common.model.Camera;
 import vigionline.common.model.Location;
 import vigionline.vri.LocationsResource;
 
@@ -53,8 +56,12 @@ public class LocationsController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable getLocation(@PathParam("idLocation") int idLocation)
 	{
+		List<Camera> cameras = new LocationsResource().getCameras(idLocation);
 		Location location = _locationsResource.getLocation(idLocation);
-		return new Viewable("/location", location);
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("location", location);
+		data.put("cameras", cameras);
+		return new Viewable("/location", data);
 	}
 	
 	@GET

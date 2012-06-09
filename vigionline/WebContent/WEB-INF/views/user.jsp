@@ -20,6 +20,7 @@
 			<label for="password"><%= messages.getMessage("password") %></label>
 			<input type="password" name="password" value="${it.user.password }" readonly="readonly"/>	
 		</div>
+		<!-- ROLES -->
 		<div class="well">
 			<table class="table table-bordered">
 					<thead>
@@ -33,6 +34,27 @@
 						<tr>
 							<td>${role.idRole }</td>
 							<td><a href="<%=baseUrl %>/roles/${role.idRole }">${role.name}</a></td>
+							<td><input type="checkbox" disabled="disabled" checked="checked"></td>
+						</tr>	
+						</c:forEach>
+					</tbody>	
+				</table>
+		</div>
+		
+		<!-- DIVISIONS -->
+		<div class="well">
+			<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th><%=messages.getMessage("division") %></th>
+							<th><%=messages.getMessage("active") %></th>
+						</tr></thead>
+					<tbody>
+						<c:forEach var="division" items="${it.divisions}">
+						<tr>
+							<td>${division.idDivision }</td>
+							<td><a href="<%=baseUrl %>/divisions/${division.idDivision }">${division.name}</a></td>
 							<td><input type="checkbox" disabled="disabled" checked="checked"></td>
 						</tr>	
 						</c:forEach>

@@ -84,14 +84,33 @@ public class CameraMapper extends Mapper<Camera> {
 	}
 
 	public List<Camera> getByUsername(String username) throws SQLException {
-		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C" +
-						" INNER JOIN Permission P ON P.idCamera = C.idCamera " +
-						" INNER JOIN User U ON U.username = ? " +
-						" INNER JOIN UserDivision UD ON U.idUser = UD.idUser " +
-						" INNER JOIN Division D ON UD.idDivision = D.idDivision";
+		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
+				+ " INNER JOIN Permission P ON P.idCamera = C.idCamera "
+				+ " INNER JOIN User U ON U.username = ? "
+				+ " INNER JOIN UserDivision UD ON U.idUser = UD.idUser "
+				+ " INNER JOIN Division D ON UD.idDivision = D.idDivision";
 		Connection con = MySqlConnector.getConnection();
 		PreparedStatement prep = con.prepareStatement(sql);
 		prep.setString(1, username);
+		return getListByPreparedStatement(prep);
+	}
+
+	public List<Camera> getByDivision(int idDivision) throws SQLException {
+		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
+				+ " INNER JOIN Permission P ON P.idCamera = C.idCamera "
+				+ " INNER JOIN Division D ON P.idDivision = D.idDivision"
+				+ " WHERE D.idDivision = ? ";
+		Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con.prepareStatement(sql);
+		prep.setInt(1, idDivision);
+		return getListByPreparedStatement(prep);
+	}
+
+	public List<Camera> getByLocation(int idLocation) throws SQLException {
+		String sql = getAllQuery() + " WHERE idLocation = ?";
+		Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con.prepareStatement(sql);
+		prep.setInt(1, idLocation);
 		return getListByPreparedStatement(prep);
 	}
 }

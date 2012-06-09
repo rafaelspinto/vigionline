@@ -1,6 +1,8 @@
 package vigionline.vwc;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
@@ -12,7 +14,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import vigionline.common.model.Camera;
 import vigionline.common.model.Division;
+import vigionline.vri.CamerasResource;
 import vigionline.vri.DivisionsResource;
 
 import com.sun.jersey.api.view.Viewable;
@@ -35,7 +39,11 @@ public class DivisionsController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable getDivisionHTML(@PathParam("idDivision") int idDivision) {
 		Division division = _divisionsResource.getDivision(idDivision);
-		return new Viewable("/division", division);
+		List<Camera> cameras = new CamerasResource().getCameras(null,idDivision);
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("division", division);
+		data.put("cameras", cameras);
+		return new Viewable("/division", data);
 	}
 
 	@GET
@@ -59,7 +67,11 @@ public class DivisionsController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable editDivisionForm(@PathParam("idDivision") int idDivision) {
 		Division division = _divisionsResource.getDivision(idDivision);
-		return new Viewable("/edit_division", division);
+		List<Camera> cameras = new CamerasResource().getCameras(null,-1);
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("division", division);
+		data.put("cameras", cameras);
+		return new Viewable("/edit_division", data);
 	}
 
 	@POST
@@ -67,9 +79,11 @@ public class DivisionsController {
 	@Produces(MediaType.TEXT_HTML)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Viewable updateDivision(@FormParam("idDivision") int idDivision,
-			@FormParam("name") String name) {
+			@FormParam("name") String name,
+			@FormParam("cameras") List<Integer> cameras) {
+		
 		return Controller.getResponse(
-				_divisionsResource.updateDivision(idDivision, name),
+				_divisionsResource.updateDivision(idDivision, name, cameras),
 				"update_division_succeeded", "update_division_failed");
 	}
 

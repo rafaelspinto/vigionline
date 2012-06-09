@@ -12,6 +12,7 @@ import vigionline.common.model.Model;
 import vigionline.common.model.Permission;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
+import vigionline.common.model.UserDivision;
 import vigionline.common.model.UserRole;
 
 public interface IDatabase {
@@ -73,6 +74,8 @@ public interface IDatabase {
 	/** Cameras **/
 	public List<Camera> getCameras() throws SQLException;
 	public List<Camera> getCamerasByUsername(String username) throws SQLException;
+	public List<Camera> getCamerasByDivision(int idDivision) throws SQLException;
+	public List<Camera> getCamerasByLocation(int idLocation) throws SQLException;
 	public Camera getCamera(int idCamera) throws SQLException;
 	public int updateCamera(Camera camera) throws SQLException;
 	public int deleteCamera(int idCamera) throws SQLException;
@@ -80,6 +83,7 @@ public interface IDatabase {
 	
 	/** UserRole **/
 	public List<UserRole> getUsersRoles() throws SQLException;
+	public int createUserRole(UserRole ur) throws SQLException;
 	
 	/** Division **/
 	public List<Division> getDivisions() throws SQLException;
@@ -87,4 +91,9 @@ public interface IDatabase {
 	public int createDivision(Division division) throws SQLException;
 	public int updateDivision(Division division) throws SQLException;
 	public int deleteDivision(int idDivision) throws SQLException;
+	public List<Division> getDivisionsForUser(int idUser) throws SQLException;
+	
+	/** UserDivision **/
+	public int createUserDivision(UserDivision ud) throws SQLException;
+	public int clearPermissionsForDivision(int idDivision) throws SQLException;
 }

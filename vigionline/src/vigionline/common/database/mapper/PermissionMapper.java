@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import vigionline.common.database.connector.MySqlConnector;
 import vigionline.common.model.Permission;
 
 public class PermissionMapper extends Mapper<Permission> {
@@ -28,7 +29,7 @@ public class PermissionMapper extends Mapper<Permission> {
 	protected String getByIdQuery() {
 		return "SELECT idPermission, idCamera, idDivision FROM Permission WHERE idPermission";
 	}
-	
+
 	@Override
 	protected String getByNameQuery() {
 		return null;
@@ -37,7 +38,9 @@ public class PermissionMapper extends Mapper<Permission> {
 	@Override
 	protected PreparedStatement getInsertStatement(Permission perm,
 			Connection con) throws SQLException {
-		PreparedStatement prep = con.prepareStatement("INSERT INTO Permission (idCamera, idDivision) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement prep = con.prepareStatement(
+				"INSERT INTO Permission (idCamera, idDivision) VALUES(?,?)",
+				Statement.RETURN_GENERATED_KEYS);
 		prep.setInt(1, perm.getIdCamera());
 		prep.setInt(2, perm.getIdDivision());
 		return prep;
@@ -46,7 +49,8 @@ public class PermissionMapper extends Mapper<Permission> {
 	@Override
 	protected PreparedStatement getUpdateStatement(Permission perm,
 			Connection con) throws SQLException {
-		PreparedStatement prep = con.prepareStatement("UPDATE Permission SET idCamera = ?, idDivision = ? WHERE idPermission = ?");
+		PreparedStatement prep = con
+				.prepareStatement("UPDATE Permission SET idCamera = ?, idDivision = ? WHERE idPermission = ?");
 		prep.setInt(1, perm.getIdCamera());
 		prep.setInt(2, perm.getIdDivision());
 		prep.setInt(3, perm.getIdPermission());
@@ -56,8 +60,18 @@ public class PermissionMapper extends Mapper<Permission> {
 	@Override
 	protected PreparedStatement getDeleteStatement(int id, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("DELETE FROM Permission WHERE idPermission = ?");
+		PreparedStatement prep = con
+				.prepareStatement("DELETE FROM Permission WHERE idPermission = ?");
 		prep.setInt(1, id);
 		return prep;
+	}
+
+	public int deleteByDivision(int idDivision) throws SQLException {
+		try (Connection con = MySqlConnector.getConnection()) {
+			PreparedStatement prep = con
+					.prepareStatement("DELETE FROM Permission WHERE idDivision = ?");
+			prep.setInt(1, idDivision);
+			return prep.executeUpdate();
+		}
 	}
 }

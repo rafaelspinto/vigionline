@@ -40,7 +40,7 @@ public class HomeController {
 	{
 		String username = request.getUserPrincipal().getName();
 		
-		List<Camera> cameras = new CamerasResource().getCameras(username);
+		List<Camera> cameras = new CamerasResource().getCameras(username, -1);
 		List<Location> locations = new LocationsResource().getLocations();
 		Map<String, Object> data = new HashMap<String, Object>();
 		List<Action> actions = new ActionsResource().getActions(-1);

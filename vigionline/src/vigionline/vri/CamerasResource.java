@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -42,13 +43,21 @@ public class CamerasResource {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<Camera> getCameras(@QueryParam("username") String username) {
+	public List<Camera> getCameras(
+			@DefaultValue("null") @QueryParam("username") String username,
+			@DefaultValue("-1") @QueryParam("idDivision") int idDivision) {
 		List<Camera> cameras = null;
 		try {
-			if (username != null && !username.isEmpty())
-				cameras = _database.getCamerasByUsername(username);
-			else
+
+			if (username == null && idDivision == -1)
 				cameras = _database.getCameras();
+			else {
+				if (username != null && !username.isEmpty())
+					cameras = _database.getCamerasByUsername(username);
+				else if (idDivision != -1)
+					cameras = _database.getCamerasByDivision(idDivision);
+			}
+
 		} catch (SQLException e) {
 			throw new WebApplicationException(500);
 		}

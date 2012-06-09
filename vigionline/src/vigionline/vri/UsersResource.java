@@ -128,6 +128,12 @@ public class UsersResource {
 			}
 		}
 
+		// Clear Divisions
+		try {
+			_database.clearDivisionsForUser(idUser);
+		} catch (SQLException e1) {
+			return Response.status(500).build();
+		}
 		for (int idDivision : divisions) {
 			UserDivision ud = new UserDivision();
 			ud.setIdUser(idUser);

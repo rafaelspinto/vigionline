@@ -20,8 +20,9 @@
 							<h5>${location.name} : ${camera.name }</h5>
 							<!-- ------------------- -->
 							<div class="wells">
-								<button class="bt_action btn-mini" menu="menu_${camera.idCamera}"><%= messages.getMessage("actions") %></button>				
+								<button class="btn btn-primary bt_action btn-mini" menu="menu_${camera.idCamera}"><%= messages.getMessage("actions") %></button>	
 								<ul id="menu_${camera.idCamera}" class="action_menu" style="display:none;">
+									<hr>
 									<c:forEach var="action" items="${ it.actions}">
 										<c:if test="${action.idModel == camera.idModel}">
 											

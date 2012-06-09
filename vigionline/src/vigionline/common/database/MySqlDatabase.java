@@ -230,7 +230,7 @@ public class MySqlDatabase implements IDatabase {
 	public int deleteAction(int idAction) throws SQLException {
 		return new ActionMapper().delete(idAction);
 	}
-	
+
 	@Override
 	public List<Action> getActionsForModel(int idModel) throws SQLException {
 		return new ActionMapper().getByIdModel(idModel);
@@ -240,12 +240,13 @@ public class MySqlDatabase implements IDatabase {
 	public List<Camera> getCameras() throws SQLException {
 		return new CameraMapper().getAll();
 	}
-	
+
 	@Override
-	public List<Camera> getCamerasByUsername(String username) throws SQLException{
+	public List<Camera> getCamerasByUsername(String username)
+			throws SQLException {
 		return new CameraMapper().getByUsername(username);
 	}
-	
+
 	@Override
 	public List<Camera> getCamerasByDivision(int idDivision)
 			throws SQLException {
@@ -331,5 +332,10 @@ public class MySqlDatabase implements IDatabase {
 	public List<Camera> getCamerasByLocation(int idLocation)
 			throws SQLException {
 		return new CameraMapper().getByLocation(idLocation);
+	}
+
+	@Override
+	public int clearDivisionsForUser(int idUser) throws SQLException {
+		return new UserDivisionMapper().deleteByUser(idUser);
 	}
 }

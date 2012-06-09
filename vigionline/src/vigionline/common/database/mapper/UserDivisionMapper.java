@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import vigionline.common.database.connector.MySqlConnector;
 import vigionline.common.model.UserDivision;
 
 public class UserDivisionMapper extends Mapper<UserDivision> {
@@ -63,5 +64,14 @@ public class UserDivisionMapper extends Mapper<UserDivision> {
 				.prepareStatement("DELETE FROM UserDivision WHERE idUserDivision = ?");
 		prep.setInt(1, id);
 		return prep;
+	}
+
+	public int deleteByUser(int idUser) throws SQLException {
+		try (Connection con = MySqlConnector.getConnection()) {
+			PreparedStatement prep = con
+					.prepareStatement("DELETE FROM UserDivision WHERE idUser = ?");
+			prep.setInt(1, idUser);
+			return prep.executeUpdate();
+		}
 	}
 }

@@ -96,4 +96,5 @@ public interface IDatabase {
 	/** UserDivision **/
 	public int createUserDivision(UserDivision ud) throws SQLException;
 	public int clearPermissionsForDivision(int idDivision) throws SQLException;
+	public int clearDivisionsForUser(int idUser) throws SQLException;
 }

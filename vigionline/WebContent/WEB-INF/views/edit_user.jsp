@@ -21,6 +21,7 @@
 				for="password"><%= messages.getMessage("password") %></label> <input
 				type="password" name="password" value="${it.user.password }" />
 		</div>
+		<!-- ROLES -->
 		<div class="well">
 			<table class="table table-bordered">
 				<thead>
@@ -36,6 +37,28 @@
 							<td>${role.idRole }</td>
 							<td><a href="<%=baseUrl %>/roles/${role.idRole }">${role.name}</a></td>
 							<td><input name="roles" value="${role.name }"
+								type="checkbox"></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+		<!-- DIVISIONS -->
+		<div class="well">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th><%=messages.getMessage("division") %></th>
+						<th><%=messages.getMessage("active") %></th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="division" items="${it.allDivisions}">
+						<tr>
+							<td>${division.idDivision }</td>
+							<td><a href="<%=baseUrl %>/divisions/${division.idDivision }">${division.name}</a></td>
+							<td><input name="divisions" value="${division.idDivision }"
 								type="checkbox"></td>
 						</tr>
 					</c:forEach>

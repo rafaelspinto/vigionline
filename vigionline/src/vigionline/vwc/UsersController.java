@@ -1,6 +1,5 @@
 package vigionline.vwc;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +14,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.sun.jersey.api.view.Viewable;
-
-import vigionline.common.database.mapper.UserRoleMapper;
+import vigionline.common.model.Division;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
-import vigionline.common.model.UserRole;
+import vigionline.vri.DivisionsResource;
 import vigionline.vri.RolesResource;
 import vigionline.vri.UsersResource;
+
+import com.sun.jersey.api.view.Viewable;
 
 @RolesAllowed("admin")
 @Path("/users")
@@ -43,9 +42,11 @@ public class UsersController {
 	public Viewable getUserHTML(@PathParam("idUser") int idUser) {
 		User user = _usersResource.getUser(idUser);
 		List<Role> roles = _usersResource.getUserRoles(idUser);
+		List<Division> divisions = _usersResource.getUserDivisions(idUser);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("user", user);
 		data.put("roles", roles);
+		data.put("divisions", divisions);
 		return new Viewable("/user", data);
 	}
 
@@ -75,10 +76,12 @@ public class UsersController {
 		User user = _usersResource.getUser(idUser);
 		List<Role> roles = _usersResource.getUserRoles(idUser);
 		List<Role> allRoles = new RolesResource().getRoles();
+		List<Division> allDivisions = new DivisionsResource().getDivisions();
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("user", user);
 		data.put("roles", roles);
 		data.put("allRoles", allRoles);
+		data.put("allDivisions", allDivisions);
 		return new Viewable("/edit_user", data);
 	}
 
@@ -90,25 +93,12 @@ public class UsersController {
 			@FormParam("name") String name,
 			@FormParam("username") String username,
 			@FormParam("password") String password,
-			@FormParam("roles") List<String> roles
-			) {
-		
-		UserRoleMapper urMapper = new  UserRoleMapper();
-		for( String rolename : roles )
-		{
-			UserRole ur = new UserRole();
-			ur.setUsername(username);
-			ur.setRolename(rolename);
-			try {
-				urMapper.insert(ur);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return Controller.getResponse(
-				_usersResource.updateUser(idUser, name, username, password),
-				"update_user_succeeded", "update_user_failed");
+			@FormParam("roles") List<String> roles,
+			@FormParam("divisions") List<Integer> divisions) {
+
+		return Controller.getResponse(_usersResource.updateUser(idUser, name,
+				username, password, roles, divisions), "update_user_succeeded",
+				"update_user_failed");
 	}
 
 	@POST

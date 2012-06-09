@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Division;
+import vigionline.common.model.Permission;
 
 @RolesAllowed("admin")
 @Path("/api/divisions")
@@ -72,10 +73,33 @@ public class DivisionsResource {
 	@Path("{idDivision}/edit")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response updateDivision(@FormParam("idDivision") int idDivision,
-			@FormParam("name") String name) {
+			@FormParam("name") String name,
+			@FormParam("cameras") List<Integer> cameras) {
 		Division division = new Division();
 		division.setIdDivision(idDivision);
 		division.setName(name);
+
+		// Clear Permissions
+		try {
+			_database.clearPermissionsForDivision(idDivision);
+		} catch (SQLException e1) {
+			return Response.status(500).build();
+		}
+		
+		// Set New Permission
+		for (int idCamera : cameras) {
+			Permission perm = new Permission();
+			perm.setIdCamera(idCamera);
+			perm.setIdDivision(idDivision);
+
+			try {
+				_database.createPermission(perm);
+			} catch (SQLException e) {
+				return Response.status(500).build();
+			}
+		}
+
+		// Update Data
 		try {
 			_database.updateDivision(division);
 			return Response.status(200).build();
@@ -83,7 +107,7 @@ public class DivisionsResource {
 			return Response.status(500).build();
 		}
 	}
-	
+
 	@Path("{idDivision}/delete")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response deleteDivision(@FormParam("idDivision") int idDivision) {

@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
+import vigionline.common.model.Camera;
 import vigionline.common.model.Location;
 
 @RolesAllowed("admin")
@@ -96,6 +97,18 @@ public class LocationsResource {
 			return Response.status(200).build();
 		} catch (SQLException e) {
 			return Response.status(500).build();
+		}
+	}
+
+	@GET
+	@Path("{idLocation}/cameras")
+	public List<Camera> getCameras(@PathParam("idLocation") int idLocation) {
+		List<Camera> cameras = null;
+		try {
+			cameras = _database.getCamerasByLocation(idLocation);
+			return cameras;
+		} catch (SQLException e) {
+			throw new WebApplicationException(500);
 		}
 	}
 }

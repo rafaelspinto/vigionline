@@ -17,8 +17,11 @@ import javax.ws.rs.core.Response;
 
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
+import vigionline.common.model.Division;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
+import vigionline.common.model.UserDivision;
+import vigionline.common.model.UserRole;
 
 @RolesAllowed("admin")
 @Path("/api/users")
@@ -54,7 +57,7 @@ public class UsersResource {
 			throw new WebApplicationException(404);
 		return user;
 	}
-	
+
 	@GET
 	@Path("{idUser}/roles")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -68,6 +71,21 @@ public class UsersResource {
 		if (roles == null)
 			throw new WebApplicationException(404);
 		return roles;
+	}
+
+	@GET
+	@Path("{idUser}/divisions")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<Division> getUserDivisions(@PathParam("idUser") int idUser) {
+		List<Division> divisions = null;
+		try {
+			divisions = _database.getDivisionsForUser(idUser);
+		} catch (SQLException e) {
+			throw new WebApplicationException(500);
+		}
+		if (divisions == null)
+			throw new WebApplicationException(404);
+		return divisions;
 	}
 
 	@POST
@@ -94,7 +112,34 @@ public class UsersResource {
 	public Response updateUser(@FormParam("idUser") int idUser,
 			@FormParam("name") String name,
 			@FormParam("username") String username,
-			@FormParam("password") String password) {
+			@FormParam("password") String password,
+			@FormParam("roles") List<String> roles,
+			@FormParam("divisions") List<Integer> divisions) {
+
+		for (String rolename : roles) {
+			UserRole ur = new UserRole();
+			ur.setUsername(username);
+			ur.setRolename(rolename);
+			try {
+				_database.createUserRole(ur);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		for (int idDivision : divisions) {
+			UserDivision ud = new UserDivision();
+			ud.setIdUser(idUser);
+			ud.setIdDivision(idDivision);
+			try {
+				_database.createUserDivision(ud);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 		User user = new User();
 		user.setIdUser(idUser);
 		user.setName(name);

@@ -11,6 +11,7 @@ import vigionline.common.database.mapper.ManufacturerMapper;
 import vigionline.common.database.mapper.ModelMapper;
 import vigionline.common.database.mapper.PermissionMapper;
 import vigionline.common.database.mapper.RoleMapper;
+import vigionline.common.database.mapper.UserDivisionMapper;
 import vigionline.common.database.mapper.UserMapper;
 import vigionline.common.database.mapper.UserRoleMapper;
 import vigionline.common.model.Action;
@@ -22,6 +23,7 @@ import vigionline.common.model.Model;
 import vigionline.common.model.Permission;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
+import vigionline.common.model.UserDivision;
 import vigionline.common.model.UserRole;
 
 public class MySqlDatabase implements IDatabase {
@@ -243,6 +245,12 @@ public class MySqlDatabase implements IDatabase {
 	public List<Camera> getCamerasByUsername(String username) throws SQLException{
 		return new CameraMapper().getByUsername(username);
 	}
+	
+	@Override
+	public List<Camera> getCamerasByDivision(int idDivision)
+			throws SQLException {
+		return new CameraMapper().getByDivision(idDivision);
+	}
 
 	@Override
 	public Camera getCamera(int idCamera) throws SQLException {
@@ -297,5 +305,31 @@ public class MySqlDatabase implements IDatabase {
 	@Override
 	public int deleteDivision(int idDivision) throws SQLException {
 		return new DivisionMapper().delete(idDivision);
+	}
+
+	@Override
+	public List<Division> getDivisionsForUser(int idUser) throws SQLException {
+		return new DivisionMapper().getByUserId(idUser);
+	}
+
+	@Override
+	public int createUserRole(UserRole ur) throws SQLException {
+		return new UserRoleMapper().insert(ur);
+	}
+
+	@Override
+	public int createUserDivision(UserDivision ud) throws SQLException {
+		return new UserDivisionMapper().insert(ud);
+	}
+
+	@Override
+	public int clearPermissionsForDivision(int idDivision) throws SQLException {
+		return new PermissionMapper().deleteByDivision(idDivision);
+	}
+
+	@Override
+	public List<Camera> getCamerasByLocation(int idLocation)
+			throws SQLException {
+		return new CameraMapper().getByLocation(idLocation);
 	}
 }

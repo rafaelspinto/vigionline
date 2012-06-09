@@ -36,7 +36,7 @@ public class CamerasController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable getCamerasHTML()
 	{
-		List<Camera> cameras = _camerasResource.getCameras(null);
+		List<Camera> cameras = _camerasResource.getCameras(null, -1);
 		return new Viewable("/cameras", cameras);
 	}
 	

@@ -11,7 +11,6 @@
 	</ul></li>
 <li class="divider-vertical"></li>
 
-
 <!-- MANUFACTURERS -->
 <li class="dropdown"><a class="dropdown-toggle"
 	data-toggle="dropdown" href="#"> <%= messages.getMessage("manufacturers") %>
@@ -60,6 +59,18 @@
 	</ul></li>
 <li class="divider-vertical"></li>
 
+<!-- DIVISIONS -->
+<li class="dropdown"><a class="dropdown-toggle"
+	data-toggle="dropdown" href="#"> <%= messages.getMessage("divisions") %>
+		<b class="caret"></b>
+</a>
+	<ul id="menu-divisions" class="dropdown-menu">
+		<li><a href="<%= baseUrl %>/divisions"><%= messages.getMessage("all") %></a></li>
+		<li class="divider"></li>
+		<li><a href="<%= baseUrl %>/divisions/create"><%= messages.getMessage("create_division") %></a></li>
+	</ul></li>
+<li class="divider-vertical"></li>
+
 <!-- USERS -->
 <li class="dropdown"><a class="dropdown-toggle"
 	data-toggle="dropdown" href="#"> <%= messages.getMessage("users") %>
@@ -71,13 +82,14 @@
 		<li><a href="<%= baseUrl %>/users/create"><%= messages.getMessage("create_user") %></a></li>
 	</ul></li>
 <li class="divider-vertical"></li>
-<li class="dropdown">
-	<!-- ROLES --> <a class="dropdown-toggle" data-toggle="dropdown"
-	href="#"> <%= messages.getMessage("roles") %> <b class="caret"></b>
+
+<!-- ROLES -->
+<li class="dropdown"><a class="dropdown-toggle"
+	data-toggle="dropdown" href="#"> <%= messages.getMessage("roles") %>
+		<b class="caret"></b>
 </a>
 	<ul id="menu-roles" class="dropdown-menu">
 		<li><a href="<%= baseUrl %>/roles"><%= messages.getMessage("all") %></a></li>
 		<li class="divider"></li>
 		<li><a href="<%= baseUrl %>/roles/create"><%= messages.getMessage("create_role") %></a></li>
-	</ul>
-</li>
+	</ul></li>

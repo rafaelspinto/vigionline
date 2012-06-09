@@ -10,7 +10,7 @@
 	<table class="table table-bordered">
 		<tbody>
 			<c:forEach var="item" items="${it}">
-				<tr>
+				<tr><td>${item.idDivision}</td>
 					<td><a href="<%=baseUrl %>/divisions/${item.idDivision }">
 							${item.name}</a></td>
 				</tr>

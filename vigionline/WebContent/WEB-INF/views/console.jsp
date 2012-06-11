@@ -17,6 +17,7 @@
 						src="<%=baseUrl%>/images/no_image.jpg" class="thumb">
 					<c:forEach var="location" items="${it.locations}">
 						<c:if test="${location.idLocation == camera.idLocation }">
+							<div class="record_status" url="<%=baseUrl %>/api/cameras/${camera.idCamera}/recordstatus"></div>
 							<h5>${location.name} : ${camera.name }</h5>
 							<!-- ------------------- -->
 							<div class="wells">
@@ -101,5 +102,21 @@
 	   $(".bt_action").click(function(){
 		   $("#"+$(this).attr("menu")).slideToggle();
 	   });
+	   
+	   function pollRecordStatus(url, container)
+	   {
+		   $.get(url, function(data) {
+			   if(data == 'true')
+				   data = '<img width="20px" src="'+'<%=baseUrl%>/images/icons/recording.png'+'" />';
+				else
+				   data = '<img width="20px" src="'+'<%=baseUrl%>/images/icons/no_recording.png'+'" />';
+		        $(container).html(data);
+		        setTimeout(function(){ pollRecordStatus(url, container); },10000);
+		    });
+	   }
+	      $(".record_status").each(function(){
+				   var url = $(this).attr("url");
+				   pollRecordStatus(url,this);
+	   		}); 
 	</script>
 <%@ include file="footer.jsp"%>

@@ -116,6 +116,17 @@ public class UsersResource {
 			@FormParam("roles") List<String> roles,
 			@FormParam("divisions") List<Integer> divisions) {
 
+		
+		// Clear Roles
+		try
+		{
+			_database.clearRolesForUser(username);
+		} catch( SQLException e)
+		{
+			return Response.status(500).build();
+		}
+		
+		// Set new Roles
 		for (String rolename : roles) {
 			UserRole ur = new UserRole();
 			ur.setUsername(username);

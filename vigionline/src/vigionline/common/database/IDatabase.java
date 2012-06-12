@@ -84,6 +84,7 @@ public interface IDatabase {
 	/** UserRole **/
 	public List<UserRole> getUsersRoles() throws SQLException;
 	public int createUserRole(UserRole ur) throws SQLException;
+	public int clearRolesForUser(String username) throws SQLException;
 	
 	/** Division **/
 	public List<Division> getDivisions() throws SQLException;

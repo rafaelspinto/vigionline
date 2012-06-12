@@ -338,4 +338,9 @@ public class MySqlDatabase implements IDatabase {
 	public int clearDivisionsForUser(int idUser) throws SQLException {
 		return new UserDivisionMapper().deleteByUser(idUser);
 	}
+
+	@Override
+	public int clearRolesForUser(String username) throws SQLException {
+		return new UserRoleMapper().deleteByUser(username);
+	}
 }

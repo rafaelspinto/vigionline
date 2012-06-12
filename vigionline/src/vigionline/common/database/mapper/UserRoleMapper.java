@@ -79,4 +79,13 @@ public class UserRoleMapper extends Mapper<UserRole> {
 			return false;
 		}
 	}
+
+	public int deleteByUser(String username) throws SQLException {
+		try (Connection con = MySqlConnector.getConnection()) {
+			PreparedStatement prep = con
+					.prepareStatement("DELETE FROM UserRole WHERE username = ?");
+			prep.setString(1, username);
+			return prep.executeUpdate();
+		}
+	}
 }

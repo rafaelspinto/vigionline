@@ -2,7 +2,6 @@
 <%@ include file="header.jsp"%>
 <%@page import="vigionline.common.model.Action"%>
 <div class="container">
-	${it.username}
 	<input id="w160" type="button" value="160x120"> <input
 		id="w320" type="button" value="320x240"> <input id="w640"
 		type="button" value="640x480"> <input id="w1024" type="button"
@@ -19,7 +18,8 @@
 						<c:if test="${location.idLocation == camera.idLocation }">
 							<div class="record_status" url="<%=baseUrl %>/api/cameras/${camera.idCamera}/recordstatus"></div>
 							<h5>${location.name} : ${camera.name }</h5>
-							<!-- ------------------- -->
+							<!-- ------ ACTIONS ------- -->
+							<% if(isAdmin) { %>
 							<div class="wells">
 								<button class="btn btn-primary bt_action btn-mini" menu="menu_${camera.idCamera}"><%= messages.getMessage("actions") %></button>	
 								<ul id="menu_${camera.idCamera}" class="action_menu" style="display:none;">
@@ -35,6 +35,7 @@
 									</c:forEach>
 								</ul>
 							</div>
+							<% } %>
 							<!-- ------------------- -->
 						</c:if>
 					</c:forEach>

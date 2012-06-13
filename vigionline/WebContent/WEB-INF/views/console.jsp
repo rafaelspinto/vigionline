@@ -102,9 +102,9 @@
 		   $(this).hide();
 		   e.preventDefault();
 		 	$(".thumb").each(function(){
-		 		$(this).hide();
 		 		$(this).attr("src","#");
-				$(this).attr("src",'<%=baseUrl%>/images/no_image.jpg');
+		 		$(this).hide();
+		 		$(this).attr("src",'<%=baseUrl%>/images/no_image.jpg');
 				$(this).show();
 			});
 		});

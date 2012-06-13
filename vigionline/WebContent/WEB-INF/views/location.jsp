@@ -42,7 +42,7 @@
 	<script type="text/javascript">
 		$(function()
 		{
-			AppendToMenu("menu-locations", "<%= baseUrl %>/locations/${it.idLocation }/edit", "<%= messages.getMessage("edit_location") %>");
+			AppendToMenu("menu-locations", "<%= baseUrl %>/locations/${it.location.idLocation }/edit", "<%= messages.getMessage("edit_location") %>");
 		});
 	</script>
 <%@ include file="footer.jsp"%>

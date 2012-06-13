@@ -122,16 +122,9 @@
 	   {
 		   $.get(url, function(data) {
 			   if(data == 'true')
-				{
-				   //data = '<img src="'+'<%=baseUrl%>/images/icons/recording.png'+'" />';
 				   $(container).attr("src", "<%=baseUrl%>/images/icons/recording.png");
-				}
 				else
-				{
-				   //data = '<img src="'+'<%=baseUrl%>'+ '/images/icons/no_recording.png' + '" />';
 				   $(container).attr("src", "<%=baseUrl%>/images/icons/no_recording.png");
-				}
-			$(container).html(data);
 			setTimeout(function() {
 				pollRecordStatus(url, container);
 			}, 10000);

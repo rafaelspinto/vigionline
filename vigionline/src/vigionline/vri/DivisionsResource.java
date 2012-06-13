@@ -86,7 +86,7 @@ public class DivisionsResource {
 			return Response.status(500).build();
 		}
 		
-		// Set New Permission
+		// Set New Permissions
 		for (int idCamera : cameras) {
 			Permission perm = new Permission();
 			perm.setIdCamera(idCamera);

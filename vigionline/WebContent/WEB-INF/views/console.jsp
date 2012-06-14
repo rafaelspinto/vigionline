@@ -22,21 +22,30 @@
 							<img source="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream" src="<%=baseUrl%>/images/no_image.jpg" class="thumb">
 							<div class="pagination pagination-centered">
 								<b>${location.name} : ${camera.name }</b>
-								<img class="record_status" url="<%=baseUrl %>/api/cameras/${camera.idCamera}/recordstatus">
+								<img class="record_status" url="<%=baseUrl %>/api/actions/recordstatus?idCamera=${camera.idCamera}">
 								<br />
-								<button id="bt_menu_${camera.idCamera}" class="btn bt_action btn-mini"	menu="menu_${camera.idCamera}" disabled="true"><%= messages.getMessage("actions") %><span class="caret"></span></button>
+								<button id="bt_menu_${camera.idCamera}" class="btn btn-primary bt_action btn-mini"	menu="menu_${camera.idCamera}"><%= messages.getMessage("actions") %><span class="caret"></span></button>
 							</div>
 							
 							<!-- BEGIN ACTIONS -->
 							<% if(isAdmin) { %>
 							<div class="wells">
 								<ul id="menu_${camera.idCamera}" class="action_menu" style="display: none;">
+									<a class="bt_act" action="<%=baseUrl %>/api/actions/record?idCamera=${camera.idCamera}">
+										<img src="<%=baseUrl%>/images/icons/record.png" />
+									</a>
+									<a class="bt_act" action="<%=baseUrl %>/api/actions/stoprecord?idCamera=${camera.idCamera}">
+										<img src="<%=baseUrl%>/images/icons/stop_record.png" />
+									</a>
+								
 									<c:forEach var="action" items="${ it.actions}">
 										<c:if test="${action.idModel == camera.idModel}">
+										<!-- 
 											<script type="text/javascript">
 											$("#"+"bt_menu_${camera.idCamera}").attr("disabled",false);
 											$("#"+"bt_menu_${camera.idCamera}").attr("class","btn btn-primary bt_action btn-mini");
 										</script>
+										 -->
 											<a class="bt_act"
 												action="<%=baseUrl %>/api/actions/${action.idAction }/execute?idCamera=${camera.idCamera}">
 												<img src="<%=baseUrl%>/images/icons/${action.name}.png" />

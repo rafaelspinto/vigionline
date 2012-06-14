@@ -24,8 +24,6 @@ import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
-import vigionline.vce.record.RecordHandler;
-import vigionline.vce.record.Recorder;
 import vigionline.vce.stream.iterator.DatabaseStreamIterator;
 import vigionline.vce.stream.iterator.LocalStreamIterator;
 import vigionline.vce.stream.iterator.StreamIteratorFactory;
@@ -38,8 +36,7 @@ public class CamerasResource {
 
 	private final IDatabase _database = DatabaseLocator.Get();
 
-	private @Context
-	ServletContext _contextHandler;
+	private @Context ServletContext _contextHandler;
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -179,54 +176,6 @@ public class CamerasResource {
 			return Response.ok(consumer).build();
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new WebApplicationException(500);
-		}
-	}
-
-	/*************************** Recording STUFF ***************************/
-	@GET
-	@Path("{idCamera}/record")
-	public Response startRecord(@PathParam("idCamera") final int idCamera) {
-		try {
-			final Camera camera = _database.getCamera(idCamera);
-			final Model model = _database.getModel(camera.getIdModel());
-			RecordHandler recordHandler = ((RecordHandler) _contextHandler
-					.getAttribute("RecordHandler"));
-			StreamHandler streamHandler = ((StreamHandler) _contextHandler
-					.getAttribute("StreamHandler"));
-			recordHandler.submitRecorder(camera, model, streamHandler);
-			return Response.ok().build();
-		} catch (Exception e) {
-			throw new WebApplicationException(500);
-		}
-	}
-
-	@GET
-	@Path("{idCamera}/stoprecord")
-	public Response stopRecord(@PathParam("idCamera") final int idCamera) {
-		try {
-			final Camera camera = _database.getCamera(idCamera);
-			RecordHandler recordHandler = ((RecordHandler) _contextHandler
-					.getAttribute("RecordHandler"));
-			recordHandler.stopRecorder(camera);
-			return Response.ok().build();
-		} catch (Exception e) {
-			throw new WebApplicationException(500);
-		}
-	}
-
-	@GET
-	@Path("{idCamera}/recordstatus")
-	public Response recordStatus(@PathParam("idCamera") final int idCamera) {
-		try {
-			final Camera camera = _database.getCamera(idCamera);
-			RecordHandler recordHandler = ((RecordHandler) _contextHandler
-					.getAttribute("RecordHandler"));
-			Recorder recorder = recordHandler.getRecorder(camera);
-			boolean recordingStatus = (recorder == null ? false : recorder
-					.stillRecording());
-			return Response.ok(String.valueOf(recordingStatus)).build();
-		} catch (Exception e) {
 			throw new WebApplicationException(500);
 		}
 	}

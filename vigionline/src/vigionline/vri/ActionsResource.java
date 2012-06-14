@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -15,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -24,14 +26,19 @@ import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Action;
 import vigionline.common.model.Camera;
+import vigionline.common.model.Model;
 import vigionline.vce.ActionExecuter;
+import vigionline.vce.record.RecordHandler;
+import vigionline.vce.record.Recorder;
+import vigionline.vce.stream.virtual.StreamHandler;
 
 @RolesAllowed("admin")
 @Path("/api/actions")
 public class ActionsResource {
 
 	private final IDatabase _database = DatabaseLocator.Get();
-
+	private @Context ServletContext _contextHandler;
+	
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public List<Action> getActions(
@@ -141,5 +148,48 @@ public class ActionsResource {
 			e.printStackTrace();
 		}
 		throw new WebApplicationException(404);
+	}
+	
+	/*************************** Recording STUFF ***************************/
+	@GET
+	@Path("record")
+	public Response startRecord(@QueryParam("idCamera") final int idCamera) {
+		try {
+			final Camera camera = _database.getCamera(idCamera);
+			final Model model = _database.getModel(camera.getIdModel());
+			RecordHandler recordHandler = ((RecordHandler) _contextHandler.getAttribute("RecordHandler"));
+			StreamHandler streamHandler = ((StreamHandler) _contextHandler.getAttribute("StreamHandler"));
+			recordHandler.submitRecorder(camera, model, streamHandler);
+			return Response.ok().build();
+		} catch (Exception e) {
+			throw new WebApplicationException(500);
+		}
+	}
+
+	@GET
+	@Path("stoprecord")
+	public Response stopRecord(@QueryParam("idCamera") final int idCamera) {
+		try {
+			final Camera camera = _database.getCamera(idCamera);
+			RecordHandler recordHandler = ((RecordHandler) _contextHandler.getAttribute("RecordHandler"));
+			recordHandler.stopRecorder(camera);
+			return Response.ok().build();
+		} catch (Exception e) {
+			throw new WebApplicationException(500);
+		}
+	}
+
+	@GET
+	@Path("recordstatus")
+	public Response recordStatus(@QueryParam("idCamera") final int idCamera) {
+		try {
+			final Camera camera = _database.getCamera(idCamera);
+			RecordHandler recordHandler = ((RecordHandler) _contextHandler.getAttribute("RecordHandler"));
+			Recorder recorder = recordHandler.getRecorder(camera);
+			boolean recordingStatus = (recorder == null ? false : recorder.stillRecording());
+			return Response.ok(String.valueOf(recordingStatus)).build();
+		} catch (Exception e) {
+			throw new WebApplicationException(500);
+		}
 	}
 }

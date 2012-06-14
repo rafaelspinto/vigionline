@@ -19,7 +19,7 @@
 					<c:forEach var="location" items="${it.locations}">
 						<% boolean hasShown = false; %>
 						<c:if test="${location.idLocation == camera.idLocation }">
-							<img source="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream" src="<%=baseUrl%>/images/no_image.jpg" class="thumb">
+							<img source="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream?_=<%= System.currentTimeMillis() %>" src="<%=baseUrl%>/images/no_image.jpg" class="thumb">
 							<div class="pagination pagination-centered">
 								<b>${location.name} : ${camera.name }</b>
 								<img class="record_status" url="<%=baseUrl %>/api/actions/recordstatus?idCamera=${camera.idCamera}">
@@ -31,10 +31,10 @@
 							<% if(isAdmin) { %>
 							<div class="wells">
 								<ul id="menu_${camera.idCamera}" class="action_menu" style="display: none;">
-									<a class="bt_act" action="<%=baseUrl %>/api/actions/record?idCamera=${camera.idCamera}">
+									<a class="bt_act" action="<%=baseUrl %>/api/actions/record?idCamera=${camera.idCamera}&_=<%= System.currentTimeMillis() %>">
 										<img src="<%=baseUrl%>/images/icons/record.png" />
 									</a>
-									<a class="bt_act" action="<%=baseUrl %>/api/actions/stoprecord?idCamera=${camera.idCamera}">
+									<a class="bt_act" action="<%=baseUrl %>/api/actions/stoprecord?idCamera=${camera.idCamera}&_=<%= System.currentTimeMillis() %>">
 										<img src="<%=baseUrl%>/images/icons/stop_record.png" />
 									</a>
 								
@@ -47,7 +47,7 @@
 										</script>
 										 -->
 											<a class="bt_act"
-												action="<%=baseUrl %>/api/actions/${action.idAction }/execute?idCamera=${camera.idCamera}">
+												action="<%=baseUrl %>/api/actions/${action.idAction }/execute?idCamera=${camera.idCamera}&_=<%= System.currentTimeMillis() %>">
 												<img src="<%=baseUrl%>/images/icons/${action.name}.png" />
 											</a>
 										</c:if>
@@ -129,15 +129,18 @@
 	   
 	   function pollRecordStatus(url, container)
 	   {
-		   $.get(url, function(data) {
-			   if(data == 'true')
-				   $(container).attr("src", "<%=baseUrl%>/images/icons/recording.png");
-				else
-				   $(container).attr("src", "<%=baseUrl%>/images/icons/no_recording.png");
-			setTimeout(function() {
-				pollRecordStatus(url, container);
-			}, 10000);
-		});
+		   $.ajax({
+			   url: url,
+			   cache : false
+			 }).done(function(data) { 
+				 if(data == 'true')
+					   $(container).attr("src", "<%=baseUrl%>/images/icons/recording.png");
+					else
+					   $(container).attr("src", "<%=baseUrl%>/images/icons/no_recording.png");
+				setTimeout(function() {
+					pollRecordStatus(url, container);
+				}, 10000);
+			 });
 	}
 	$(".record_status").each(function() {
 		var url = $(this).attr("url");

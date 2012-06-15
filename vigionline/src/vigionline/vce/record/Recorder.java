@@ -45,7 +45,8 @@ public class Recorder implements Runnable {
 				iterator = StreamIteratorFactory.getLocalStreamIterator(
 						_streamHandler, _camera, _model);
 				while (iterator.hasNext() && !STOP_RECORDING.booleanValue()) {
-					byte[] image = iterator.next();
+					byte[] image = null;
+					//byte[] image = iterator.next();
 					try {
 						Date date = new Date(System.currentTimeMillis());
 						writeToDB(image, date);

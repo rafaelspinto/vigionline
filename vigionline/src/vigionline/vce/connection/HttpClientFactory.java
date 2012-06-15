@@ -38,7 +38,7 @@ public class HttpClientFactory extends DefaultHttpClient {
 			client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
 					proxy);
 		}
-		client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(10, true));
+		//client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(10, true));
 		return client;
 	}
 }

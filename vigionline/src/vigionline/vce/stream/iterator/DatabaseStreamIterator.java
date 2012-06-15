@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import vigionline.common.Utils;
 import vigionline.common.database.mapper.ImageMapper;
 
-public class DatabaseStreamIterator extends StreamIterator<byte[]> {
+public class DatabaseStreamIterator extends StreamIterator<Messages.Message> {
 
 	private ResultSet _cursor;
 	private boolean _hasNext;
@@ -28,15 +28,18 @@ public class DatabaseStreamIterator extends StreamIterator<byte[]> {
 	}
 
 	@Override
-	public byte[] next() {
+	public Messages.Message next() {
 		try {
 			/** File might not exist in filesystem **/
 			while (!_cursor.isLast()) {
 				_cursor.next();
 				byte[] image = Utils.jpegToByteArray(new File(_cursor
 						.getString("filename")));
-				if (image != null)
-					return image;
+				if (image != null) {
+					Messages.ImageMessage img = new Messages.ImageMessage();
+					img.image = image;
+					return img;
+				}
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block

@@ -2,7 +2,7 @@ package vigionline.vce.stream.iterator;
 
 import vigionline.vce.stream.virtual.StreamBroker;
 
-public class LocalStreamIterator extends StreamIterator<byte[]> {
+public class LocalStreamIterator extends StreamIterator<Messages.Message> {
 
 	private StreamBroker _broker;
 	private int _idConsumer;
@@ -14,11 +14,11 @@ public class LocalStreamIterator extends StreamIterator<byte[]> {
 
 	@Override
 	public boolean hasNext() {
-		return _broker._isProducing;
+		return _broker._isProducing.booleanValue();
 	}
 
 	@Override
-	public byte[] next() {
+	public Messages.Message next() {
 		try {
 			return _broker.get(_idConsumer);
 		} catch (InterruptedException e) {
@@ -35,7 +35,7 @@ public class LocalStreamIterator extends StreamIterator<byte[]> {
 
 	@Override
 	public boolean isEndOfStream() {
-		return ! _broker._isProducing;
+		return ! _broker._isProducing.booleanValue();
 	}
 
 	@Override

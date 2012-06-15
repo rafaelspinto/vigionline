@@ -17,14 +17,13 @@ public class StreamProducer implements Runnable {
 	private StreamBroker _broker;
 	private Camera _camera;
 	private Model _model;
-	private boolean _stopProducing;
 
-	public StreamProducer(StreamHandler streamHandler, StreamBroker broker, Camera camera, Model model) {
+	public StreamProducer(StreamHandler streamHandler, StreamBroker broker,
+			Camera camera, Model model) {
 		this._streamHandler = streamHandler;
 		this._broker = broker;
 		this._camera = camera;
 		this._model = model;
-		this._stopProducing = false;
 	}
 
 	@Override
@@ -36,14 +35,11 @@ public class StreamProducer implements Runnable {
 			conManager = new ConnectionManager(_camera, _model);
 			iterator = new RemoteStreamIterator(conManager, _model);
 
-			while (iterator.hasNext() && !_stopProducing && !_broker.isEmpty()) {
+			while (iterator.hasNext() && !_broker.isEmpty()) {
 				Messages.ImageMessage img = new Messages.ImageMessage();
 				img.image = iterator.next();
 				_broker.put(img);
 			}
-		} catch (InterruptedException ie) {
-			// TODO Auto-generated catch block
-			ie.printStackTrace();
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,12 +51,7 @@ public class StreamProducer implements Runnable {
 			iterator = null;
 			_broker._isProducing = Boolean.FALSE;
 			_streamHandler.removeProducer(_camera.getIdCamera());
-			try {
-				_broker.put(new Messages.PoisonMessage());
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			_broker.put(new Messages.PoisonMessage());
 		}
 	}
 

@@ -52,6 +52,7 @@ public class ConnectionManager {
 	}
 
 	public void shutdown() {
+		_getMethod.releaseConnection();
 		_httpClient.getConnectionManager().shutdown();
 	}
 }

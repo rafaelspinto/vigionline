@@ -15,25 +15,31 @@ public class ActionExecuter {
 
 	private Camera _camera;
 	private Action _action;
-	
-	public ActionExecuter(Camera camera, Action action)
-	{
+
+	public ActionExecuter(Camera camera, Action action) {
 		this._camera = camera;
 		this._action = action;
 	}
-	
-	public HttpResponse execute() throws ClientProtocolException, IOException
-	{
+
+	public HttpResponse execute() throws ClientProtocolException, IOException {
 		HttpResponse response = null;
-		DefaultHttpClient client = HttpClientFactory.getHttpClient(_camera.getUsername(), _camera.getPassword());
+		DefaultHttpClient client = HttpClientFactory.getHttpClient(
+				_camera.getUsername(), _camera.getPassword());
 		/*** ACTION 1 ***/
-		if(_action.getAction1() != null)
-			response = client.execute(new HttpGet(_camera.getUrl()+":"+_camera.getPort()+"/"+_action.getAction1()));
-		
+		if (_action.getAction1() != null) {
+			HttpGet get = new HttpGet(_camera.getUrl() + ":"
+					+ _camera.getPort() + "/" + _action.getAction1());
+			response = client.execute(get);
+			get.releaseConnection();
+		}
+
 		/*** ACTION 2 ***/
-		if(_action.getAction2() != null)
-			response = client.execute(new HttpGet(_camera.getUrl()+":"+_camera.getPort()+"/"+_action.getAction2()));
-		
+		if (_action.getAction2() != null) {
+			HttpGet get = new HttpGet(_camera.getUrl() + ":"
+					+ _camera.getPort() + "/" + _action.getAction2());
+			response = client.execute(get);
+			get.releaseConnection();
+		}
 		return response;
 	}
 }

@@ -25,7 +25,7 @@ public final class StreamBroker {
 		_queue.remove(idQueue);
 	}
 
-	public void put(Messages.Message image) throws InterruptedException {
+	public void put(Messages.Message image) {
 		if (image != null) {
 			for (ArrayBlockingQueue<Messages.Message> q : _queue.values())
 				q.offer(image);

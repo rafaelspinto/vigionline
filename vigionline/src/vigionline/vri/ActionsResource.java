@@ -159,6 +159,7 @@ public class ActionsResource {
 			final Model model = _database.getModel(camera.getIdModel());
 			RecordHandler recordHandler = ((RecordHandler) _contextHandler.getAttribute("RecordHandler"));
 			StreamHandler streamHandler = ((StreamHandler) _contextHandler.getAttribute("StreamHandler"));
+			System.out.println("Submitting recorder");
 			recordHandler.submitRecorder(camera, model, streamHandler);
 			return Response.ok().build();
 		} catch (Exception e) {
@@ -172,6 +173,7 @@ public class ActionsResource {
 		try {
 			final Camera camera = _database.getCamera(idCamera);
 			RecordHandler recordHandler = ((RecordHandler) _contextHandler.getAttribute("RecordHandler"));
+			System.out.println("Stopping recorder");
 			recordHandler.stopRecorder(camera);
 			return Response.ok().build();
 		} catch (Exception e) {

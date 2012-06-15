@@ -19,7 +19,7 @@
 					<c:forEach var="location" items="${it.locations}">
 						<% boolean hasShown = false; %>
 						<c:if test="${location.idLocation == camera.idLocation }">
-							<img source="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream?_=<%= System.currentTimeMillis() %>" src="<%=baseUrl%>/images/no_image.jpg" class="thumb">
+							<img source="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream" src="<%=baseUrl%>/images/no_image.jpg" class="thumb">
 							<div class="pagination pagination-centered">
 								<b>${location.name} : ${camera.name }</b>
 								<img class="record_status" url="<%=baseUrl %>/api/actions/recordstatus?idCamera=${camera.idCamera}">
@@ -31,10 +31,10 @@
 							<% if(isAdmin) { %>
 							<div class="wells">
 								<ul id="menu_${camera.idCamera}" class="action_menu" style="display: none;">
-									<a class="bt_act" action="<%=baseUrl %>/api/actions/record?idCamera=${camera.idCamera}&_=<%= System.currentTimeMillis() %>">
+									<a class="bt_act" action="<%=baseUrl %>/api/actions/record?idCamera=${camera.idCamera}">
 										<img src="<%=baseUrl%>/images/icons/record.png" />
 									</a>
-									<a class="bt_act" action="<%=baseUrl %>/api/actions/stoprecord?idCamera=${camera.idCamera}&_=<%= System.currentTimeMillis() %>">
+									<a class="bt_act" action="<%=baseUrl %>/api/actions/stoprecord?idCamera=${camera.idCamera}">
 										<img src="<%=baseUrl%>/images/icons/stop_record.png" />
 									</a>
 								
@@ -47,7 +47,7 @@
 										</script>
 										 -->
 											<a class="bt_act"
-												action="<%=baseUrl %>/api/actions/${action.idAction }/execute?idCamera=${camera.idCamera}&_=<%= System.currentTimeMillis() %>">
+												action="<%=baseUrl %>/api/actions/${action.idAction }/execute?idCamera=${camera.idCamera}">
 												<img src="<%=baseUrl%>/images/icons/${action.name}.png" />
 											</a>
 										</c:if>
@@ -103,7 +103,7 @@
 		   e.preventDefault();  
 			$(".thumb").each(function(){
 				var on_src=$(this).attr("source");
-				$(this).attr("src",on_src);
+				$(this).attr("src",on_src+"?_=<%= System.currentTimeMillis() %>");
 			});
 		});
 	   $(".bt_off").click(function(e){
@@ -119,7 +119,11 @@
 		});
 	   $(".bt_act").click(function () {
 		   var url = $(this).attr("action");
-		   $.get(url);
+		   $.ajax({
+			   url : url,
+			   cache : false
+		   });
+		   
 		   return false;
 		  });
 	   

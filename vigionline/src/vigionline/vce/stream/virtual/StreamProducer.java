@@ -7,6 +7,7 @@ import org.apache.http.client.ClientProtocolException;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 import vigionline.vce.connection.ConnectionManager;
+import vigionline.vce.stream.iterator.Messages;
 import vigionline.vce.stream.iterator.RemoteStreamIterator;
 import vigionline.vce.stream.iterator.StreamIterator;
 
@@ -36,9 +37,10 @@ public class StreamProducer implements Runnable {
 			iterator = new RemoteStreamIterator(conManager, _model);
 
 			while (iterator.hasNext() && !_stopProducing && !_broker.isEmpty()) {
-				_broker.put(iterator.next());
+				Messages.ImageMessage img = new Messages.ImageMessage();
+				img.image = iterator.next();
+				_broker.put(img);
 			}
-
 		} catch (InterruptedException ie) {
 			// TODO Auto-generated catch block
 			ie.printStackTrace();
@@ -52,7 +54,13 @@ public class StreamProducer implements Runnable {
 			conManager = null;
 			iterator = null;
 			_broker._isProducing = Boolean.FALSE;
-			_streamHandler.removeProducer(_camera.getIdCamera());			
+			_streamHandler.removeProducer(_camera.getIdCamera());
+			try {
+				_broker.put(new Messages.PoisonMessage());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

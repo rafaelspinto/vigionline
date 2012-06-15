@@ -69,8 +69,7 @@
 </div>
 <script type="text/javascript">
 		$('.thumb').error(function(){
-	        console.log(this.src);
-	        this.src = '<%=baseUrl%>/images/no_image.jpg';
+		     $(this).attr("src","<%=baseUrl%>/images/no_connection.png");
 		});
 		
 		$("#w160").click(function() {
@@ -97,6 +96,7 @@
             setSize(320,240,'3');
     	});
 	   $(".bt_on").click(function(e){
+		   $(this).attr("src","#");
 		   $(".thumb").attr("src",'<%=baseUrl%>/images/loading.gif');
 		   $(".bt_off").show();
 		   $(this).hide();

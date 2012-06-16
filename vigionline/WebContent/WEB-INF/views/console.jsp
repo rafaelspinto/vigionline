@@ -127,24 +127,31 @@
 		   $("#"+$(this).attr("menu")).slideToggle();
 	   });
 	   
-	   function pollRecordStatus(url, container)
-	   {
-		   $.ajax({
-			   url: url,
-			   cache : false
-			 }).done(function(data) { 
-				 if(data == 'true')
-					   $(container).attr("src", "<%=baseUrl%>/img/icons/recording.png");
-					else
-					   $(container).attr("src", "<%=baseUrl%>/img/icons/no_recording.png");
-				setTimeout(function() {
-					pollRecordStatus(url, container);
-				}, 10000);
-			 });
-	}
-	$(".record_status").each(function() {
-		var url = $(this).attr("url");
-		pollRecordStatus(url, this);
-	});
+	   function pollRecordStatus()
+	   {   
+			if( stillPolling == 0 )
+			{
+			 	$(".record_status").each(function() {
+		 			var url = $(this).attr("url");
+		 			var obj = this;
+		 			stillPolling++;
+		 			$.ajax({
+		  			   url: url,
+		  			   cache : false
+		  			 }).done(function(data) { 
+		  				 if(data == 'true')
+		 					   $(obj).attr("src", "<%=baseUrl%>/img/icons/recording.png");
+		  					else
+		 					   $(obj).attr("src", "<%=baseUrl%>/img/icons/no_recording.png");
+		  				stillPolling--;
+		  			 });
+		 		});
+			}
+			setTimeout(function() {
+				pollRecordStatus();
+			}, 10000);
+		}
+	   var stillPolling = 0;
+	   pollRecordStatus();
 </script>
 <%@ include file="footer.jsp"%>

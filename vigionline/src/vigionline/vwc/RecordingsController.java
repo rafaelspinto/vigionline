@@ -11,7 +11,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import vigionline.common.model.Camera;
+import vigionline.common.model.Location;
 import vigionline.vri.CamerasResource;
+import vigionline.vri.LocationsResource;
 
 import com.sun.jersey.api.view.Viewable;
 
@@ -24,8 +26,10 @@ public class RecordingsController {
 	public Viewable getHTML()
 	{
 		List<Camera> cameras = new CamerasResource().getCameras(null, -1);
+		List<Location> locations = new LocationsResource().getLocations();
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("cameras", cameras);
+		data.put("locations", locations);
 		return new Viewable("/recordings", data);
 	}
 }

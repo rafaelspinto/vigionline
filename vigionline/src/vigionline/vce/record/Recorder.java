@@ -43,7 +43,8 @@ public class Recorder implements Runnable {
 		LocalStreamIterator iterator = null;
 		try {
 			while (!STOP_RECORDING.booleanValue()) {
-				iterator = StreamIteratorFactory.getLocalStreamIterator(_streamHandler, _camera, _model);
+				iterator = StreamIteratorFactory.getLocalStreamIterator(
+						_streamHandler, _camera, _model);
 				while (iterator.hasNext() && !STOP_RECORDING.booleanValue()) {
 					Messages.Message msg = iterator.next();
 					if (msg instanceof Messages.PoisonMessage) {
@@ -52,13 +53,8 @@ public class Recorder implements Runnable {
 					}
 					byte[] image = ((Messages.ImageMessage) msg).image;
 					try {
-						Date date = new Date(System.currentTimeMillis());
-						writeToDB(image, date);
-						writeToDisk(image, date);
+						write(image);
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -109,8 +105,9 @@ public class Recorder implements Runnable {
 		return filename;
 	}
 
-	private void writeToDB(byte[] img, Date date) throws SQLException {
+	private void write(byte[] img) throws SQLException {
 		Image image = new Image();
+		Date date = new Date(System.currentTimeMillis());
 		try {
 			String filename = writeToDisk(img, date);
 			image.setIdCamera(_camera.getIdCamera());
@@ -119,7 +116,6 @@ public class Recorder implements Runnable {
 			image.setDate(date);
 			_imageMapper.insert(image);
 		} catch (IOException e) {
-			// Could not write to disk
 			e.printStackTrace();
 		} finally {
 			img = null;

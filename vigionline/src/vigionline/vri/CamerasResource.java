@@ -3,6 +3,7 @@ package vigionline.vri;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
@@ -37,7 +38,8 @@ public class CamerasResource {
 
 	private final IDatabase _database = DatabaseLocator.Get();
 
-	private @Context ServletContext _contextHandler;
+	private @Context
+	ServletContext _contextHandler;
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -149,7 +151,8 @@ public class CamerasResource {
 	@Path("{idCamera}/stream")
 	@Produces("multipart/x-mixed-replace;boundary=--myboundary")
 	public Response getStreamFromCamera(
-			@PathParam("idCamera") final int idCamera) {
+			@PathParam("idCamera") final int idCamera,
+			@DefaultValue("-1") @QueryParam("fps") int fps) {
 		try {
 			final Camera camera = _database.getCamera(idCamera);
 			final Model model = _database.getModel(camera.getIdModel());
@@ -157,7 +160,7 @@ public class CamerasResource {
 					.getAttribute("StreamHandler"));
 			LocalStreamIterator iterator = StreamIteratorFactory
 					.getLocalStreamIterator(streamHandler, camera, model);
-			StreamConsumer consumer = new StreamConsumer(iterator);
+			StreamConsumer consumer = new StreamConsumer(iterator, fps);
 			return Response.ok(consumer).build();
 		} catch (Exception e) {
 			throw new WebApplicationException(500);
@@ -167,18 +170,22 @@ public class CamerasResource {
 	@GET
 	@Path("{idCamera}/recordedstream")
 	@Produces("multipart/x-mixed-replace;boundary=--myboundary")
-	public Response getRecordedStream(
-			@PathParam("idCamera") int idCamera,
-			@QueryParam("day") String day,
-			@QueryParam("hour") String hour,
-			@QueryParam("min") String min) {
+	public Response getRecordedStream(@PathParam("idCamera") int idCamera,
+			@QueryParam("day") String day, @QueryParam("hour") int hour,
+			@QueryParam("min") int min,
+			@DefaultValue("-1") @QueryParam("fps") int fps) {
 		try {
-			SimpleDateFormat parser=new SimpleDateFormat("dd-mm-yyyy HH:mm");
-			Date date =  new java.sql.Date(parser.parse(day+" "+hour+":"+min).getTime());
-			DatabaseStreamIterator iterator = new DatabaseStreamIterator(
-					idCamera, date);
-			
-			StreamConsumer consumer = new StreamConsumer(iterator);
+			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+			Date d = new java.sql.Date(parser.parse(day).getTime());
+			Calendar date = Calendar.getInstance();
+			date.setTime(d);
+			date.add(Calendar.HOUR_OF_DAY, hour);
+			date.add(Calendar.MINUTE, min);
+
+			Date data = new java.sql.Date(date.getTimeInMillis());
+			DatabaseStreamIterator iterator = new DatabaseStreamIterator(idCamera, data);
+
+			StreamConsumer consumer = new StreamConsumer(iterator, fps);
 			return Response.ok(consumer).build();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -12,9 +12,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 
-import javax.imageio.ImageIO;
-
 import vigionline.common.model.Model;
+
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGImageDecoder;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 public class StreamParser {
 	private BufferedInputStream _bis;
@@ -92,8 +94,11 @@ public class StreamParser {
 			}
 			outputStream = null;
 		}
-		try (ByteArrayInputStream bais = new ByteArrayInputStream(imageInByte)) {
-			BufferedImage im = ImageIO.read(bais);
+		try (ByteArrayInputStream bais = new ByteArrayInputStream(imageInByte);
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		) {
+			JPEGImageDecoder decoder = JPEGCodec.createJPEGDecoder(bais);
+			BufferedImage im = decoder.decodeAsBufferedImage();
 			Graphics2D g = im.createGraphics();
 			String date = millisToString(System.currentTimeMillis());
 
@@ -105,15 +110,15 @@ public class StreamParser {
 
 			x = (width - wt) >> 1;
 			y = height - 5;
-			
-			
+
 			g.setColor(Color.BLACK);
 			g.fillRect(x, y - ht + 1, wt + 4, ht + 2);
 			g.setColor(Color.WHITE);
 			g.setFont(dataFont);
 			g.drawString(date, x, y);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(im, "jpg", baos);
+
+			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(baos);
+			encoder.encode(im);
 			return baos.toByteArray();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

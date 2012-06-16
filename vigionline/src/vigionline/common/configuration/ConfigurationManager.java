@@ -68,4 +68,8 @@ public class ConfigurationManager {
 	public String getImageDirectory() {
 		return getString("imageDirectory");
 	}
+	
+	public int getMaxConnectionsPerHost() {
+		return getInt("http.connection-manager.max-per-host");
+	}
 }

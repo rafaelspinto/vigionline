@@ -2,6 +2,7 @@ package vigionline.vri;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
@@ -167,11 +168,16 @@ public class CamerasResource {
 	@Path("{idCamera}/recordedstream")
 	@Produces("multipart/x-mixed-replace;boundary=--myboundary")
 	public Response getRecordedStream(
-			@PathParam("idCamera") final int idCamera,
-			@QueryParam("date") final String initialDate) {
+			@PathParam("idCamera") int idCamera,
+			@QueryParam("day") String day,
+			@QueryParam("hour") String hour,
+			@QueryParam("min") String min) {
 		try {
+			SimpleDateFormat parser=new SimpleDateFormat("dd-mm-yyyy HH:mm");
+			Date date =  new java.sql.Date(parser.parse(day+" "+hour+":"+min).getTime());
 			DatabaseStreamIterator iterator = new DatabaseStreamIterator(
-					idCamera, Date.valueOf(initialDate));
+					idCamera, date);
+			
 			StreamConsumer consumer = new StreamConsumer(iterator);
 			return Response.ok(consumer).build();
 		} catch (Exception e) {

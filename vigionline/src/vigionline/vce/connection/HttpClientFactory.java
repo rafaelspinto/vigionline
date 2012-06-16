@@ -8,7 +8,6 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 
 import vigionline.common.configuration.ConfigurationManager;
 
@@ -27,6 +26,9 @@ public class HttpClientFactory extends DefaultHttpClient {
 		VigionlineConnManager mgr = new VigionlineConnManager(seed.getParams(),
 				registry);
 		client = new DefaultHttpClient(mgr, seed.getParams());
+
+		client.getParams().setParameter("http.connection-manager.max-per-host",
+				ConfigurationManager.getInstance().getMaxConnectionsPerHost());
 		/********************************/
 		client.getCredentialsProvider().setCredentials(AuthScope.ANY,
 				new UsernamePasswordCredentials(username, password));
@@ -38,7 +40,6 @@ public class HttpClientFactory extends DefaultHttpClient {
 			client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
 					proxy);
 		}
-		//client.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(10, true));
 		return client;
 	}
 }

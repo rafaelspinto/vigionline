@@ -37,9 +37,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="<%=baseUrl%>/css/bootstrap.css">
+<link rel="stylesheet" href="<%=baseUrl%>/css/jquery-ui.css">
 <script type="text/javascript" src="<%=baseUrl%>/js/jquery-latest.js"></script>
-<script type="text/javascript"
-	src="<%=baseUrl%>/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="<%=baseUrl%>/js/jquery-ui-latest.js"></script>
+<script type="text/javascript" src="<%=baseUrl%>/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="<%=baseUrl%>/js/bootstrap-dropdown.js"></script>
 <script type="text/javascript" src="<%=baseUrl%>/js/bootstrap-alert.js"></script>
 <script type="text/javascript" src="<%=baseUrl%>/js/vigionline.js"></script>
 <title>Vigionline</title>

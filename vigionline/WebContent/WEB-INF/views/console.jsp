@@ -19,7 +19,7 @@
 					<c:forEach var="location" items="${it.locations}">
 						<% boolean hasShown = false; %>
 						<c:if test="${location.idLocation == camera.idLocation }">
-							<img source="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream" src="<%=baseUrl%>/images/no_image.jpg" class="thumb">
+							<img source="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream" src="<%=baseUrl%>/img/no_image.jpg" class="thumb">
 							<div class="pagination pagination-centered">
 								<b>${location.name} : ${camera.name }</b>
 								<img class="record_status" url="<%=baseUrl %>/api/actions/recordstatus?idCamera=${camera.idCamera}">
@@ -32,10 +32,10 @@
 							<div class="wells">
 								<ul id="menu_${camera.idCamera}" class="action_menu" style="display: none;">
 									<a class="bt_act" action="<%=baseUrl %>/api/actions/record?idCamera=${camera.idCamera}">
-										<img src="<%=baseUrl%>/images/icons/record.png" />
+										<img src="<%=baseUrl%>/img/icons/record.png" />
 									</a>
 									<a class="bt_act" action="<%=baseUrl %>/api/actions/stoprecord?idCamera=${camera.idCamera}">
-										<img src="<%=baseUrl%>/images/icons/stop_record.png" />
+										<img src="<%=baseUrl%>/img/icons/stop_record.png" />
 									</a>
 								
 									<c:forEach var="action" items="${ it.actions}">
@@ -48,7 +48,7 @@
 										 -->
 											<a class="bt_act"
 												action="<%=baseUrl %>/api/actions/${action.idAction }/execute?idCamera=${camera.idCamera}">
-												<img src="<%=baseUrl%>/images/icons/${action.name}.png" />
+												<img src="<%=baseUrl%>/img/icons/${action.name}.png" />
 											</a>
 										</c:if>
 									</c:forEach>
@@ -69,7 +69,7 @@
 </div>
 <script type="text/javascript">
 		$('.thumb').error(function(){
-		     $(this).attr("src","<%=baseUrl%>/images/no_connection.png");
+		     $(this).attr("src","<%=baseUrl%>/img/no_connection.png");
 		});
 		
 		$("#w160").click(function() {
@@ -97,7 +97,7 @@
     	});
 	   $(".bt_on").click(function(e){
 		   $(this).attr("src","#");
-		   $(".thumb").attr("src",'<%=baseUrl%>/images/loading.gif');
+		   $(".thumb").attr("src",'<%=baseUrl%>/img/loading.gif');
 		   $(".bt_off").show();
 		   $(this).hide();
 		   e.preventDefault();  
@@ -113,7 +113,7 @@
 		 	$(".thumb").each(function(){
 		 		$(this).attr("src","#");
 		 		$(this).hide();
-		 		$(this).attr("src",'<%=baseUrl%>/images/no_image.jpg');
+		 		$(this).attr("src",'<%=baseUrl%>/img/no_image.jpg');
 				$(this).show();
 			});
 		});
@@ -138,9 +138,9 @@
 			   cache : false
 			 }).done(function(data) { 
 				 if(data == 'true')
-					   $(container).attr("src", "<%=baseUrl%>/images/icons/recording.png");
+					   $(container).attr("src", "<%=baseUrl%>/img/icons/recording.png");
 					else
-					   $(container).attr("src", "<%=baseUrl%>/images/icons/no_recording.png");
+					   $(container).attr("src", "<%=baseUrl%>/img/icons/no_recording.png");
 				setTimeout(function() {
 					pollRecordStatus(url, container);
 				}, 10000);

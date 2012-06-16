@@ -7,8 +7,21 @@
 	</ul>
 	<!-- End Navigation -->
 	<div class="pagination pagination-centered">
+	<input id="w640" type="button" value="640x480"> 
+	<input id="w1024" type="button" value="1024x768">
+	<select	id="idCamera">
+			<c:forEach var="camera" items="${it.cameras}">
+				<c:forEach var="location" items="${it.locations}">
+					<c:if test="${location.idLocation == camera.idLocation }">
+							<option value="${camera.idCamera }">${location.name} - ${camera.name }</option>
+					</c:if>
+				</c:forEach>
+			</c:forEach>
+	</select>
+	</div>
+	<div class="pagination pagination-centered">
 		<ul class="thumbnails">
-			<li class="offset5">
+			<li class="span4 offset5">
 				<div class="thumbnail">
 									
 					<div class="well">		 
@@ -20,19 +33,21 @@
 						<input type="text" id="min" name="min" class="input-mini" value="00"/>
 					</div>
 					
-					<select id="idCamera">
-						<c:forEach var="camera" items="${it.cameras}">
-							<option value="${camera.idCamera }">${camera.name }</option>
-						</c:forEach>
-					</select>
+					
 					
 					<img id="record" src="<%=baseUrl%>/img/no_image.jpg" class="thumb">
 										
 					<div class="pagination pagination-centered">
-					<ul>
-						<li><a id="bt_play"><img src="<%=baseUrl%>/img/icons/play.png" /></a></li>
-						<li><a id="bt_stop"><img src="<%=baseUrl%>/img/icons/stop.png" /></a></li>
-						</ul>
+					
+						<a id="bt_play"><img src="<%=baseUrl%>/img/icons/play.png" /></a>
+						<a id="bt_stop"><img src="<%=baseUrl%>/img/icons/stop.png" /></a> &nbsp &nbsp
+						
+							<span class="label">max. fps</span>&nbsp &nbsp<select id="fps" class="input-mini">
+								<option value="30">30</option>
+								<option value="15">15</option>
+								<option value="5">5</option>
+								<option value="1">1</option>
+							</select>					
 					</div>		
 				</div>
 			</li>
@@ -43,15 +58,47 @@
 	$(function() {
 		var dp = $("#date").datepicker();
 		$("#bt_play").click(function(){
-			var idCamera = $("#idCamera").val();
-			var day = $("#date").val();
-			var hour = $("#hour").val();
-			var min = $("#min").val();
-			var url = "<%=baseUrl%>/api/cameras/"+idCamera+"/recordedstream?day="+day+"&hour="+hour+"&min="+min;
-			//TODO: Validate date
-			
-			$("#record").attr("src",url);
+			if( $("#date").val().length === 0 ) 
+			{
+				    $("#date").parents('div').addClass('control-group error');
+			}
+			else
+			{
+				var idCamera = $("#idCamera").val();
+				var day = $("#date").val();
+				var hour = $("#hour").val();
+				var min = $("#min").val();
+				var fps = $("#fps").val();
+				var url = "<%=baseUrl%>/api/cameras/"+idCamera+"/recordedstream?day="+day+"&hour="+hour+"&min="+min+"&fps="+fps;
+				$("#record").attr("src",url);
+				$("#date").parents('div').removeClass('control-group error');
+			}
 		});
+		
+		$("#bt_stop").click(function(){
+			$("#record").attr("src","<%=baseUrl%>/img/no_image.jpg");
+		});
+		$('.thumb').error(function(){
+		     $(this).attr("src","<%=baseUrl%>/img/no_connection.gif");
+		});
+						
+	    $("#w640").click(function() {
+	            setSize('640','480','4');
+	    });
+	    $("#w1024").click(function() {
+            setSize('1024','768','6');
+    	});
+	    
+	    function setSize(w, h, s)
+	    {
+	            $(".thumb").attr('width',w);
+	            $(".thumb").attr('height',h);
+	            $('.thumbnails li').attr('class','span'+s);
+	            //$(".thumbnails").css('display', 'none').css('display', 'block');
+	    }
+	    $(document).ready(function(){
+            setSize(640,480,'4');
+    	});
 	});
 </script>
 <%@ include file="footer.jsp"%>

@@ -21,7 +21,7 @@ public class DatabaseStreamIterator extends StreamIterator<Messages.Message> {
 	@Override
 	public boolean hasNext() {
 		try {
-			return !_cursor.isLast();
+			return _cursor.next();
 		} catch (SQLException e) {
 			return false;
 		}
@@ -31,21 +31,21 @@ public class DatabaseStreamIterator extends StreamIterator<Messages.Message> {
 	public Messages.Message next() {
 		try {
 			/** File might not exist in filesystem **/
-			while (!_cursor.isLast()) {
-				_cursor.next();
-				byte[] image = Utils.jpegToByteArray(new File(_cursor
-						.getString("filename")));
-				if (image != null) {
-					Messages.ImageMessage img = new Messages.ImageMessage();
-					img.image = image;
-					return img;
-				}
+			if (_cursor.isLast()) {
+				return new Messages.PoisonMessage();
 			}
+			byte[] image = Utils.jpegToByteArray(new File(_cursor
+					.getString("filename")));
+
+			Messages.ImageMessage img = new Messages.ImageMessage();
+			img.image = image;
+			return img;
+
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		return null;
+		return new Messages.PoisonMessage();
 	}
 
 	@Override

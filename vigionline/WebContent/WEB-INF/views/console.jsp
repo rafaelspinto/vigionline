@@ -2,13 +2,12 @@
 <%@ include file="header.jsp"%>
 <%@page import="vigionline.common.model.Action"%>
 <div class="container">
-	<input id="w160" type="button" value="160x120"> <input
-		id="w320" type="button" value="320x240"> <input id="w640"
-		type="button" value="640x480"> <input id="w1024" type="button"
-		value="1024x768"> <input type="button"
-		class="bt_on .btn btn-success" value="on" /> <input type="button"
-		class="bt_off .btn btn-danger .disabled" value="off"
-		style="display: none" />
+	<input id="w160" type="button" value="160x120">
+	<input id="w320" type="button" value="320x240"> 
+	<input id="w640" type="button" value="640x480"> 
+	<input id="w1024" type="button" value="1024x768"> 
+	<input type="button" class="bt_on .btn btn-success" value="on" /> 
+	<input type="button" class="bt_off .btn btn-danger .disabled" value="off" style="display: none" />
 	<ul class="thumbnails">
 		<c:forEach var="camera" items="${it.cameras}">
 
@@ -19,9 +18,12 @@
 					<c:forEach var="location" items="${it.locations}">
 						<% boolean hasShown = false; %>
 						<c:if test="${location.idLocation == camera.idLocation }">
+						
+								<span class="label label-info">${location.name} #${camera.idCamera}</span>
+						
 							<img source="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream" src="<%=baseUrl%>/img/no_image.jpg" class="thumb">
 							<div class="pagination pagination-centered">
-								<b>${location.name} : ${camera.name }</b>
+								<b>${camera.name }</b>
 								<img class="record_status" url="<%=baseUrl %>/api/actions/recordstatus?idCamera=${camera.idCamera}">
 								<br />
 								<button id="bt_menu_${camera.idCamera}" class="btn btn-primary bt_action btn-mini"	menu="menu_${camera.idCamera}"><%= messages.getMessage("actions") %><span class="caret"></span></button>
@@ -40,12 +42,6 @@
 								
 									<c:forEach var="action" items="${ it.actions}">
 										<c:if test="${action.idModel == camera.idModel}">
-										<!-- 
-											<script type="text/javascript">
-											$("#"+"bt_menu_${camera.idCamera}").attr("disabled",false);
-											$("#"+"bt_menu_${camera.idCamera}").attr("class","btn btn-primary bt_action btn-mini");
-										</script>
-										 -->
 											<a class="bt_act"
 												action="<%=baseUrl %>/api/actions/${action.idAction }/execute?idCamera=${camera.idCamera}">
 												<img src="<%=baseUrl%>/img/icons/${action.name}.png" />
@@ -69,7 +65,7 @@
 </div>
 <script type="text/javascript">
 		$('.thumb').error(function(){
-		     $(this).attr("src","<%=baseUrl%>/img/no_connection.png");
+		     $(this).attr("src","<%=baseUrl%>/img/no_connection.gif");
 		});
 		
 		$("#w160").click(function() {

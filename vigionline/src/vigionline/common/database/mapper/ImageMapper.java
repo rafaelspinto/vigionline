@@ -42,7 +42,7 @@ public class ImageMapper extends Mapper<Image> {
 			throws SQLException {
 		PreparedStatement prep = con.prepareStatement("INSERT INTO Image (idCamera, date, filename, size) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 		prep.setInt(1, image.getIdCamera());
-		prep.setDate(2, image.getDate());
+		prep.setTimestamp(2, new java.sql.Timestamp(image.getDate().getTime()));
 		prep.setString(3, image.getFilename());
 		prep.setInt(4, image.getSize());
 		return prep;
@@ -52,7 +52,7 @@ public class ImageMapper extends Mapper<Image> {
 	protected PreparedStatement getUpdateStatement(Image image, Connection con)
 			throws SQLException {
 		PreparedStatement prep = con.prepareStatement("UPDATE Image SET date = ?, filename = ?, size = ? WHERE idImage = ?");
-		prep.setDate(1, image.getDate());
+		prep.setTimestamp(1, new java.sql.Timestamp(image.getDate().getTime()));
 		prep.setString(2, image.getFilename());
 		prep.setInt(3, image.getSize());
 		prep.setInt(4, image.getIdImage());
@@ -70,10 +70,9 @@ public class ImageMapper extends Mapper<Image> {
 	public ResultSet getImagesFrom(int idCamera, Date date) throws SQLException
 	{
 		Connection con = MySqlConnector.getConnection();
-		
 		PreparedStatement prep = con.prepareStatement(getAllQuery()+ " WHERE idCamera = ? AND date >= ? ");
 		prep.setInt(1, idCamera);
-		prep.setDate(2, date);
+		prep.setTimestamp(2, new java.sql.Timestamp(date.getTime()));
 		return prep.executeQuery();
 	}
 }

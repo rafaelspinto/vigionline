@@ -12,9 +12,11 @@ import vigionline.vce.stream.iterator.StreamIterator;
 public final class StreamConsumer implements StreamingOutput {
 
 	private StreamIterator<Messages.Message> _iterator;
-
-	public StreamConsumer(StreamIterator<Messages.Message> iterator) {
+	private int _framesPerSecond;
+	
+	public StreamConsumer(StreamIterator<Messages.Message> iterator, int fps) {
 		this._iterator = iterator;
+		this._framesPerSecond = fps > 0 ? fps : Integer.MAX_VALUE;
 	}
 
 	@Override
@@ -32,6 +34,12 @@ public final class StreamConsumer implements StreamingOutput {
 						.getBytes());
 				outputStream.write(((Messages.ImageMessage) msg).image);
 				outputStream.flush();
+				try {
+					Thread.sleep(1000/_framesPerSecond);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		} finally {
 			outputStream.close();

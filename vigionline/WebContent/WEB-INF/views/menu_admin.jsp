@@ -1,4 +1,6 @@
-
+<!-- RECORDINGS -->
+<li> <a href="<%= baseUrl %>/recordings"><%= messages.getMessage("recordings") %></a></li>
+				<li class="divider-vertical"></li>
 <!-- LOCATIONS -->
 <li class="dropdown"><a class="dropdown-toggle"
 	data-toggle="dropdown" href="#"> <%= messages.getMessage("locations") %>

@@ -92,8 +92,7 @@ public class StreamParser {
 			}
 			outputStream = null;
 		}
-		ByteArrayInputStream bais = new ByteArrayInputStream(imageInByte);
-		try {
+		try (ByteArrayInputStream bais = new ByteArrayInputStream(imageInByte)) {
 			BufferedImage im = ImageIO.read(bais);
 			Graphics2D g = im.createGraphics();
 			String date = millisToString(System.currentTimeMillis());
@@ -106,14 +105,15 @@ public class StreamParser {
 
 			x = (width - wt) >> 1;
 			y = height - 5;
+			
+			
 			g.setColor(Color.BLACK);
 			g.fillRect(x, y - ht + 1, wt + 4, ht + 2);
 			g.setColor(Color.WHITE);
 			g.setFont(dataFont);
 			g.drawString(date, x, y);
-
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(im, "png", baos);
+			ImageIO.write(im, "jpg", baos);
 			return baos.toByteArray();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

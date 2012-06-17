@@ -19,15 +19,12 @@
 						<% boolean hasShown = false; %>
 						<c:if test="${location.idLocation == camera.idLocation }">
 						
-								<span class="label label-info">${location.name} #${camera.idCamera}</span>
+							<a href="<%=baseUrl %>/locations/${location.idLocation }"><span class="label label-info">${location.name}<img class="record_status" url="<%=baseUrl %>/api/actions/recordstatus?idCamera=${camera.idCamera}"></span></a>
 						
 							<img source="<%=baseUrl %>/api/cameras/${camera.idCamera}/stream" src="<%=baseUrl%>/img/no_image.jpg" class="thumb">
-							<div class="pagination pagination-centered">
-								<b>${camera.name }</b>
-								<img class="record_status" url="<%=baseUrl %>/api/actions/recordstatus?idCamera=${camera.idCamera}">
-								<br />
-								<button id="bt_menu_${camera.idCamera}" class="btn btn-primary bt_action btn-mini"	menu="menu_${camera.idCamera}"><%= messages.getMessage("actions") %><span class="caret"></span></button>
-							</div>
+							
+							<button id="bt_menu_${camera.idCamera}" class="btn btn-primary bt_action btn-mini"	menu="menu_${camera.idCamera}"><%= messages.getMessage("actions") %><span class="caret"></span></button>
+							<a href="<%=baseUrl %>/cameras/${camera.idCamera}"><span class="label label-inverse">${camera.name }</span></a>
 							
 							<!-- BEGIN ACTIONS -->
 							<% if(isAdmin) { %>
@@ -96,22 +93,26 @@
 		   $(".thumb").attr("src",'<%=baseUrl%>/img/loading.gif');
 		   $(".bt_off").show();
 		   $(this).hide();
-		   e.preventDefault();  
-			$(".thumb").each(function(){
-				var on_src=$(this).attr("source");
-				$(this).attr("src",on_src+"?_=<%= System.currentTimeMillis() %>");
-			});
+		   e.preventDefault();
+		   setTimeout(function(){
+			   $(".thumb").each(function(){
+					var on_src=$(this).attr("source");
+					$(this).attr("src",on_src+"?_=<%= System.currentTimeMillis() %>");
+				});   
+		   },1000);
 		});
 	   $(".bt_off").click(function(e){
 		   $(".bt_on").show();
 		   $(this).hide();
 		   e.preventDefault();
-		 	$(".thumb").each(function(){
-		 		$(this).attr("src","#");
-		 		$(this).hide();
-		 		$(this).attr("src",'<%=baseUrl%>/img/no_image.jpg');
-				$(this).show();
-			});
+		   setTimeout(function(){
+			 	$(".thumb").each(function(){
+			 		$(this).attr("src","#");
+			 		$(this).hide();
+			 		$(this).attr("src",'<%=baseUrl%>/img/no_image.jpg');
+					$(this).show();
+				});
+		   },1000);
 		});
 	   $(".bt_act").click(function () {
 		   var url = $(this).attr("action");

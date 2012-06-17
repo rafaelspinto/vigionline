@@ -5,26 +5,22 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 
+import javax.imageio.ImageIO;
 import vigionline.common.model.Model;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageDecoder;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
-
 public class StreamParser {
-	private BufferedInputStream _bis;
+	private InputStream _bis;
 	private Model _model;
 	private boolean _isEndOfStream;
 
 	public StreamParser(InputStream inputStream, Model model) {
-		_bis = new BufferedInputStream(inputStream);
+		_bis = inputStream;
 		_model = model;
 		_isEndOfStream = false;
 	}
@@ -95,10 +91,9 @@ public class StreamParser {
 			outputStream = null;
 		}
 		try (ByteArrayInputStream bais = new ByteArrayInputStream(imageInByte);
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		) {
-			JPEGImageDecoder decoder = JPEGCodec.createJPEGDecoder(bais);
-			BufferedImage im = decoder.decodeAsBufferedImage();
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
+			
+			BufferedImage im = ImageIO.read(bais);
 			Graphics2D g = im.createGraphics();
 			String date = millisToString(System.currentTimeMillis());
 
@@ -117,8 +112,7 @@ public class StreamParser {
 			g.setFont(dataFont);
 			g.drawString(date, x, y);
 
-			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(baos);
-			encoder.encode(im);
+			ImageIO.write(im,"jpg",baos);
 			return baos.toByteArray();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -165,6 +159,10 @@ public class StreamParser {
 
 	public boolean isEndOfStream() {
 		return _isEndOfStream;
+	}
+
+	public void setInputStream(InputStream inputStream) {
+		_bis = inputStream;
 	}
 
 	private String millisToString(long millis) {

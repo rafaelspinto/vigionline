@@ -30,8 +30,7 @@ public class ConnectionManager {
 		this._getMethod = new HttpGet(_url);
 	}
 
-	public InputStream getInputStream() throws ClientProtocolException,
-			IOException {
+	public InputStream getInputStream() throws ClientProtocolException,	IOException {
 		_httpClient = HttpClientFactory.getHttpClient(_username, _password);
 		_httpResponse = _httpClient.execute(_getMethod);
 		_inputStream = _httpResponse.getEntity().getContent();

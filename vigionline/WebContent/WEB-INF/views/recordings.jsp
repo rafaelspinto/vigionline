@@ -69,9 +69,13 @@
 				var hour = $("#hour").val();
 				var min = $("#min").val();
 				var fps = $("#fps").val();
-				var url = "<%=baseUrl%>/api/cameras/"+idCamera+"/recordedstream?day="+day+"&hour="+hour+"&min="+min+"&fps="+fps;
-				$("#record").attr("src",url);
-				$("#date").parents('div').removeClass('control-group error');
+				$(this).attr("src","#");
+				$("#record").attr("src",'<%=baseUrl%>/img/loading.gif');
+				setTimeout(function(){
+					var url = "<%=baseUrl%>/api/cameras/"+idCamera+"/recordedstream?day="+day+"&hour="+hour+"&min="+min+"&fps="+fps;
+					$("#record").attr("src",url);
+					$("#date").parents('div').removeClass('control-group error');
+				}, 1000);
 			}
 		});
 		

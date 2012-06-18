@@ -49,7 +49,7 @@ public class CamerasResource {
 		List<Camera> cameras = null;
 		try {
 
-			if (username == null && idDivision == -1)
+			if (username.equals("null") && idDivision == -1)
 				cameras = _database.getCameras();
 			else {
 				if (username != null && !username.isEmpty())

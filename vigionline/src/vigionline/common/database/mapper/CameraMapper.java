@@ -113,4 +113,19 @@ public class CameraMapper extends Mapper<Camera> {
 		prep.setInt(1, idLocation);
 		return getListByPreparedStatement(prep);
 	}
+
+	public List<Camera> getByUsernameAndDivision(String username, int idDivision)
+			throws SQLException {
+		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
+				+ " INNER JOIN Permission P ON P.idCamera = C.idCamera "
+				+ " INNER JOIN User U ON U.username = ? "
+				+ " INNER JOIN UserDivision UD ON U.idUser = UD.idUser "
+				+ " INNER JOIN Division D ON UD.idDivision = D.idDivision"
+				+ " WHERE D.idDivision = ?";
+		Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con.prepareStatement(sql);
+		prep.setString(1, username);
+		prep.setInt(2, idDivision);
+		return getListByPreparedStatement(prep);
+	}
 }

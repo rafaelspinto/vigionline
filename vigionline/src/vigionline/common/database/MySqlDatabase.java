@@ -253,6 +253,12 @@ public class MySqlDatabase implements IDatabase {
 		return new CameraMapper().getByDivision(idDivision);
 	}
 
+
+	@Override
+	public List<Camera> getCamerasByUsernameAndDivision(String username, int idDivision) throws SQLException {
+		return new CameraMapper().getByUsernameAndDivision(username, idDivision);
+	}
+	
 	@Override
 	public Camera getCamera(int idCamera) throws SQLException {
 		return new CameraMapper().getById(idCamera);

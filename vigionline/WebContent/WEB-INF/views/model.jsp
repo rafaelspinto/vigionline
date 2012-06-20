@@ -1,3 +1,4 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ include file="header.jsp"%>
 	<div class="container">
 		<!-- Begin Navigation -->
@@ -18,8 +19,15 @@
 			<label for="idManufacturer"><%= messages.getMessage("manufacturer") %></label>
 			<select name="idManufacturer" disabled="disabled">
 				<option value="${it.manufacturer.idManufacturer }">${it.manufacturer.name }</option>
-			</select>			
-			<label for="isMjpeg"><%= messages.getMessage("is_mjpeg") %></label><input type="checkbox" name="isMjpeg" value="${it.model.MJPEG }" readonly="readonly" />
+			</select>
+			<c:choose>			
+				<c:when test="${it.model.MJPEG == true}">
+					<label for="isMjpeg"><%= messages.getMessage("is_mjpeg") %></label><input type="checkbox" name="isMjpeg" readonly="readonly" checked="checked" />
+				</c:when>
+				<c:otherwise>
+					<label for="isMjpeg"><%= messages.getMessage("is_mjpeg") %></label><input type="checkbox" name="isMjpeg" readonly="readonly"/>
+				</c:otherwise>
+			</c:choose>	
 			<label for="width"><%= messages.getMessage("width") %></label><input name="width" value="${it.model.width }" readonly="readonly" />
 			<label for="width"><%= messages.getMessage("height") %></label><input name="height" value="${it.model.height }" readonly="readonly" />
 			<label for="beginLinesToDiscard"><%= messages.getMessage("begin_lines_to_discard") %></label><input name="beginLinesToDiscard" value="${it.model.beginLinesToDiscard }" readonly="readonly" />

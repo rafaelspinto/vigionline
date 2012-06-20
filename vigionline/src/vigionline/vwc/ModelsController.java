@@ -70,7 +70,7 @@ public class ModelsController {
 			@FormParam("videoUrl") String videoUrl,
 			@FormParam("audioUrl") String audioUrl,
 			@FormParam("idManufacturer") int idManufacturer,
-			@FormParam("mjpeg") boolean mjpeg,
+			@FormParam("isMjpeg") String mjpeg,
 			@FormParam("width") int width,
 			@FormParam("height") int height,
 			@FormParam("beginLinesToDiscard") int beginLinesToDiscard,
@@ -82,7 +82,7 @@ public class ModelsController {
 		model.setVideoUrl(videoUrl);
 		model.setAudioUrl(audioUrl);
 		model.setIdManufacturer(idManufacturer);
-		model.setIsMJPEG(mjpeg);
+		model.setIsMJPEG(mjpeg!=null && mjpeg.equalsIgnoreCase("on"));
 		model.setWidth(width);
 		model.setHeight(height);
 		model.setBeginLinesToDiscard(beginLinesToDiscard);
@@ -115,7 +115,7 @@ public class ModelsController {
 			@FormParam("videoUrl") String videoUrl,
 			@FormParam("audioUrl") String audioUrl,
 			@FormParam("idManufacturer") int idManufacturer,
-			@FormParam("mjpeg") boolean mjpeg,
+			@FormParam("isMjpeg") String mjpeg,
 			@FormParam("width") int width,
 			@FormParam("height") int height,
 			@FormParam("beginLinesToDiscard") int beginLinesToDiscard,
@@ -128,7 +128,7 @@ public class ModelsController {
 		model.setVideoUrl(videoUrl);
 		model.setAudioUrl(audioUrl);
 		model.setIdManufacturer(idManufacturer);
-		model.setIsMJPEG(mjpeg);
+		model.setIsMJPEG(mjpeg!=null && mjpeg.equalsIgnoreCase("on"));
 		model.setWidth(width);
 		model.setHeight(height);
 		model.setBeginLinesToDiscard(beginLinesToDiscard);

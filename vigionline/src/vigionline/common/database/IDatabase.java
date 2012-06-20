@@ -75,6 +75,7 @@ public interface IDatabase {
 	public List<Camera> getCameras() throws SQLException;
 	public List<Camera> getCamerasByUsername(String username) throws SQLException;
 	public List<Camera> getCamerasByDivision(int idDivision) throws SQLException;
+	public List<Camera> getCamerasByUsernameAndDivision(String username, int idDivision) throws SQLException; 
 	public List<Camera> getCamerasByLocation(int idLocation) throws SQLException;
 	public Camera getCamera(int idCamera) throws SQLException;
 	public int updateCamera(Camera camera) throws SQLException;

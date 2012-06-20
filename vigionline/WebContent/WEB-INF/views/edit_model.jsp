@@ -24,7 +24,14 @@
 						</c:if>										
 					</c:forEach>										
 				</select>			
-				<label for="mjpeg"><%= messages.getMessage("is_mjpeg") %></label><input type="checkbox" name="mjpeg" value="${it.model.MJPEG }" />
+				<c:choose>			
+					<c:when test="${it.model.MJPEG == true}">
+						<label for="isMjpeg"><%= messages.getMessage("is_mjpeg") %></label><input type="checkbox" name="isMjpeg" checked="checked" />
+					</c:when>
+					<c:otherwise>
+						<label for="isMjpeg"><%= messages.getMessage("is_mjpeg") %></label><input type="checkbox" name="isMjpeg" />
+					</c:otherwise>
+				</c:choose>	
 				<label for="width"><%= messages.getMessage("width") %></label><input name="width" value="${it.model.width }" />
 				<label for="width"><%= messages.getMessage("height") %></label><input name="height" value="${it.model.height }" />
 				<label for="beginLinesToDiscard"><%= messages.getMessage("begin_lines_to_discard") %></label><input name="beginLinesToDiscard" value="${it.model.beginLinesToDiscard }" />

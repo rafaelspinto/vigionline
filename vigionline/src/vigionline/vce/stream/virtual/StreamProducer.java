@@ -31,10 +31,8 @@ public class StreamProducer implements Runnable {
 		ConnectionManager conManager = null;
 		StreamIterator<byte[]> iterator = null;
 		try {
-
 			conManager = new ConnectionManager(_camera, _model);
 			iterator = new RemoteStreamIterator(conManager, _model);
-
 			while (iterator.hasNext() && !_broker.isEmpty()) {
 				Messages.ImageMessage img = new Messages.ImageMessage();
 				img.image = iterator.next();
@@ -47,11 +45,12 @@ public class StreamProducer implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
+			iterator.shutdown();
+			_broker._isProducing = Boolean.FALSE;
+			_broker.put(new Messages.PoisonMessage());
+			_streamHandler.removeProducer(_camera.getIdCamera());
 			conManager = null;
 			iterator = null;
-			_broker._isProducing = Boolean.FALSE;
-			_streamHandler.removeProducer(_camera.getIdCamera());
-			_broker.put(new Messages.PoisonMessage());
 		}
 	}
 

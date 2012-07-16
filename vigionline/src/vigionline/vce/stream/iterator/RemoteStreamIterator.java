@@ -7,19 +7,21 @@ import org.apache.http.client.ClientProtocolException;
 
 import vigionline.common.model.Model;
 import vigionline.vce.connection.ConnectionManager;
-import vigionline.vce.stream.StreamParser;
+import vigionline.vce.stream.parser.FrameParserWithDate;
+import vigionline.vce.stream.parser.IFrameParser;
+import vigionline.vce.stream.parser.JpegParser;
 
 public class RemoteStreamIterator extends StreamIterator<byte[]> {
 
-	protected StreamParser _streamParser;
+	protected IFrameParser _streamParser;
 	private ConnectionManager _connectionManager;
 	private Model _model;
 
 	public RemoteStreamIterator(ConnectionManager conManager, Model model)
 			throws ClientProtocolException, IOException {
 		this._connectionManager = conManager;
-		this._streamParser = new StreamParser(conManager.getInputStream(),model);
-		this._next = _streamParser.readImageFromStream();
+		this._streamParser = new FrameParserWithDate(new JpegParser(conManager.getInputStream()));
+		this._next = _streamParser.getNextFrame();
 		this._model = model;
 	}
 
@@ -36,7 +38,7 @@ public class RemoteStreamIterator extends StreamIterator<byte[]> {
 		try {
 			if (!_model.isMJPEG())
 				_streamParser.setInputStream(_connectionManager.getInputStream());
-			_next = _streamParser.readImageFromStream();
+			_next = _streamParser.getNextFrame();
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -20,11 +20,8 @@ public class ModelMapper extends Mapper<Model> {
 		model.setName(result.getString(3));
 		model.setVideoUrl(result.getString(4));
 		model.setAudioUrl(result.getString(5));
-		model.setIsMJPEG(result.getBoolean(6));
-		model.setWidth(result.getInt(7));
-		model.setHeight(result.getInt(8));
-		model.setBeginLinesToDiscard(result.getInt(9));
-		model.setEndLinesToDiscard(result.getInt(10));
+		model.setWidth(result.getInt(6));
+		model.setHeight(result.getInt(7));
 		return model;
 	}
 
@@ -36,11 +33,9 @@ public class ModelMapper extends Mapper<Model> {
 				"name, " +
 				"videoUrl, " +
 				"audioUrl, " +
-				"isMJPEG, " +
 				"width, " +
-				"height, " +
-				"beginLinesToDiscard, " +
-				"endLinesToDiscard FROM Model";   
+				"height " +
+				"FROM Model";   
 	}
 
 	@Override
@@ -51,11 +46,9 @@ public class ModelMapper extends Mapper<Model> {
 				"name, " +
 				"videoUrl, " +
 				"audioUrl, " +
-				"isMJPEG, " +
 				"width, " +
-				"height, " +
-				"beginLinesToDiscard, " +
-				"endLinesToDiscard FROM Model WHERE idModel = ?";
+				"height " +
+				"FROM Model WHERE idModel = ?";
 	}
 	
 	@Override
@@ -66,45 +59,37 @@ public class ModelMapper extends Mapper<Model> {
 				"name, " +
 				"videoUrl, " +
 				"audioUrl, " +
-				"isMJPEG, " +
 				"width, " +
-				"height, " +
-				"beginLinesToDiscard, " +
-				"endLinesToDiscard FROM Model WHERE name = ?";
+				"height " +	
+				"FROM Model WHERE name = ?";
 	}
 
 	@Override
 	protected PreparedStatement getInsertStatement(Model model, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("INSERT INTO Model (idManufacturer, name, videoUrl, audioUrl, isMJPEG, width, height, beginLinesToDiscard, endLinesToDiscard) " +
-				"VALUES(?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement prep = con.prepareStatement("INSERT INTO Model (idManufacturer, name, videoUrl, audioUrl, width, height) " +
+				"VALUES(?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 		prep.setInt(1, model.getIdManufacturer());
 		prep.setString(2, model.getName());
 		prep.setString(3, model.getVideoUrl());
 		prep.setString(4, model.getAudioUrl());
-		prep.setBoolean(5, model.isMJPEG());
-		prep.setInt(6, model.getWidth());
-		prep.setInt(7, model.getHeight());
-		prep.setInt(8, model.getBeginLinesToDiscard());
-		prep.setInt(9, model.getEndLinesToDiscard());
+		prep.setInt(5, model.getWidth());
+		prep.setInt(6, model.getHeight());
 		return prep;
 	}
 
 	@Override
 	protected PreparedStatement getUpdateStatement(Model model, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("UPDATE Model SET idManufacturer = ?, name = ?, videoUrl = ?, audioUrl = ?, isMJPEG = ?, width = ?, height = ?, beginLinesToDiscard = ?, endLinesToDiscard = ? " +
+		PreparedStatement prep = con.prepareStatement("UPDATE Model SET idManufacturer = ?, name = ?, videoUrl = ?, audioUrl = ?, width = ?, height = ? " +
 				"WHERE idModel = ?");
 		prep.setInt(1, model.getIdManufacturer());
 		prep.setString(2, model.getName());
 		prep.setString(3, model.getVideoUrl());
 		prep.setString(4, model.getAudioUrl());
-		prep.setBoolean(5, model.isMJPEG());
-		prep.setInt(6, model.getWidth());
-		prep.setInt(7, model.getHeight());
-		prep.setInt(8, model.getBeginLinesToDiscard());
-		prep.setInt(9, model.getEndLinesToDiscard());
-		prep.setInt(10, model.getIdModel());
+		prep.setInt(5, model.getWidth());
+		prep.setInt(6, model.getHeight());
+		prep.setInt(7, model.getIdModel());
 		return prep;
 	}
 

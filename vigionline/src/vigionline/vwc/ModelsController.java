@@ -82,11 +82,8 @@ public class ModelsController {
 		model.setVideoUrl(videoUrl);
 		model.setAudioUrl(audioUrl);
 		model.setIdManufacturer(idManufacturer);
-		model.setIsMJPEG(mjpeg!=null && mjpeg.equalsIgnoreCase("on"));
 		model.setWidth(width);
 		model.setHeight(height);
-		model.setBeginLinesToDiscard(beginLinesToDiscard);
-		model.setEndLinesToDiscard(endLinesToDiscard);
 		return Controller.getResponse(_modelsResource.createModel(model), "create_model_succeeded", "create_model_failed");
 	}
 	
@@ -128,11 +125,8 @@ public class ModelsController {
 		model.setVideoUrl(videoUrl);
 		model.setAudioUrl(audioUrl);
 		model.setIdManufacturer(idManufacturer);
-		model.setIsMJPEG(mjpeg!=null && mjpeg.equalsIgnoreCase("on"));
 		model.setWidth(width);
 		model.setHeight(height);
-		model.setBeginLinesToDiscard(beginLinesToDiscard);
-		model.setEndLinesToDiscard(endLinesToDiscard);
 		return Controller.getResponse(_modelsResource.updateModel(model), "update_model_succeeded", "update_model_failed");
 	}
 	

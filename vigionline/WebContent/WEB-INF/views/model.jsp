@@ -19,19 +19,9 @@
 			<label for="idManufacturer"><%= messages.getMessage("manufacturer") %></label>
 			<select name="idManufacturer" disabled="disabled">
 				<option value="${it.manufacturer.idManufacturer }">${it.manufacturer.name }</option>
-			</select>
-			<c:choose>			
-				<c:when test="${it.model.MJPEG == true}">
-					<label for="isMjpeg"><%= messages.getMessage("is_mjpeg") %></label><input type="checkbox" name="isMjpeg" readonly="readonly" checked="checked" />
-				</c:when>
-				<c:otherwise>
-					<label for="isMjpeg"><%= messages.getMessage("is_mjpeg") %></label><input type="checkbox" name="isMjpeg" readonly="readonly"/>
-				</c:otherwise>
-			</c:choose>	
+			</select>	
 			<label for="width"><%= messages.getMessage("width") %></label><input name="width" value="${it.model.width }" readonly="readonly" />
 			<label for="width"><%= messages.getMessage("height") %></label><input name="height" value="${it.model.height }" readonly="readonly" />
-			<label for="beginLinesToDiscard"><%= messages.getMessage("begin_lines_to_discard") %></label><input name="beginLinesToDiscard" value="${it.model.beginLinesToDiscard }" readonly="readonly" />
-			<label for="endLinesToDiscard"><%= messages.getMessage("end_lines_to_discard") %></label><input name="endLinesToDiscard" value="${it.model.endLinesToDiscard }" readonly="readonly" />
 		</div>
 	</div>
 	<script type="text/javascript">

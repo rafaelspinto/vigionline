@@ -4,7 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-public class CameraConnectionContextListener implements ServletContextListener {
+public class StreamManagerContextListener implements ServletContextListener {
 
 	private StreamHandler _streamHandler;
 

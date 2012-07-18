@@ -53,10 +53,9 @@ public class Recorder implements Runnable {
 					}
 					byte[] image = ((Messages.FrameMessage) msg).frame;
 					try {
-						write(image);
+						storeFrame(image);
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						throw new RuntimeException(e);
 					}
 				}
 			}
@@ -105,7 +104,7 @@ public class Recorder implements Runnable {
 		return filename;
 	}
 
-	private void write(byte[] img) throws SQLException {
+	private void storeFrame(byte[] img) throws SQLException {
 		Image image = new Image();
 		Date date = new Date(System.currentTimeMillis());
 		try {
@@ -116,7 +115,7 @@ public class Recorder implements Runnable {
 			image.setDate(date);
 			_imageMapper.insert(image);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		} finally {
 			img = null;
 			image = null;

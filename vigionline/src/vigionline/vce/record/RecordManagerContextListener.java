@@ -6,7 +6,7 @@ import javax.servlet.ServletContextListener;
 
 import vigionline.vce.record.RecordHandler;
 
-public class RecordContextListener implements ServletContextListener {
+public class RecordManagerContextListener implements ServletContextListener {
 
 	private RecordHandler _recordHandler;
 

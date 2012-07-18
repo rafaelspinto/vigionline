@@ -1,8 +1,6 @@
 package vigionline.common.configuration;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
 public class ConfigurationManager {
@@ -13,21 +11,12 @@ public class ConfigurationManager {
 		return _instance;
 	}
 
-	// TODO : Treat exceptions
 	private ConfigurationManager() {
 		_properties = new Properties();
 		try {
-			_properties.loadFromXML(this.getClass().getResourceAsStream(
-					"vigionline.properties"));
-		} catch (InvalidPropertiesFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_properties.loadFromXML(this.getClass().getResourceAsStream("vigionline.properties"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 

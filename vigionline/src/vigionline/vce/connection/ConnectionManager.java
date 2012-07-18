@@ -11,7 +11,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
-import vigionline.vce.stream.UriBuilder;
 
 public class ConnectionManager {
 

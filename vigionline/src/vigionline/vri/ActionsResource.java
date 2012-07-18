@@ -27,9 +27,9 @@ import vigionline.common.database.IDatabase;
 import vigionline.common.model.Action;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
-import vigionline.vce.ActionExecuter;
 import vigionline.vce.record.RecordHandler;
 import vigionline.vce.record.Recorder;
+import vigionline.vce.stream.actions.HttpGetActionExecuter;
 import vigionline.vce.stream.virtual.StreamHandler;
 
 @RolesAllowed("admin")
@@ -134,7 +134,7 @@ public class ActionsResource {
 			camera = _database.getCamera(idCamera);
 
 			if (action != null && action.getIdModel() == camera.getIdModel()) {
-				ActionExecuter ae = new ActionExecuter(camera, action);
+				HttpGetActionExecuter ae = new HttpGetActionExecuter(camera, action);
 				return Response.status(
 						ae.execute().getStatusLine().getStatusCode()).build();
 			}

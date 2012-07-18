@@ -38,7 +38,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<listener>
-		<listener-class>vigionline.vce.stream.virtual.CameraConnectionContextListener</listener-class>
+		<listener-class>vigionline.vce.stream.virtual.StreamManagerContextListener</listener-class>
 	</listener>
 	<listener>
 		<listener-class>vigionline.vce.record.RecordContextListener</listener-class>

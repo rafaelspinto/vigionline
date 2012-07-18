@@ -11,12 +11,12 @@ import vigionline.vce.stream.parser.FrameParserWithDate;
 import vigionline.vce.stream.parser.IFrameParser;
 import vigionline.vce.stream.parser.JpegParser;
 
-public class RemoteStreamIterator extends StreamIterator<byte[]> {
+public class RemoteFrameIterator extends AbstractFrameIterator<byte[]> {
 
 	protected IFrameParser _streamParser;
 	private ConnectionManager _connectionManager;
 
-	public RemoteStreamIterator(ConnectionManager conManager, Model model)
+	public RemoteFrameIterator(ConnectionManager conManager, Model model)
 			throws ClientProtocolException, IOException {
 		this._connectionManager = conManager;
 		this._streamParser = new FrameParserWithDate(new JpegParser(

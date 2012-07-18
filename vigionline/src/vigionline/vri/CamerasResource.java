@@ -26,9 +26,9 @@ import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
-import vigionline.vce.stream.iterator.DatabaseStreamIterator;
-import vigionline.vce.stream.iterator.LocalStreamIterator;
-import vigionline.vce.stream.iterator.StreamIteratorFactory;
+import vigionline.vce.stream.iterator.DatabaseFrameIterator;
+import vigionline.vce.stream.iterator.LocalFrameIterator;
+import vigionline.vce.stream.iterator.FrameIteratorFactory;
 import vigionline.vce.stream.virtual.StreamConsumer;
 import vigionline.vce.stream.virtual.StreamHandler;
 
@@ -190,7 +190,7 @@ public class CamerasResource {
 			final Model model = _database.getModel(camera.getIdModel());
 			StreamHandler streamHandler = ((StreamHandler) _contextHandler
 					.getAttribute("StreamHandler"));
-			LocalStreamIterator iterator = StreamIteratorFactory
+			LocalFrameIterator iterator = FrameIteratorFactory
 					.getLocalStreamIterator(streamHandler, camera, model);
 			StreamConsumer consumer = new StreamConsumer(iterator, fps);
 			return Response.ok(consumer).build();
@@ -215,7 +215,7 @@ public class CamerasResource {
 			date.add(Calendar.MINUTE, min);
 
 			Date data = new java.sql.Date(date.getTimeInMillis());
-			DatabaseStreamIterator iterator = new DatabaseStreamIterator(idCamera, data);
+			DatabaseFrameIterator iterator = new DatabaseFrameIterator(idCamera, data);
 
 			StreamConsumer consumer = new StreamConsumer(iterator, fps);
 			return Response.ok(consumer).build();

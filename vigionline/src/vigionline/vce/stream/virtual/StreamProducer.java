@@ -8,8 +8,8 @@ import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 import vigionline.vce.connection.ConnectionManager;
 import vigionline.vce.stream.iterator.Messages;
-import vigionline.vce.stream.iterator.RemoteStreamIterator;
-import vigionline.vce.stream.iterator.StreamIterator;
+import vigionline.vce.stream.iterator.RemoteFrameIterator;
+import vigionline.vce.stream.iterator.AbstractFrameIterator;
 
 public class StreamProducer implements Runnable {
 
@@ -29,10 +29,10 @@ public class StreamProducer implements Runnable {
 	@Override
 	public void run() {
 		ConnectionManager conManager = null;
-		StreamIterator<byte[]> iterator = null;
+		AbstractFrameIterator<byte[]> iterator = null;
 		try {
 			conManager = new ConnectionManager(_camera, _model);
-			iterator = new RemoteStreamIterator(conManager, _model);
+			iterator = new RemoteFrameIterator(conManager, _model);
 			while (iterator.hasNext() && !_broker.isEmpty()) {
 				Messages.ImageMessage img = new Messages.ImageMessage();
 				img.image = iterator.next();

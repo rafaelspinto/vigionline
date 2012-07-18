@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
 
-import vigionline.vce.stream.iterator.Messages;
 import vigionline.vce.stream.iterator.AbstractFrameIterator;
 
 public final class StreamConsumer implements StreamingOutput {
@@ -26,13 +25,13 @@ public final class StreamConsumer implements StreamingOutput {
 		try {
 			while (_iterator.hasNext()) {
 				Messages.Message msg = _iterator.next();
-				if (msg instanceof Messages.PoisonMessage) {
+				if (msg instanceof Messages.TerminateMessage) {
 					break;
 				}
 				outputStream.write("--myboundary\r\n".getBytes());
 				outputStream.write("Content-Type: image/jpeg\r\n\r\n"
 						.getBytes());
-				outputStream.write(((Messages.ImageMessage) msg).image);
+				outputStream.write(((Messages.FrameMessage) msg).frame);
 				outputStream.flush();
 				try {
 					Thread.sleep(1000/_framesPerSecond);

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import vigionline.common.Utils;
 import vigionline.common.database.mapper.ImageMapper;
+import vigionline.vce.stream.virtual.Messages;
 
 public class DatabaseFrameIterator extends AbstractFrameIterator<Messages.Message> {
 
@@ -32,20 +33,20 @@ public class DatabaseFrameIterator extends AbstractFrameIterator<Messages.Messag
 		try {
 			/** File might not exist in filesystem **/
 			if (_cursor.isLast()) {
-				return new Messages.PoisonMessage();
+				return new Messages.TerminateMessage();
 			}
 			byte[] image = Utils.jpegToByteArray(new File(_cursor
 					.getString("filename")));
 
-			Messages.ImageMessage img = new Messages.ImageMessage();
-			img.image = image;
+			Messages.FrameMessage img = new Messages.FrameMessage();
+			img.frame = image;
 			return img;
 
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		return new Messages.PoisonMessage();
+		return new Messages.TerminateMessage();
 	}
 
 	@Override

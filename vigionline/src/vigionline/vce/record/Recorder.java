@@ -14,8 +14,8 @@ import vigionline.common.model.Camera;
 import vigionline.common.model.Image;
 import vigionline.common.model.Model;
 import vigionline.vce.stream.iterator.LocalFrameIterator;
-import vigionline.vce.stream.iterator.Messages;
 import vigionline.vce.stream.iterator.FrameIteratorFactory;
+import vigionline.vce.stream.virtual.Messages;
 import vigionline.vce.stream.virtual.StreamHandler;
 
 public class Recorder implements Runnable {
@@ -47,11 +47,11 @@ public class Recorder implements Runnable {
 						_streamHandler, _camera, _model);
 				while (iterator.hasNext() && !STOP_RECORDING.booleanValue()) {
 					Messages.Message msg = iterator.next();
-					if (msg instanceof Messages.PoisonMessage) {
+					if (msg instanceof Messages.TerminateMessage) {
 						STOP_RECORDING = Boolean.TRUE;
 						break;
 					}
-					byte[] image = ((Messages.ImageMessage) msg).image;
+					byte[] image = ((Messages.FrameMessage) msg).frame;
 					try {
 						write(image);
 					} catch (SQLException e) {

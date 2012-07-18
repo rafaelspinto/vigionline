@@ -1,5 +1,6 @@
 package vigionline.vce.stream.iterator;
 
+import vigionline.vce.stream.virtual.Messages;
 import vigionline.vce.stream.virtual.StreamBroker;
 
 public class LocalFrameIterator extends AbstractFrameIterator<Messages.Message> {

@@ -39,8 +39,8 @@
 										
 					<div class="pagination pagination-centered">
 					
-						<a id="bt_play"><img src="<%=baseUrl%>/img/icons/play.png" /></a>
-						<a id="bt_stop"><img src="<%=baseUrl%>/img/icons/stop.png" /></a> &nbsp &nbsp
+						<a id="bt_play"><i class="icon-play"></i></a>
+						<a id="bt_stop"><i class="icon-stop"></i></a> &nbsp &nbsp
 						
 							<span class="label">max. fps</span>&nbsp &nbsp<select id="fps" class="input-mini">
 								<option value="30">30</option>

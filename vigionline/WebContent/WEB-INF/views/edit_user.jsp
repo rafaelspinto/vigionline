@@ -13,16 +13,16 @@
 	<!-- End Navigation -->
 	<form class="well"
 		action="<%= baseUrl %>/users/${it.user.idUser }/edit" method="POST">
-		<div class="well">
+		
 			<input type="hidden" name="idUser" value="${it.user.idUser }" /> <label
 				for="name"><%= messages.getMessage("name") %></label> <input
 				name="name" value="${it.user.name }" /> <label for="username"><%= messages.getMessage("username") %></label>
 			<input name="username" value="${it.user.username }" /> <label
 				for="password"><%= messages.getMessage("password") %></label> <input
 				type="password" name="password" value="${it.user.password }" />
-		</div>
+		
 		<!-- ROLES -->
-		<div class="well">
+		
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -32,19 +32,25 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="role" items="${it.allRoles}">
+					<c:forEach var="role" items="${it.rolesUserIsIn}">
 						<tr>
 							<td>${role.idRole }</td>
 							<td><a href="<%=baseUrl %>/roles/${role.idRole }">${role.name}</a></td>
-							<td><input name="roles" value="${role.name }"
-								type="checkbox"></td>
+							<td><input name="roles" value="${role.name }" type="checkbox" checked="checked"></td>
+						</tr>
+					</c:forEach>
+					<c:forEach var="role" items="${it.rolesUserIsNotIn}">
+						<tr>
+							<td>${role.idRole }</td>
+							<td><a href="<%=baseUrl %>/roles/${role.idRole }">${role.name}</a></td>
+							<td><input name="roles" value="${role.name }" type="checkbox"></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
-		</div>
+		
 		<!-- DIVISIONS -->
-		<div class="well">
+		
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -54,7 +60,15 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="division" items="${it.allDivisions}">
+					<c:forEach var="division" items="${it.divisionsUserIsIn}">
+						<tr>
+							<td>${division.idDivision }</td>
+							<td><a href="<%=baseUrl %>/divisions/${division.idDivision }">${division.name}</a></td>
+							<td><input name="divisions" value="${division.idDivision }"
+								type="checkbox" checked="checked"></td>
+						</tr>
+					</c:forEach>
+					<c:forEach var="division" items="${it.divisionsUserIsNotIn}">
 						<tr>
 							<td>${division.idDivision }</td>
 							<td><a href="<%=baseUrl %>/divisions/${division.idDivision }">${division.name}</a></td>
@@ -64,7 +78,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-		</div>
+		
 		<input class="btn" type="submit"
 			value="<%= messages.getMessage("submit") %>" />
 	</form>

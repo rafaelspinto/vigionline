@@ -1,10 +1,20 @@
 function AppendToMenu(menu_id, url, name)
 {
-	$('#menu ul #'+menu_id).append(
-		    $('<li>').append(
-		        $('<a>').attr('href',url).append(
-		            $('<span>').attr('class', 'tab').append(name)
-		))); 
+	$('#'+menu_id).append(
+			$('<a>').attr('href',url).append(
+		            $('<span><i class="icon-edit"></i>').attr('class', 'label label-info').append(name)
+		)); 
+}
+
+function makeDeleteModelForm(menu_id, action, id, value, label)
+{
+	$form = $('<form>');
+	($form).attr('action', action);
+	($form).attr('method', "POST");
+	($form).append(	$('<input>').attr('type', 'hidden').attr('name', id).attr('value',value));
+	
+	($form).append(	$('<button>').attr('type', 'submit').attr('class', "label label-important").append('<i class="icon-remove"></i>'+label));
+	$('#'+menu_id).append($form);
 }
 
 function ValidateForm(form_id, fld, v_fld)

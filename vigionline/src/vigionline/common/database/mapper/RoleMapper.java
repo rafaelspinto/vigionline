@@ -74,4 +74,15 @@ public class RoleMapper extends Mapper<Role> {
 		prep.setInt(1, idUser);
 		return getListByPreparedStatement(prep);
 	}
+	
+	public List<Role> getWhereUserIsNotIn(int idUser) throws SQLException {
+		Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con
+				.prepareStatement("SELECT R.idRole, R.rolename FROM Role R "
+						+ "LEFT JOIN UserRole UR ON R.rolename = UR.rolename "
+						+ "LEFT JOIN User U ON UR.username = U.username "
+						+ "WHERE U.idUser IS NULL OR U.idUser != ?");
+		prep.setInt(1, idUser);
+		return getListByPreparedStatement(prep);
+	}
 }

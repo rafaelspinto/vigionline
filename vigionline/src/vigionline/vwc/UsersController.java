@@ -18,7 +18,6 @@ import vigionline.common.model.Division;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
 import vigionline.vri.DivisionsResource;
-import vigionline.vri.RolesResource;
 import vigionline.vri.UsersResource;
 
 import com.sun.jersey.api.view.Viewable;
@@ -42,7 +41,7 @@ public class UsersController {
 	public Viewable getUserHTML(@PathParam("idUser") int idUser) {
 		User user = _usersResource.getUser(idUser);
 		List<Role> roles = _usersResource.getUserRoles(idUser);
-		List<Division> divisions = _usersResource.getUserDivisions(idUser);
+		List<Division> divisions = _usersResource.getDivisionsUserIsIn(idUser);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("user", user);
 		data.put("roles", roles);
@@ -74,14 +73,16 @@ public class UsersController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable editUserForm(@PathParam("idUser") int idUser) {
 		User user = _usersResource.getUser(idUser);
-		List<Role> roles = _usersResource.getUserRoles(idUser);
-		List<Role> allRoles = new RolesResource().getRoles();
-		List<Division> allDivisions = new DivisionsResource().getDivisions();
+		List<Role> rolesUserIsIn = _usersResource.getUserRoles(idUser);
+		List<Role> rolesUserIsNotIn = _usersResource.getRolesUserIsNotIn(idUser);
+		List<Division> divisionsUserIsIn = _usersResource.getDivisionsUserIsIn(idUser);
+		List<Division> divisionsUserIsNotIn = _usersResource.getDivisionsUserIsNotIn(idUser);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("user", user);
-		data.put("roles", roles);
-		data.put("allRoles", allRoles);
-		data.put("allDivisions", allDivisions);
+		data.put("rolesUserIsIn", rolesUserIsIn);
+		data.put("rolesUserIsNotIn", rolesUserIsNotIn);
+		data.put("divisionsUserIsIn", divisionsUserIsIn);
+		data.put("divisionsUserIsNotIn", divisionsUserIsNotIn);
 		return new Viewable("/edit_user", data);
 	}
 

@@ -31,7 +31,8 @@ public interface IDatabase {
 	public int updateRole(Role role) throws SQLException;
 	public int deleteRole(int idRole) throws SQLException;
 	public List<Role> getRolesForUser(int idUser) throws SQLException;
-
+	public List<Role> getRolesWhereUserIsNotIn(int idUser) throws SQLException;
+	
 	/** Permission **/
 	public int createPermission(Permission permission) throws SQLException;
 	public List<Permission> getPermissions() throws SQLException;
@@ -74,7 +75,8 @@ public interface IDatabase {
 	/** Cameras **/
 	public List<Camera> getCameras() throws SQLException;
 	public List<Camera> getCamerasByUsername(String username) throws SQLException;
-	public List<Camera> getCamerasByDivision(int idDivision) throws SQLException;
+	public List<Camera> getCamerasInDivision(int idDivision) throws SQLException;
+	public List<Camera> getCamerasNotInDivision(int idDivision) throws SQLException;
 	public List<Camera> getCamerasByUsernameAndDivision(String username, int idDivision) throws SQLException; 
 	public List<Camera> getCamerasByLocation(int idLocation) throws SQLException;
 	public Camera getCamera(int idCamera) throws SQLException;
@@ -94,6 +96,7 @@ public interface IDatabase {
 	public int updateDivision(Division division) throws SQLException;
 	public int deleteDivision(int idDivision) throws SQLException;
 	public List<Division> getDivisionsForUser(int idUser) throws SQLException;
+	public List<Division> getDivisionsWhereUserIsNotIn(int idUser) throws SQLException;
 	
 	/** UserDivision **/
 	public int createUserDivision(UserDivision ud) throws SQLException;

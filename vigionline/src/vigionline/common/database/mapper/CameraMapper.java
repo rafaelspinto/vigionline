@@ -106,6 +106,17 @@ public class CameraMapper extends Mapper<Camera> {
 		return getListByPreparedStatement(prep);
 	}
 
+	public List<Camera> getByNotInDivision(int idDivision) throws SQLException {
+		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
+				+ " LEFT JOIN Permission P ON P.idCamera = C.idCamera "
+				+ " LEFT JOIN Division D ON P.idDivision = D.idDivision"
+				+ " WHERE  P.idDivision IS NULL OR P.idDivision != ?";
+		Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con.prepareStatement(sql);
+		prep.setInt(1, idDivision);
+		return getListByPreparedStatement(prep);
+	}
+	
 	public List<Camera> getByLocation(int idLocation) throws SQLException {
 		String sql = getAllQuery() + " WHERE idLocation = ?";
 		Connection con = MySqlConnector.getConnection();

@@ -9,11 +9,7 @@
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
-			<form class="close" action="<%= baseUrl %>/manufacturers/${it.manufacturer.idManufacturer }/delete" method="POST">
-				<input type="hidden" name="idManufacturer" value="${it.manufacturer.idManufacturer }" />
-				<input type="submit" class="btn btn-danger" value="<%= messages.getMessage("delete_manufacturer") %>">
-			</form>
-			<h1><%= messages.getMessage("data") %></h1>
+			<div id="context-menu"></div>
 			<input name="name" value="${it.manufacturer.name }" readonly="readonly" />			
 		</div>
 			<table class="table table-bordered">
@@ -31,7 +27,15 @@
 	<script type="text/javascript">
 		$(function()
 		{
-			AppendToMenu("menu-manufacturers", "<%= baseUrl %>/manufacturers/${it.manufacturer.idManufacturer }/edit", "<%= messages.getMessage("edit_manufacturer") %>");
+			AppendToMenu("context-menu", "<%= baseUrl %>/manufacturers/${it.manufacturer.idManufacturer }/edit", "<%= messages.getMessage("edit_manufacturer") %>");
+			makeDeleteModelForm
+			(
+					"context-menu", 
+					"<%= baseUrl %>/manufacturers/${it.manufacturer.idManufacturer }/delete", 
+					"idManufacturer", 
+					"${it.manufacturer.idManufacturer }", 
+					"<%= messages.getMessage("delete_manufacturer") %>"
+			);
 		});
 	</script>
 <%@ include file="footer.jsp"%>

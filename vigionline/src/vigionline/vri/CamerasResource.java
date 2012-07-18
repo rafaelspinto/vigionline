@@ -55,9 +55,41 @@ public class CamerasResource {
 				if (username != null && !username.isEmpty())
 					cameras = _database.getCamerasByUsername(username);
 				else if (idDivision != -1)
-					cameras = _database.getCamerasByDivision(idDivision);
+					cameras = _database.getCamerasInDivision(idDivision);
 			}
 
+		} catch (SQLException e) {
+			throw new WebApplicationException(500);
+		}
+		if (cameras == null)
+			throw new WebApplicationException(404);
+		return cameras;
+	}
+	
+	@GET
+	@Path("indivision/{idDivision}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<Camera> getCamerasInDivision(@DefaultValue("-1") @QueryParam("idDivision") int idDivision) {
+		List<Camera> cameras = null;
+		try {
+			if(idDivision != -1)
+				cameras = _database.getCamerasInDivision(idDivision);
+		} catch (SQLException e) {
+			throw new WebApplicationException(500);
+		}
+		if (cameras == null)
+			throw new WebApplicationException(404);
+		return cameras;
+	}
+	
+	@GET
+	@Path("notindivision/{idDivision}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<Camera> getCamerasNotInDivision(@DefaultValue("-1") @QueryParam("idDivision") int idDivision) {
+		List<Camera> cameras = null;
+		try {
+			if(idDivision != -1)
+				cameras = _database.getCamerasNotInDivision(idDivision);
 		} catch (SQLException e) {
 			throw new WebApplicationException(500);
 		}

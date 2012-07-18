@@ -1,4 +1,4 @@
-package vigionline.vce;
+package vigionline.vce.stream.actions;
 
 import java.io.IOException;
 
@@ -11,12 +11,12 @@ import vigionline.common.model.Action;
 import vigionline.common.model.Camera;
 import vigionline.vce.connection.HttpClientFactory;
 
-public class ActionExecuter {
+public class HttpGetActionExecuter implements IActionExecuter {
 
 	private Camera _camera;
 	private Action _action;
 
-	public ActionExecuter(Camera camera, Action action) {
+	public HttpGetActionExecuter(Camera camera, Action action) {
 		this._camera = camera;
 		this._action = action;
 	}

@@ -8,12 +8,12 @@ import java.sql.SQLException;
 import vigionline.common.Utils;
 import vigionline.common.database.mapper.ImageMapper;
 
-public class DatabaseStreamIterator extends StreamIterator<Messages.Message> {
+public class DatabaseFrameIterator extends AbstractFrameIterator<Messages.Message> {
 
 	private ResultSet _cursor;
 	private boolean _hasNext;
 
-	public DatabaseStreamIterator(int idCamera, Date initialDate)
+	public DatabaseFrameIterator(int idCamera, Date initialDate)
 			throws SQLException {
 		this._cursor = new ImageMapper().getImagesFrom(idCamera, initialDate);
 	}

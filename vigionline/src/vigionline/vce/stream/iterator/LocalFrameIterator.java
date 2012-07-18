@@ -2,12 +2,12 @@ package vigionline.vce.stream.iterator;
 
 import vigionline.vce.stream.virtual.StreamBroker;
 
-public class LocalStreamIterator extends StreamIterator<Messages.Message> {
+public class LocalFrameIterator extends AbstractFrameIterator<Messages.Message> {
 
 	private StreamBroker _broker;
 	private int _idConsumer;
 
-	public LocalStreamIterator(StreamBroker broker, int idConsumer) {
+	public LocalFrameIterator(StreamBroker broker, int idConsumer) {
 		this._broker = broker;
 		this._idConsumer = idConsumer;
 	}

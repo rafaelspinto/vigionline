@@ -7,14 +7,14 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;
 
 import vigionline.vce.stream.iterator.Messages;
-import vigionline.vce.stream.iterator.StreamIterator;
+import vigionline.vce.stream.iterator.AbstractFrameIterator;
 
 public final class StreamConsumer implements StreamingOutput {
 
-	private StreamIterator<Messages.Message> _iterator;
+	private AbstractFrameIterator<Messages.Message> _iterator;
 	private int _framesPerSecond;
 	
-	public StreamConsumer(StreamIterator<Messages.Message> iterator, int fps) {
+	public StreamConsumer(AbstractFrameIterator<Messages.Message> iterator, int fps) {
 		this._iterator = iterator;
 		this._framesPerSecond = fps > 0 ? fps : Integer.MAX_VALUE;
 	}

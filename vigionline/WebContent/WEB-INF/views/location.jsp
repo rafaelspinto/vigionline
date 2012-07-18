@@ -9,14 +9,10 @@
 		</ul>
 		<!-- End Navigation -->
 		<div class="well">
-			<form class="close" action="<%= baseUrl %>/locations/${it.location.idLocation }/delete" method="POST">
-				<input type="hidden" name="idLocation" value="${it.location.idLocation }" />
-				<input type="submit" class="btn btn-danger" value="<%= messages.getMessage("delete_location") %>">
-			</form>
+			<div id="context-menu"></div>
 			<input name="name" value="${it.location.name }" readonly="readonly" />			
 		</div>
 		<!-- CAMERAS -->
-	<div class="well">
 		<table class="table table-bordered">
 			<thead>
 				<tr>
@@ -36,13 +32,20 @@
 				</c:forEach>
 			</tbody>
 		</table>
-	</div>
 		
 	</div>
 	<script type="text/javascript">
 		$(function()
 		{
-			AppendToMenu("menu-locations", "<%= baseUrl %>/locations/${it.location.idLocation }/edit", "<%= messages.getMessage("edit_location") %>");
+			AppendToMenu("context-menu", "<%= baseUrl %>/locations/${it.location.idLocation }/edit", "<%= messages.getMessage("edit_location") %>");
+			makeDeleteModelForm
+			(
+					"context-menu", 
+					"<%= baseUrl %>/locations/${it.location.idLocation }/delete", 
+					"idLocation", 
+					"${it.location.idLocation }", 
+					"<%= messages.getMessage("delete_location") %>"
+			);
 		});
 	</script>
 <%@ include file="footer.jsp"%>

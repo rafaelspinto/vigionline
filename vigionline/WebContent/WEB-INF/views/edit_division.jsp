@@ -30,7 +30,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="camera" items="${it.cameras}">
+			<c:forEach var="camera" items="${it.camerasInDivision}">
+				<tr>
+					<td>${camera.idCamera }</td>
+					<td><a href="<%=baseUrl %>/cameras/${camera.idCamera }">${camera.name}</a></td>
+					<td><input name="cameras" value="${camera.idCamera }"
+						type="checkbox" checked="checked"></td>
+				</tr>
+			</c:forEach>
+			<c:forEach var="camera" items="${it.camerasNotInDivision}">
 					<tr>
 						<td>${camera.idCamera }</td>
 						<td><a href="<%=baseUrl %>/cameras/${camera.idCamera }">${camera.name}</a></td>
@@ -38,6 +46,7 @@
 							type="checkbox"></td>
 					</tr>
 				</c:forEach>
+				
 			</tbody>
 		</table>
 

@@ -16,8 +16,10 @@ import javax.ws.rs.core.MediaType;
 
 import com.sun.jersey.api.view.Viewable;
 
+import vigionline.common.model.Action;
 import vigionline.common.model.Manufacturer;
 import vigionline.common.model.Model;
+import vigionline.vri.ActionsResource;
 import vigionline.vri.ManufacturersResource;
 import vigionline.vri.ModelsResource;
 
@@ -42,10 +44,11 @@ public class ModelsController {
 	{
 		Model model = _modelsResource.getModel(idModel);
 		Manufacturer manufacturer = new ManufacturersResource().getManufacturer(model.getIdManufacturer());
-		
+		List<Action> actions = new ActionsResource().getActions(idModel);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("model", model);
 		data.put("manufacturer", manufacturer);
+		data.put("actions", actions);
 		return new Viewable("/model", data);
 	}
 	

@@ -7,6 +7,7 @@
 		<li class="active"><%=messages.getMessage("actions")%></li>
 	</ul>
 	<!-- End Navigation -->
+	<div id="context-menu"></div><br />
 	<table class="table table-bordered">
 		<tbody>
 			<c:forEach var="item" items="${it}">
@@ -19,4 +20,10 @@
 		</tbody>
 	</table>
 </div>
+<script type="text/javascript">
+		$(function()
+		{
+			AppendToMenu("context-menu", "<%= baseUrl %>/actions/create", "<%= messages.getMessage("create_action") %>");
+		});
+</script>
 <%@ include file="footer.jsp"%>

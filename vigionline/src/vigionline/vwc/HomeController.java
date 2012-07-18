@@ -68,9 +68,10 @@ public class HomeController {
 	
 	@GET
 	@Path("logout")
-	public Viewable doLogout()
+	public Viewable doLogout(@Context HttpServletRequest request)
 	{
-		return new Viewable("/logout");
+		request.getSession().invalidate();
+		return new Viewable("/logon");
 	}
 	
 	@GET

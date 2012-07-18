@@ -9,7 +9,6 @@
 			<li class="active"><%=messages.getMessage("edit_action") %></li>
 		</ul>
 		<!-- End Navigation -->
-		<div class="well">
 			<form class="well" action="<%= baseUrl %>/actions/${it.action.idAction}/edit" method="POST">
 				<input type="hidden" name="idAction" value="${it.action.idAction }" />
 				<label for="name"><%= messages.getMessage("name") %></label><input name="name" value="${it.action.name }" required="required"/>
@@ -30,7 +29,6 @@
 				<input class="btn" type="submit" value="<%= messages.getMessage("submit") %>" />
 			</form>
 		</div>
-	</div>
 	<script type="text/javascript">
 		$(function(){
 			$("#manufacturer").change(function(){

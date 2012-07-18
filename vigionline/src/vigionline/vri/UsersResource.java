@@ -74,9 +74,24 @@ public class UsersResource {
 	}
 
 	@GET
+	@Path("{idUser}/rolesnotin")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<Role> getRolesUserIsNotIn(@PathParam("idUser") int idUser) {
+		List<Role> roles = null;
+		try {
+			roles = _database.getRolesWhereUserIsNotIn(idUser);
+		} catch (SQLException e) {
+			throw new WebApplicationException(500);
+		}
+		if (roles == null)
+			throw new WebApplicationException(404);
+		return roles;
+	}
+	
+	@GET
 	@Path("{idUser}/divisions")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<Division> getUserDivisions(@PathParam("idUser") int idUser) {
+	public List<Division> getDivisionsUserIsIn(@PathParam("idUser") int idUser) {
 		List<Division> divisions = null;
 		try {
 			divisions = _database.getDivisionsForUser(idUser);
@@ -88,6 +103,21 @@ public class UsersResource {
 		return divisions;
 	}
 
+	@GET
+	@Path("{idUser}/divisionsnotin")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<Division> getDivisionsUserIsNotIn(@PathParam("idUser") int idUser) {
+		List<Division> divisions = null;
+		try {
+			divisions = _database.getDivisionsWhereUserIsNotIn(idUser);
+		} catch (SQLException e) {
+			throw new WebApplicationException(500);
+		}
+		if (divisions == null)
+			throw new WebApplicationException(404);
+		return divisions;
+	}
+	
 	@POST
 	@Path("create")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)

@@ -9,7 +9,6 @@
 			<li class="active"><%=messages.getMessage("edit_model") %></li>
 		</ul>
 		<!-- End Navigation -->
-		<div class="well">
 			<form class="well" action="<%= baseUrl %>/models/${it.model.idModel }/edit" method="POST">
 				<input type="hidden" name="idModel" value="${it.model.idModel }" />
 				<label for="name"><%= messages.getMessage("name") %></label><input name="name" value="${it.model.name }" />
@@ -24,20 +23,9 @@
 						</c:if>										
 					</c:forEach>										
 				</select>			
-				<c:choose>			
-					<c:when test="${it.model.MJPEG == true}">
-						<label for="isMjpeg"><%= messages.getMessage("is_mjpeg") %></label><input type="checkbox" name="isMjpeg" checked="checked" />
-					</c:when>
-					<c:otherwise>
-						<label for="isMjpeg"><%= messages.getMessage("is_mjpeg") %></label><input type="checkbox" name="isMjpeg" />
-					</c:otherwise>
-				</c:choose>	
 				<label for="width"><%= messages.getMessage("width") %></label><input name="width" value="${it.model.width }" />
 				<label for="width"><%= messages.getMessage("height") %></label><input name="height" value="${it.model.height }" />
-				<label for="beginLinesToDiscard"><%= messages.getMessage("begin_lines_to_discard") %></label><input name="beginLinesToDiscard" value="${it.model.beginLinesToDiscard }" />
-				<label for="endLinesToDiscard"><%= messages.getMessage("end_lines_to_discard") %></label><input name="endLinesToDiscard" value="${it.model.endLinesToDiscard }" />
 				<input class="btn" type="submit" value="<%= messages.getMessage("submit") %>" />
 			</form>
 		</div>
-	</div>
 <%@ include file="footer.jsp"%>

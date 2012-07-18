@@ -39,7 +39,7 @@ public class DivisionsController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable getDivisionHTML(@PathParam("idDivision") int idDivision) {
 		Division division = _divisionsResource.getDivision(idDivision);
-		List<Camera> cameras = new CamerasResource().getCameras(null,idDivision);
+		List<Camera> cameras = new CamerasResource().getCamerasInDivision(idDivision);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("division", division);
 		data.put("cameras", cameras);
@@ -67,10 +67,12 @@ public class DivisionsController {
 	@Produces(MediaType.TEXT_HTML)
 	public Viewable editDivisionForm(@PathParam("idDivision") int idDivision) {
 		Division division = _divisionsResource.getDivision(idDivision);
-		List<Camera> cameras = new CamerasResource().getCameras(null,-1);
+		List<Camera> camerasInDivision = new CamerasResource().getCamerasInDivision(idDivision);
+		List<Camera> camerasNotInDivision = new CamerasResource().getCamerasNotInDivision(idDivision);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("division", division);
-		data.put("cameras", cameras);
+		data.put("camerasInDivision", camerasInDivision);
+		data.put("camerasNotInDivision", camerasNotInDivision);
 		return new Viewable("/edit_division", data);
 	}
 

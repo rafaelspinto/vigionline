@@ -74,4 +74,15 @@ public class DivisionMapper extends Mapper<Division> {
 		prep.setInt(1, idUser);
 		return getListByPreparedStatement(prep);
 	}
+
+	public List<Division> getWhereUserIsNotIn(int idUser) throws SQLException{
+		Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con
+				.prepareStatement("SELECT D.idDivision, D.name FROM Division D "
+						+ "LEFT JOIN UserDivision UD ON D.idDivision = UD.idDivision "
+						+ "LEFT JOIN User U ON UD.idUser = U.idUser "
+						+ "WHERE UD.idUser IS NULL OR U.idUser != ?");
+		prep.setInt(1, idUser);
+		return getListByPreparedStatement(prep);
+	}
 }

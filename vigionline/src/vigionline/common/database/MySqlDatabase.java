@@ -248,11 +248,17 @@ public class MySqlDatabase implements IDatabase {
 	}
 
 	@Override
-	public List<Camera> getCamerasByDivision(int idDivision)
+	public List<Camera> getCamerasInDivision(int idDivision)
 			throws SQLException {
 		return new CameraMapper().getByDivision(idDivision);
 	}
 
+	@Override
+	public List<Camera> getCamerasNotInDivision(int idDivision)
+			throws SQLException {
+		return new CameraMapper().getByNotInDivision(idDivision);
+	}
+	
 
 	@Override
 	public List<Camera> getCamerasByUsernameAndDivision(String username, int idDivision) throws SQLException {
@@ -281,6 +287,11 @@ public class MySqlDatabase implements IDatabase {
 
 	@Override
 	public List<Role> getRolesForUser(int idUser) throws SQLException {
+		return new RoleMapper().getByUserId(idUser);
+	}
+	
+	@Override
+	public List<Role> getRolesWhereUserIsNotIn(int idUser) throws SQLException {
 		return new RoleMapper().getByUserId(idUser);
 	}
 
@@ -317,6 +328,11 @@ public class MySqlDatabase implements IDatabase {
 	@Override
 	public List<Division> getDivisionsForUser(int idUser) throws SQLException {
 		return new DivisionMapper().getByUserId(idUser);
+	}
+	
+	@Override
+	public List<Division> getDivisionsWhereUserIsNotIn(int idUser) throws SQLException {
+		return new DivisionMapper().getWhereUserIsNotIn(idUser);
 	}
 
 	@Override

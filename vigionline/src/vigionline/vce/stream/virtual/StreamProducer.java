@@ -2,13 +2,11 @@ package vigionline.vce.stream.virtual;
 
 import java.io.IOException;
 
-import org.apache.http.client.ClientProtocolException;
-
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 import vigionline.vce.connection.ConnectionManager;
-import vigionline.vce.stream.iterator.RemoteFrameIterator;
 import vigionline.vce.stream.iterator.AbstractFrameIterator;
+import vigionline.vce.stream.iterator.RemoteFrameIterator;
 
 public class StreamProducer implements Runnable {
 
@@ -37,14 +35,12 @@ public class StreamProducer implements Runnable {
 				img.frame = iterator.next();
 				_broker.put(img);
 			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			iterator.shutdown();
+			if(iterator != null)
+				iterator.shutdown();
 			_broker._isProducing = Boolean.FALSE;
 			_broker.put(new Messages.TerminateMessage());
 			_streamHandler.removeProducer(_camera.getIdCamera());

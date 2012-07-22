@@ -40,7 +40,7 @@ public class HomeController {
 	{
 		String username = request.getUserPrincipal().getName();
 		
-		List<Camera> cameras = new CamerasResource().getCameras(username, -1);
+		List<Camera> cameras = new CamerasResource().getCamerasAllowedToUser(username);
 		List<Location> locations = new LocationsResource().getLocations();
 		Map<String, Object> data = new HashMap<String, Object>();
 		List<Action> actions = new ActionsResource().getActions(-1);
@@ -68,10 +68,10 @@ public class HomeController {
 	
 	@GET
 	@Path("logout")
-	public Viewable doLogout(@Context HttpServletRequest request)
+	public Response doLogout(@Context HttpServletRequest request)
 	{
 		request.getSession().invalidate();
-		return new Viewable("/logon");
+		return Response.seeOther(UriBuilder.fromUri("/").build()).build();
 	}
 	
 	@GET

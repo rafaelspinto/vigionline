@@ -38,21 +38,6 @@
 	</ul>
 </li>
 
-
-<!-- DIVISIONS -->
-<li class="dropdown"><a class="dropdown-toggle"
-	data-toggle="dropdown" href="#"> <%= messages.getMessage("divisions") %>
-		<b class="caret"></b>
-</a>
-	<ul id="menu-divisions" class="dropdown-menu">
-		<li class="nav-header"><%= messages.getMessage("groups") %></li>
-		<li><a href="<%= baseUrl %>/divisions"><%= messages.getMessage("all") %></a></li>
-		<li class="divider"></li>
-		<li><a href="<%= baseUrl %>/divisions/create"><i class="icon-plus"></i><%= messages.getMessage("create_division") %></a></li>
-	</ul></li>
-<li class="divider-vertical"></li>
-
-
 <!-- MENU USERS -->
 <li class="dropdown">
 	<a class="dropdown-toggle"data-toggle="dropdown" href="#"><%= messages.getMessage("users") %><b class="caret"></b></a>
@@ -67,5 +52,11 @@
 		<li class="nav-header"><%= messages.getMessage("roles") %></li>
 		<li><a href="<%= baseUrl %>/roles"><%= messages.getMessage("all_roles") %></a></li>
 		<li><a href="<%= baseUrl %>/roles/create"><i class="icon-plus"></i><%= messages.getMessage("create_role") %></a></li>
+		<li class="divider"></li>
+		
+		<!-- DIVISIONS -->
+		<li class="nav-header"><%= messages.getMessage("groups") %></li>
+		<li><a href="<%= baseUrl %>/divisions"><%= messages.getMessage("all") %></a></li>
+		<li><a href="<%= baseUrl %>/divisions/create"><i class="icon-plus"></i><%= messages.getMessage("create_division") %></a></li>
 	</ul>
 </li>

@@ -30,8 +30,8 @@
 </div>
 <script type="text/javascript">
 	$(function(){
-		var dp = $("#beginDate").datepicker();
-		var dp = $("#endDate").datepicker();
+		$("#beginDate").datepicker();
+		$("#endDate").datepicker();
 	});
 </script>
 <%@ include file="footer.jsp"%>

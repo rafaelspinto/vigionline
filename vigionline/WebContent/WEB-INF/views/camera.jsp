@@ -15,7 +15,7 @@
 			<label for="port"><%= messages.getMessage("port") %></label><input name="port" value="${it.camera.port }" readonly="readonly" />
 			<label for="username"><%= messages.getMessage("username") %></label><input name="username" value="${it.camera.username }" readonly="readonly" />
 			<label for="password"><%= messages.getMessage("password") %></label><input id="password" type="password" value="${it.camera.password }" readonly="readonly" />
-			<input id="show_password" type="checkbox" /><%= messages.getMessage("show_password") %>
+			<input id="show_password" type="checkbox" />&nbsp<%= messages.getMessage("show_password") %>
 			<label for="idLocation"><%= messages.getMessage("location") %></label>
 			<a href="<%=baseUrl %>/locations/${it.location.idLocation }">${it.location.name }</a>
 			<label for="idManufacturer"><%= messages.getMessage("manufacturer") %></label>

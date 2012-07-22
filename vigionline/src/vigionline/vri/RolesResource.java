@@ -3,6 +3,7 @@ package vigionline.vri;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -38,7 +39,7 @@ public class RolesResource {
 			throw new WebApplicationException(404);
 		return roles;
 	}
-
+	
 	@GET
 	@Path("{idRole}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -54,6 +55,7 @@ public class RolesResource {
 		return role;
 	}
 
+	@DenyAll
 	@POST
 	@Path("create")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -68,6 +70,7 @@ public class RolesResource {
 		}
 	}
 
+	@DenyAll
 	@POST
 	@Path("{idRole}/edit")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -84,6 +87,7 @@ public class RolesResource {
 		}
 	}
 
+	@DenyAll
 	@Path("{idRole}/delete")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response deleteRole(@FormParam("idRole") int idRole) {

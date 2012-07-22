@@ -2,7 +2,7 @@ function AppendToMenu(menu_id, url, name)
 {
 	$('#'+menu_id).append(
 			$('<a>').attr('href',url).append(
-		            $('<span><i class="icon-edit"></i>').attr('class', 'label label-info').append(name)
+		            $('<button><i class="icon-edit"></i>').attr('class', 'label label-info').append(name)
 		)); 
 }
 

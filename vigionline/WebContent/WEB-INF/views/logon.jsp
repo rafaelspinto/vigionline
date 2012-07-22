@@ -17,21 +17,18 @@
 </head>
 <body>
 	<div class="container">
-		<div class="hero-unit">
-			<form class="well" action="j_security_check" method="POST">
-				<h2>Vigionline</h2>
-				<label for="j_username"><%= messages.getMessage("username") %></label>
-				<input name="j_username" /><br /> <label for="j_password"><%= messages.getMessage("password") %></label>
-				<input name="j_password" type="password" /> <br /> <input
-					class="btn" type="submit"
-					value="<%= messages.getMessage("login") %>" />
-				<hr />
-				<a
-					href="${pageContext.request.contextPath}/logon?lang=pt&country=PT">PT</a>
-				| <a
-					href="${pageContext.request.contextPath}/logon?lang=en&country=EN">EN</a>
-			</form>
-		</div>
+		<form class="hero-unit" action="j_security_check" method="POST">
+			<h2>Vigionline</h2>
+			<label for="j_username"><%= messages.getMessage("username") %></label>
+			<input name="j_username" /><br /> <label for="j_password"><%= messages.getMessage("password") %></label>
+			<input name="j_password" type="password" /> <br /> <input
+				class="btn" type="submit"
+				value="<%= messages.getMessage("login") %>" />
+			<hr />
+			<a href="${pageContext.request.contextPath}/logon?lang=pt&country=PT">PT</a>
+			| <a
+				href="${pageContext.request.contextPath}/logon?lang=en&country=EN">EN</a>
+		</form>
 	</div>
 </body>
 </html>

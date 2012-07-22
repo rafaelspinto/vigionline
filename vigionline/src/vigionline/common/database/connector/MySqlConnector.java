@@ -22,12 +22,12 @@ public final class MySqlConnector {
 		ds.setPassword(PASSWORD);
 		ds.setAutoReconnect(true);
 		ds.setAutoReconnectForPools(true);
+		ds.setEncoding("UTF-8");
 		Connection connection = null;
 		try {
 			connection = ds.getConnection();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return connection;
 	}

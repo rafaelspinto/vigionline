@@ -99,6 +99,22 @@ public class CamerasResource {
 	}
 
 	@GET
+	@Path("foruser/{username}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<Camera> getCamerasAllowedToUser(@PathParam("username") String username) {
+		List<Camera> cameras = null;
+		try {
+			if(username != null)
+				cameras = _database.getCamerasByUsername(username);
+		} catch (SQLException e) {
+			throw new WebApplicationException(500);
+		}
+		if (cameras == null)
+			throw new WebApplicationException(404);
+		return cameras;
+	}
+	
+	@GET
 	@Path("{idCamera}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Camera getCamera(@PathParam("idCamera") int idCamera) {

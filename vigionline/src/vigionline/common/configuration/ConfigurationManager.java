@@ -30,6 +30,10 @@ public class ConfigurationManager {
 		return Integer.parseInt(_properties.getProperty(key));
 	}
 
+	public double getDouble(String key)throws NumberFormatException {
+		return Double.parseDouble(_properties.getProperty(key));
+	}
+	
 	/************ Program Settings **************/
 
 	public boolean hasProxy() {
@@ -60,5 +64,9 @@ public class ConfigurationManager {
 	
 	public int getMaxConnectionsPerHost() {
 		return getInt("http.connection-manager.max-per-host");
+	}
+
+	public double getFreeDiskSpacePercentageThreshold() {
+		return getDouble("diskTreshold");
 	}
 }

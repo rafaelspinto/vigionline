@@ -3,9 +3,17 @@
 		<div class="container" style="width: auto;">
 			<a class="brand" href="${pageContext.request.contextPath}">Vigionline <span class="badge badge-info"><%= messages.getMessage("beta_version") %></span></a>
 			<ul class="nav">
-				<li><a href="<%= baseUrl %>/console"><%= messages.getMessage("console") %></a></li>
-				<li class="divider-vertical"></li>
-
+				<li class="dropdown">
+					<a class="dropdown-toggle"	data-toggle="dropdown" href="#"> <%= messages.getMessage("video") %><b class="caret"></b></a>
+						<ul id="menu-video" class="dropdown-menu">
+						<li><a href="<%= baseUrl %>/console"><i class="icon-picture"></i><%= messages.getMessage("live") %></a></li>				
+						<% if(isAdmin) { %>
+							<li class="divider"></li>
+							<!-- RECORDINGS -->
+							<li><a href="<%= baseUrl %>/recordings"><i class="icon-facetime-video"></i><%= messages.getMessage("recordings") %></a></li>
+						<% } %>		
+					</ul>
+				</li>
 				<% if(isAdmin) { %>
 					<%@ include file="menu_admin.jsp"%>
 				<% } %>

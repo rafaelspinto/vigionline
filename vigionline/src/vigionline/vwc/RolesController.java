@@ -2,6 +2,7 @@ package vigionline.vwc;
 
 import java.util.List;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -38,6 +39,7 @@ public class RolesController {
 		return new Viewable("/role", role);
 	}
 
+	@DenyAll
 	@GET
 	@Path("create")
 	@Produces(MediaType.TEXT_HTML)
@@ -45,6 +47,7 @@ public class RolesController {
 		return new Viewable("/create_role");
 	}
 
+	@DenyAll
 	@POST
 	@Path("create")
 	@Produces(MediaType.TEXT_HTML)
@@ -54,6 +57,7 @@ public class RolesController {
 				"create_role_succeeded", "create_role_failed");
 	}
 
+	@DenyAll
 	@GET
 	@Path("{idRole}/edit")
 	@Produces(MediaType.TEXT_HTML)
@@ -62,6 +66,7 @@ public class RolesController {
 		return new Viewable("/edit_role", role);
 	}
 
+	@DenyAll
 	@POST
 	@Path("{idRole}/edit")
 	@Produces(MediaType.TEXT_HTML)
@@ -72,6 +77,7 @@ public class RolesController {
 				"update_role_succeeded", "update_role_failed");
 	}
 	
+	@DenyAll
 	@POST
 	@Path("{idRole}/delete")
 	@Produces(MediaType.TEXT_HTML)

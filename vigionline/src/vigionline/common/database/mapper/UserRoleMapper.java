@@ -12,7 +12,7 @@ import vigionline.common.model.UserRole;
 public class UserRoleMapper extends Mapper<UserRole> {
 
 	@Override
-	protected UserRole getObject(ResultSet result) throws SQLException {
+	public UserRole getObject(ResultSet result) throws SQLException {
 		UserRole userRole = new UserRole();
 		userRole.setIdUserRole(result.getInt(1));
 		userRole.setUsername(result.getString(2));

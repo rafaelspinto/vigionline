@@ -13,7 +13,7 @@ import vigionline.common.model.Image;
 public class ImageMapper extends Mapper<Image> {
 
 	@Override
-	protected Image getObject(ResultSet result) throws SQLException {
+	public Image getObject(ResultSet result) throws SQLException {
 		Image image = new Image();
 		image.setIdImage(result.getInt(1));
 		image.setDate(result.getDate(2));
@@ -31,7 +31,7 @@ public class ImageMapper extends Mapper<Image> {
 	protected String getByIdQuery() {
 		return "SELECT idImage, date, filename, size FROM Image WHERE idImage = ?";
 	}
-	
+
 	@Override
 	protected String getByNameQuery() {
 		return "SELECT idImage, date, filename, size FROM Image WHERE filename = ?";
@@ -40,7 +40,10 @@ public class ImageMapper extends Mapper<Image> {
 	@Override
 	protected PreparedStatement getInsertStatement(Image image, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("INSERT INTO Image (idCamera, date, filename, size) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement prep = con
+				.prepareStatement(
+						"INSERT INTO Image (idCamera, date, filename, size) VALUES(?,?,?,?)",
+						Statement.RETURN_GENERATED_KEYS);
 		prep.setInt(1, image.getIdCamera());
 		prep.setTimestamp(2, new java.sql.Timestamp(image.getDate().getTime()));
 		prep.setString(3, image.getFilename());
@@ -51,7 +54,8 @@ public class ImageMapper extends Mapper<Image> {
 	@Override
 	protected PreparedStatement getUpdateStatement(Image image, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("UPDATE Image SET date = ?, filename = ?, size = ? WHERE idImage = ?");
+		PreparedStatement prep = con
+				.prepareStatement("UPDATE Image SET date = ?, filename = ?, size = ? WHERE idImage = ?");
 		prep.setTimestamp(1, new java.sql.Timestamp(image.getDate().getTime()));
 		prep.setString(2, image.getFilename());
 		prep.setInt(3, image.getSize());
@@ -62,17 +66,37 @@ public class ImageMapper extends Mapper<Image> {
 	@Override
 	protected PreparedStatement getDeleteStatement(int id, Connection con)
 			throws SQLException {
-		PreparedStatement prep = con.prepareStatement("DELETE FROM Image WHERE idImage = ?");
+		PreparedStatement prep = con
+				.prepareStatement("DELETE FROM Image WHERE idImage = ?");
 		prep.setInt(1, id);
 		return prep;
 	}
-	
-	public ResultSet getImagesFrom(int idCamera, Date date) throws SQLException
-	{
+
+	public ResultSet getImagesFrom(int idCamera, Date date) throws SQLException {
 		Connection con = MySqlConnector.getConnection();
-		PreparedStatement prep = con.prepareStatement(getAllQuery()+ " WHERE idCamera = ? AND date >= ? ");
+		PreparedStatement prep = con.prepareStatement(getAllQuery()
+				+ " WHERE idCamera = ? AND date >= ? ");
 		prep.setInt(1, idCamera);
 		prep.setTimestamp(2, new java.sql.Timestamp(date.getTime()));
 		return prep.executeQuery();
+	}
+
+	public ResultSet getImagesFromUntil(Date beginDate, Date endDate)
+			throws SQLException {
+		Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con.prepareStatement(getAllQuery()
+				+ " WHERE date >= ? AND date <= ?");
+		prep.setTimestamp(1, new java.sql.Timestamp(beginDate.getTime()));
+		prep.setTimestamp(2, new java.sql.Timestamp(endDate.getTime()));
+		return prep.executeQuery();
+	}
+
+	public int getImageCount() throws SQLException {
+		try (Connection con = MySqlConnector.getConnection();
+				PreparedStatement prep = con
+						.prepareStatement("SELECT COUNT(*) FROM Image");
+				ResultSet rs = prep.executeQuery();) {
+			return rs.next() ? rs.getInt(1) : -1;
+		}
 	}
 }

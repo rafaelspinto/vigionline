@@ -13,7 +13,7 @@ import vigionline.common.model.Action;
 public class ActionMapper extends Mapper<Action> {
 
 	@Override
-	protected Action getObject(ResultSet result) throws SQLException {
+	public Action getObject(ResultSet result) throws SQLException {
 		Action action = new Action();
 		action.setIdAction(result.getInt(1));
 		action.setIdModel(result.getInt(2));

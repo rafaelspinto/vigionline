@@ -11,7 +11,7 @@ import vigionline.common.model.Manufacturer;
 public class ManufacturerMapper extends Mapper<Manufacturer> {
 
 	@Override
-	protected Manufacturer getObject(ResultSet result) throws SQLException {
+	public Manufacturer getObject(ResultSet result) throws SQLException {
 		Manufacturer manufacturer = new Manufacturer();
 		manufacturer.setIdManufacturer(result.getInt(1));
 		manufacturer.setName(result.getString(2));

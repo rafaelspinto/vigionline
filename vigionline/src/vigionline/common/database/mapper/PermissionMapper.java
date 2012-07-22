@@ -12,7 +12,7 @@ import vigionline.common.model.Permission;
 public class PermissionMapper extends Mapper<Permission> {
 
 	@Override
-	protected Permission getObject(ResultSet result) throws SQLException {
+	public Permission getObject(ResultSet result) throws SQLException {
 		Permission perm = new Permission();
 		perm.setIdPermission(result.getInt(1));
 		perm.setIdCamera(result.getInt(2));

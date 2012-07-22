@@ -12,7 +12,7 @@ import vigionline.common.model.UserDivision;
 public class UserDivisionMapper extends Mapper<UserDivision> {
 
 	@Override
-	protected UserDivision getObject(ResultSet result) throws SQLException {
+	public UserDivision getObject(ResultSet result) throws SQLException {
 		UserDivision userDivision = new UserDivision();
 		userDivision.setIdUserDivision(result.getInt(1));
 		userDivision.setIdUser(result.getInt(2));

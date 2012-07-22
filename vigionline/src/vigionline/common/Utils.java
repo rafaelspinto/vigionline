@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Utils {
 	public static byte[] jpegToByteArray(File file) {
@@ -25,12 +29,29 @@ public class Utils {
 				bos.close();
 				fis.close();
 			} catch (IOException e) {
-				// TODO : Treat exceptions
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		} catch (FileNotFoundException e) {
 			return null;
 		}
 		return imageInBytes;
+	}
+	
+	public static boolean deleteFile(String filename)
+	{
+		File file = new File(filename);
+		return file.delete();
+	}
+	
+	public static java.sql.Date makeDateFromFormFields(String day, int hour, int min) throws ParseException
+	{
+		SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
+		Date d = new java.sql.Date(parser.parse(day).getTime());
+		Calendar date = Calendar.getInstance();
+		date.setTime(d);
+		date.add(Calendar.HOUR_OF_DAY, hour);
+		date.add(Calendar.MINUTE, min);
+
+		return new java.sql.Date(date.getTimeInMillis());
 	}
 }

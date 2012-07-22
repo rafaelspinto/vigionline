@@ -13,7 +13,7 @@ import vigionline.common.model.Model;
 public class ModelMapper extends Mapper<Model> {
 
 	@Override
-	protected Model getObject(ResultSet result) throws SQLException {
+	public Model getObject(ResultSet result) throws SQLException {
 		Model model = new Model();
 		model.setIdModel(result.getInt(1));
 		model.setIdManufacturer(result.getInt(2));

@@ -13,7 +13,7 @@ import vigionline.common.model.Division;
 public class DivisionMapper extends Mapper<Division> {
 
 	@Override
-	protected Division getObject(ResultSet result) throws SQLException {
+	public Division getObject(ResultSet result) throws SQLException {
 		Division division = new Division();
 		division.setIdDivision(result.getInt(1));
 		division.setName(result.getString(2));

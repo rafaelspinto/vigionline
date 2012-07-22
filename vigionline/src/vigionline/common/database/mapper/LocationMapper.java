@@ -11,7 +11,7 @@ import vigionline.common.model.Location;
 public class LocationMapper extends Mapper<Location> {
 
 	@Override
-	protected Location getObject(ResultSet result) throws SQLException {
+	public Location getObject(ResultSet result) throws SQLException {
 		Location location = new Location();
 		location.setIdLocation(result.getInt(1));
 		location.setName(result.getString(2));

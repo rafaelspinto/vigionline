@@ -13,7 +13,7 @@ import vigionline.common.model.Camera;
 public class CameraMapper extends Mapper<Camera> {
 
 	@Override
-	protected Camera getObject(ResultSet result) throws SQLException {
+	public Camera getObject(ResultSet result) throws SQLException {
 		Camera camera = new Camera();
 		camera.setIdCamera(result.getInt(1));
 		camera.setIdLocation(result.getInt(2));

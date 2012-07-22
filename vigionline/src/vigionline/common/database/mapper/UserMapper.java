@@ -11,7 +11,7 @@ import vigionline.common.model.User;
 public class UserMapper extends Mapper<User> {
 
 	@Override
-	protected User getObject(ResultSet result) throws SQLException {
+	public User getObject(ResultSet result) throws SQLException {
 		User user = new User();
 		user.setIdUser(result.getInt(1));
 		user.setName(result.getString(2));

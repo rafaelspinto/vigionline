@@ -13,7 +13,7 @@ import vigionline.common.model.Role;
 public class RoleMapper extends Mapper<Role> {
 
 	@Override
-	protected Role getObject(ResultSet result) throws SQLException {
+	public Role getObject(ResultSet result) throws SQLException {
 		Role role = new Role();
 		role.setIdRole(result.getInt(1));
 		role.setName(result.getString(2));

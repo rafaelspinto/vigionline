@@ -123,7 +123,7 @@ public abstract class Mapper<T> {
 	}
 	
 	/** Row to Object **/
-	protected abstract T getObject(ResultSet result) throws SQLException;
+	public abstract T getObject(ResultSet result) throws SQLException;
 	
 	/** Queries **/
 	protected abstract String getAllQuery();

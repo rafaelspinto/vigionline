@@ -68,5 +68,6 @@
 		<!-- LOCATIONS -->
 		<li class="nav-header"><i class="icon-info-sign"></i><%= messages.getMessage("info") %></li>		
 		<li><a href="<%= baseUrl %>/system"><%= messages.getMessage("system_info") %></a></li>
+		<li><a href="<%= baseUrl %>/system/maintenance"><%= messages.getMessage("system_maintenance") %></a></li>
 		</ul>
 </li>

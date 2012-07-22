@@ -11,7 +11,7 @@ import vigionline.common.model.RolePermission;
 public class RolePermissionMapper extends Mapper<RolePermission> {
 
 	@Override
-	protected RolePermission getObject(ResultSet result) throws SQLException {
+	public RolePermission getObject(ResultSet result) throws SQLException {
 		RolePermission rolePermission = new RolePermission();
 		rolePermission.setIdRolePermission(result.getInt(1));
 		rolePermission.setIdRole(result.getInt(2));

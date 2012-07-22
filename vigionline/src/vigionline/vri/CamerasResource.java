@@ -2,8 +2,6 @@ package vigionline.vri;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
@@ -22,13 +20,14 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import vigionline.common.Utils;
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 import vigionline.vce.stream.iterator.DatabaseFrameIterator;
-import vigionline.vce.stream.iterator.LocalFrameIterator;
 import vigionline.vce.stream.iterator.FrameIteratorFactory;
+import vigionline.vce.stream.iterator.LocalFrameIterator;
 import vigionline.vce.stream.virtual.StreamConsumer;
 import vigionline.vce.stream.virtual.StreamHandler;
 
@@ -223,20 +222,12 @@ public class CamerasResource {
 			@QueryParam("min") int min,
 			@DefaultValue("-1") @QueryParam("fps") int fps) {
 		try {
-			SimpleDateFormat parser = new SimpleDateFormat("dd-MM-yyyy");
-			Date d = new java.sql.Date(parser.parse(day).getTime());
-			Calendar date = Calendar.getInstance();
-			date.setTime(d);
-			date.add(Calendar.HOUR_OF_DAY, hour);
-			date.add(Calendar.MINUTE, min);
-
-			Date data = new java.sql.Date(date.getTimeInMillis());
+			Date data = Utils.makeDateFromFormFields(day, hour, min);
 			DatabaseFrameIterator iterator = new DatabaseFrameIterator(idCamera, data);
 
 			StreamConsumer consumer = new StreamConsumer(iterator, fps);
 			return Response.ok(consumer).build();
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new WebApplicationException(500);
 		}
 	}

@@ -1,7 +1,7 @@
 <div id="menu" class="navbar navbar-static">
 	<div class="navbar-inner">
 		<div class="container" style="width: auto;">
-			<a class="brand" href="${pageContext.request.contextPath}">Vigionline <span class="badge badge-info"><%= messages.getMessage("beta_version") %></span></a>
+			<a class="brand" href="${pageContext.request.contextPath}">Vigionline <span class="badge badge-info">v1.0</span></a>
 			<ul class="nav">
 				<li class="dropdown">
 					<a class="dropdown-toggle"	data-toggle="dropdown" href="#"> <%= messages.getMessage("video") %><b class="caret"></b></a>

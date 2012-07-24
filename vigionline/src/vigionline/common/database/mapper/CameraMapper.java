@@ -84,7 +84,7 @@ public class CameraMapper extends Mapper<Camera> {
 	}
 
 	public List<Camera> getByUsername(String username) throws SQLException {
-		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
+		String sql = "SELECT DISTINCT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
 				+ " INNER JOIN Permission P ON P.idCamera = C.idCamera "
 				+ " INNER JOIN Division D ON P.idDivision = D.idDivision"
 				+ " INNER JOIN UserDivision UD ON D.idDivision = UD.idDivision "
@@ -97,7 +97,7 @@ public class CameraMapper extends Mapper<Camera> {
 	}
 
 	public List<Camera> getByDivision(int idDivision) throws SQLException {
-		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
+		String sql = "SELECT DISTINCT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
 				+ " INNER JOIN Permission P ON P.idCamera = C.idCamera "
 				+ " INNER JOIN Division D ON P.idDivision = D.idDivision"
 				+ " WHERE D.idDivision = ? ";
@@ -108,7 +108,7 @@ public class CameraMapper extends Mapper<Camera> {
 	}
 
 	public List<Camera> getByNotInDivision(int idDivision) throws SQLException {
-		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
+		String sql = "SELECT DISTINCT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
 				+ " LEFT JOIN Permission P ON P.idCamera = C.idCamera "
 				+ " LEFT JOIN Division D ON P.idDivision = D.idDivision"
 				+ " WHERE  P.idDivision IS NULL OR P.idDivision != ?";
@@ -128,7 +128,7 @@ public class CameraMapper extends Mapper<Camera> {
 
 	public List<Camera> getByUsernameAndDivision(String username, int idDivision)
 			throws SQLException {
-		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
+		String sql = "SELECT DISTINCT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
 				+ " INNER JOIN Permission P ON P.idCamera = C.idCamera "
 				+ " INNER JOIN User U ON U.username = ? "
 				+ " INNER JOIN UserDivision UD ON U.idUser = UD.idUser "
@@ -141,9 +141,24 @@ public class CameraMapper extends Mapper<Camera> {
 		return getListByPreparedStatement(prep);
 	}
 
-	// TODO: Validate
 	public boolean isCameraAllowedToUser(int idCamera, String username) {
-		// TODO Auto-generated method stub
+		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
+				+ " INNER JOIN Permission P ON P.idCamera = C.idCamera "
+				+ " INNER JOIN Division D ON P.idDivision = D.idDivision"
+				+ " INNER JOIN UserDivision UD ON D.idDivision = UD.idDivision "
+				+ " INNER JOIN User U ON UD.idUser = U.iduser "
+				+ " WHERE P.idCamera = ? AND U.username = ?";
+		try(Connection con = MySqlConnector.getConnection();
+		PreparedStatement prep = con.prepareStatement(sql);)
+		{
+			prep.setInt(1, idCamera);
+			prep.setString(2, username);
+			ResultSet rs = prep.executeQuery();
+			
+			boolean res = rs.next() ? true : false;
+			rs.close();
+			return res;
+		} catch (SQLException e) {}
 		return false;
 	}
 }

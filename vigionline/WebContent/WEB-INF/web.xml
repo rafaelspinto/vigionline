@@ -89,6 +89,10 @@
     	<location>/WEB-INF/views/not_authorized.jsp</location>
 	</error-page>
 	<error-page>
+    	<error-code>401</error-code>
+    	<location>/WEB-INF/views/not_authorized.jsp</location>
+	</error-page>
+	<error-page>
     	<error-code>500</error-code>
     	<location>/WEB-INF/views/server_error.jsp</location>
 	</error-page>  

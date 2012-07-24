@@ -365,4 +365,14 @@ public class MySqlDatabase implements IDatabase {
 	public int clearRolesForUser(String username) throws SQLException {
 		return new UserRoleMapper().deleteByUser(username);
 	}
+
+	@Override
+	public boolean isCameraAllowedToUser(int idCamera, String username) {
+		return new CameraMapper().isCameraAllowedToUser(idCamera, username);
+	}
+
+	@Override
+	public boolean isDivisionAllowedToUser(int idDivision, String username) {
+		return new DivisionMapper().isDivisionAllowedToUser(idDivision, username);
+	}
 }

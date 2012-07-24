@@ -5,8 +5,14 @@
 	<input id="w160" type="button" value="160x120">
 	<input id="w320" type="button" value="320x240"> 
 	<input id="w640" type="button" value="640x480"> 
-	<input id="w1024" type="button" value="1024x768"> 
-	<input type="button" class="bt_on .btn btn-success" value="on" /> 
+	<input id="w1024" type="button" value="1024x768">
+	<span class="label">max. fps</span>&nbsp &nbsp<select
+		id="fps" class="input-mini">
+		<option value="30">30</option>
+		<option value="15">15</option>
+		<option value="5">5</option>
+		<option value="1">1</option>
+	</select> <input type="button" class="bt_on .btn btn-success" value="on" /> 
 	<input type="button" class="bt_off .btn btn-danger .disabled" value="off" style="display: none" />
 	<ul class="thumbnails">
 		<c:forEach var="camera" items="${it.cameras}">

@@ -140,4 +140,10 @@ public class CameraMapper extends Mapper<Camera> {
 		prep.setInt(2, idDivision);
 		return getListByPreparedStatement(prep);
 	}
+
+	// TODO: Validate
+	public boolean isCameraAllowedToUser(int idCamera, String username) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -17,7 +17,6 @@ import javax.ws.rs.core.MediaType;
 import vigionline.common.model.Division;
 import vigionline.common.model.Role;
 import vigionline.common.model.User;
-import vigionline.vri.DivisionsResource;
 import vigionline.vri.UsersResource;
 
 import com.sun.jersey.api.view.Viewable;

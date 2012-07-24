@@ -85,4 +85,26 @@ public class DivisionMapper extends Mapper<Division> {
 		prep.setInt(1, idUser);
 		return getListByPreparedStatement(prep);
 	}
+
+	//TODO: Validate
+	public boolean isDivisionAllowedToUser(int idDivision, String username) {
+		try(Connection con = MySqlConnector.getConnection();
+				PreparedStatement prep = con
+						.prepareStatement("SELECT D.idDivision, D.name FROM Division D "
+								+ "INNER JOIN UserDivision UD ON D.idDivision = UD.idDivision "
+								+ "INNER JOIN User U ON UD.idUser = U.idUser "
+								+ "WHERE UD.idUser IS NULL OR U.idUser != ?"))
+		{
+			prep.setInt(1, idDivision);
+			prep.setString(2, username);
+			ResultSet rs = prep.executeQuery();
+			boolean isAuthorized = rs.next() ? true : false;
+			rs.close();
+			return isAuthorized;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

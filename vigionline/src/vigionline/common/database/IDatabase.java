@@ -102,4 +102,8 @@ public interface IDatabase {
 	public int createUserDivision(UserDivision ud) throws SQLException;
 	public int clearPermissionsForDivision(int idDivision) throws SQLException;
 	public int clearDivisionsForUser(int idUser) throws SQLException;
+	
+	/** Authorization **/
+	public boolean isCameraAllowedToUser(int idCamera, String username);
+	public boolean isDivisionAllowedToUser(int idDivision, String username);
 }

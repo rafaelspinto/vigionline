@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -25,6 +26,7 @@ import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
+import vigionline.vce.authorization.AuthorizationAuditor;
 import vigionline.vce.stream.iterator.DatabaseFrameIterator;
 import vigionline.vce.stream.iterator.FrameIteratorFactory;
 import vigionline.vce.stream.iterator.LocalFrameIterator;
@@ -39,6 +41,8 @@ public class CamerasResource {
 
 	private @Context
 	ServletContext _contextHandler;
+	private @Context
+	HttpServletRequest _request;
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -64,14 +68,15 @@ public class CamerasResource {
 			throw new WebApplicationException(404);
 		return cameras;
 	}
-	
+
 	@GET
 	@Path("indivision/{idDivision}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<Camera> getCamerasInDivision(@DefaultValue("-1") @QueryParam("idDivision") int idDivision) {
+	public List<Camera> getCamerasInDivision(
+			@DefaultValue("-1") @QueryParam("idDivision") int idDivision) {
 		List<Camera> cameras = null;
 		try {
-			if(idDivision != -1)
+			if (idDivision != -1)
 				cameras = _database.getCamerasInDivision(idDivision);
 		} catch (SQLException e) {
 			throw new WebApplicationException(500);
@@ -80,14 +85,15 @@ public class CamerasResource {
 			throw new WebApplicationException(404);
 		return cameras;
 	}
-	
+
 	@GET
 	@Path("notindivision/{idDivision}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<Camera> getCamerasNotInDivision(@DefaultValue("-1") @QueryParam("idDivision") int idDivision) {
+	public List<Camera> getCamerasNotInDivision(
+			@DefaultValue("-1") @QueryParam("idDivision") int idDivision) {
 		List<Camera> cameras = null;
 		try {
-			if(idDivision != -1)
+			if (idDivision != -1)
 				cameras = _database.getCamerasNotInDivision(idDivision);
 		} catch (SQLException e) {
 			throw new WebApplicationException(500);
@@ -100,10 +106,11 @@ public class CamerasResource {
 	@GET
 	@Path("foruser/{username}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<Camera> getCamerasAllowedToUser(@PathParam("username") String username) {
+	public List<Camera> getCamerasAllowedToUser(
+			@PathParam("username") String username) {
 		List<Camera> cameras = null;
 		try {
-			if(username != null)
+			if (username != null)
 				cameras = _database.getCamerasByUsername(username);
 		} catch (SQLException e) {
 			throw new WebApplicationException(500);
@@ -112,7 +119,7 @@ public class CamerasResource {
 			throw new WebApplicationException(404);
 		return cameras;
 	}
-	
+
 	@GET
 	@Path("{idCamera}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -200,7 +207,10 @@ public class CamerasResource {
 	public Response getStreamFromCamera(
 			@PathParam("idCamera") final int idCamera,
 			@DefaultValue("-1") @QueryParam("fps") int fps) {
+		String username = _request.getUserPrincipal().getName();
+		AuthorizationAuditor.enforceForCamera(username, idCamera);
 		try {
+
 			final Camera camera = _database.getCamera(idCamera);
 			final Model model = _database.getModel(camera.getIdModel());
 			StreamHandler streamHandler = ((StreamHandler) _contextHandler
@@ -223,7 +233,8 @@ public class CamerasResource {
 			@DefaultValue("-1") @QueryParam("fps") int fps) {
 		try {
 			Date data = Utils.makeDateFromFormFields(day, hour, min);
-			DatabaseFrameIterator iterator = new DatabaseFrameIterator(idCamera, data);
+			DatabaseFrameIterator iterator = new DatabaseFrameIterator(
+					idCamera, data);
 
 			StreamConsumer consumer = new StreamConsumer(iterator, fps);
 			return Response.ok(consumer).build();

@@ -20,8 +20,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.http.client.ClientProtocolException;
-
 import vigionline.common.database.DatabaseLocator;
 import vigionline.common.database.IDatabase;
 import vigionline.common.model.Action;
@@ -138,14 +136,8 @@ public class ActionsResource {
 				return Response.status(
 						ae.execute().getStatusLine().getStatusCode()).build();
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | IOException e) {
 			throw new WebApplicationException(500);
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		throw new WebApplicationException(404);
 	}

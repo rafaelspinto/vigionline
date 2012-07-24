@@ -23,8 +23,6 @@ public class LocalFrameIterator extends AbstractFrameIterator<Messages.Message> 
 		try {
 			return _broker.get(_idConsumer);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return null;
 		}
 	}

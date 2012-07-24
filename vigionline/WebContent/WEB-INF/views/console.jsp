@@ -95,6 +95,7 @@
             setSize(320,240,'3');
     	});
 	   $(".bt_on").click(function(e){
+		   var fps = $("#fps").val();
 		   $(this).attr("src","#");
 		   $(".thumb").attr("src",'<%=baseUrl%>/img/loading.gif');
 		   $(".bt_off").show();
@@ -103,7 +104,7 @@
 		   setTimeout(function(){
 			   $(".thumb").each(function(){
 					var on_src=$(this).attr("source");
-					$(this).attr("src",on_src+"?_=<%= System.currentTimeMillis() %>");
+					$(this).attr("src",on_src+"?_=<%= System.currentTimeMillis() %>&fps="+fps);
 				});   
 		   },1000);
 		});

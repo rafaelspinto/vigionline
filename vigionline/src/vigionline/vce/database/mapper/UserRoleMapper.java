@@ -1,4 +1,4 @@
-package vigionline.common.database.mapper;
+package vigionline.vce.database.mapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import vigionline.common.database.connector.MySqlConnector;
 import vigionline.common.model.UserRole;
+import vigionline.vce.database.connector.MySqlConnector;
 
 public class UserRoleMapper extends Mapper<UserRole> {
 

@@ -47,6 +47,7 @@ public class VigionlineConnManager extends SingleClientConnManager {
 
 	class MyClientConnection extends DefaultClientConnection {
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		protected HttpMessageParser createResponseParser(
 				final SessionInputBuffer buffer,
@@ -55,7 +56,6 @@ public class VigionlineConnManager extends SingleClientConnManager {
 			return new DefaultResponseParser(buffer, new MyLineParser(),
 					responseFactory, params);
 		}
-
 	}
 
 	class MyLineParser extends BasicLineParser {

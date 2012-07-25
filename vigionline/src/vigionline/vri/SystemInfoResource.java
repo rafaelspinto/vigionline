@@ -18,9 +18,9 @@ import javax.ws.rs.core.Response;
 
 import vigionline.common.Utils;
 import vigionline.common.configuration.ConfigurationManager;
-import vigionline.common.database.mapper.ImageMapper;
 import vigionline.common.model.Image;
-import vigionline.vce.server.SystemInfo;
+import vigionline.vce.database.mapper.ImageMapper;
+import vigionline.vce.system.SystemInfo;
 
 @RolesAllowed("admin")
 @Path("/api/system")

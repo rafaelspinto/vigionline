@@ -1,4 +1,4 @@
-package vigionline.common.database.connector;
+package vigionline.vce.database.connector;
 
 import java.sql.Connection;
 import java.sql.SQLException;

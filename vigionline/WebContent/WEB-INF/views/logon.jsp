@@ -1,6 +1,6 @@
 <!-- ------------------------------------------------------ -->
 <%@page import="javax.servlet.http.Cookie"%>
-<%@page import="vigionline.common.lang.MessageLocator"%>
+<%@page import="vigionline.vwc.lang.MessageLocator"%>
 <%
         String baseUrl = request.getContextPath();
 		String lang = request.getParameter("lang"), country = request.getParameter("country");

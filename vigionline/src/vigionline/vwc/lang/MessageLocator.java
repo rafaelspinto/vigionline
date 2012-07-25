@@ -1,4 +1,4 @@
-package vigionline.common.lang;
+package vigionline.vwc.lang;
 
 import java.util.Locale;
 import java.util.MissingResourceException;

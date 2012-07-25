@@ -1,4 +1,4 @@
-package vigionline.common.database.mapper;
+package vigionline.vce.database.mapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

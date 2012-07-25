@@ -1,4 +1,4 @@
-package vigionline.common.database;
+package vigionline.vce.database;
 
 import java.sql.SQLException;
 import java.util.List;

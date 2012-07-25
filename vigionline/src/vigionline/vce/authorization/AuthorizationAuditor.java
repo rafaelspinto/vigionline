@@ -2,8 +2,8 @@ package vigionline.vce.authorization;
 
 import javax.ws.rs.WebApplicationException;
 
-import vigionline.common.database.DatabaseLocator;
-import vigionline.common.database.IDatabase;
+import vigionline.vce.database.DatabaseLocator;
+import vigionline.vce.database.IDatabase;
 
 public class AuthorizationAuditor {
 

@@ -1,4 +1,4 @@
-package vigionline.common.database.mapper;
+package vigionline.vce.database.mapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-import vigionline.common.database.connector.MySqlConnector;
+import vigionline.vce.database.connector.MySqlConnector;
 
 public abstract class Mapper<T> {
 		

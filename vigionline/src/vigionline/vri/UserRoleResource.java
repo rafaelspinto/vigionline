@@ -10,9 +10,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
-import vigionline.common.database.DatabaseLocator;
-import vigionline.common.database.IDatabase;
 import vigionline.common.model.UserRole;
+import vigionline.vce.database.DatabaseLocator;
+import vigionline.vce.database.IDatabase;
 
 @RolesAllowed("admin")
 @Path("/api/usersroles")

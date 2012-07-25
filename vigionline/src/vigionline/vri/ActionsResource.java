@@ -20,11 +20,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import vigionline.common.database.DatabaseLocator;
-import vigionline.common.database.IDatabase;
 import vigionline.common.model.Action;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
+import vigionline.vce.database.DatabaseLocator;
+import vigionline.vce.database.IDatabase;
 import vigionline.vce.record.RecordHandler;
 import vigionline.vce.record.Recorder;
 import vigionline.vce.stream.actions.HttpGetActionExecuter;

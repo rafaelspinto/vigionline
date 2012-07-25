@@ -1,19 +1,8 @@
-package vigionline.common.database;
+package vigionline.vce.database;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import vigionline.common.database.mapper.ActionMapper;
-import vigionline.common.database.mapper.CameraMapper;
-import vigionline.common.database.mapper.DivisionMapper;
-import vigionline.common.database.mapper.LocationMapper;
-import vigionline.common.database.mapper.ManufacturerMapper;
-import vigionline.common.database.mapper.ModelMapper;
-import vigionline.common.database.mapper.PermissionMapper;
-import vigionline.common.database.mapper.RoleMapper;
-import vigionline.common.database.mapper.UserDivisionMapper;
-import vigionline.common.database.mapper.UserMapper;
-import vigionline.common.database.mapper.UserRoleMapper;
 import vigionline.common.model.Action;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Division;
@@ -25,6 +14,17 @@ import vigionline.common.model.Role;
 import vigionline.common.model.User;
 import vigionline.common.model.UserDivision;
 import vigionline.common.model.UserRole;
+import vigionline.vce.database.mapper.ActionMapper;
+import vigionline.vce.database.mapper.CameraMapper;
+import vigionline.vce.database.mapper.DivisionMapper;
+import vigionline.vce.database.mapper.LocationMapper;
+import vigionline.vce.database.mapper.ManufacturerMapper;
+import vigionline.vce.database.mapper.ModelMapper;
+import vigionline.vce.database.mapper.PermissionMapper;
+import vigionline.vce.database.mapper.RoleMapper;
+import vigionline.vce.database.mapper.UserDivisionMapper;
+import vigionline.vce.database.mapper.UserMapper;
+import vigionline.vce.database.mapper.UserRoleMapper;
 
 public class MySqlDatabase implements IDatabase {
 

@@ -15,9 +15,9 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import vigionline.common.database.DatabaseLocator;
-import vigionline.common.database.IDatabase;
 import vigionline.common.model.Model;
+import vigionline.vce.database.DatabaseLocator;
+import vigionline.vce.database.IDatabase;
 
 @RolesAllowed("admin")
 @Path("/api/models")

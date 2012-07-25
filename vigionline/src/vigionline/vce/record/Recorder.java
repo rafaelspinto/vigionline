@@ -9,10 +9,10 @@ import java.sql.SQLException;
 import java.util.Calendar;
 
 import vigionline.common.configuration.ConfigurationManager;
-import vigionline.common.database.mapper.ImageMapper;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Image;
 import vigionline.common.model.Model;
+import vigionline.vce.database.mapper.ImageMapper;
 import vigionline.vce.stream.iterator.LocalFrameIterator;
 import vigionline.vce.stream.iterator.FrameIteratorFactory;
 import vigionline.vce.stream.virtual.Messages;

@@ -22,11 +22,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import vigionline.common.Utils;
-import vigionline.common.database.DatabaseLocator;
-import vigionline.common.database.IDatabase;
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 import vigionline.vce.authorization.AuthorizationAuditor;
+import vigionline.vce.database.DatabaseLocator;
+import vigionline.vce.database.IDatabase;
 import vigionline.vce.stream.iterator.DatabaseFrameIterator;
 import vigionline.vce.stream.iterator.FrameIteratorFactory;
 import vigionline.vce.stream.iterator.LocalFrameIterator;

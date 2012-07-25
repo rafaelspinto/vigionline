@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import vigionline.common.Utils;
-import vigionline.common.database.mapper.ImageMapper;
+import vigionline.vce.database.mapper.ImageMapper;
 import vigionline.vce.stream.virtual.Messages;
 
 public class DatabaseFrameIterator extends AbstractFrameIterator<Messages.Message> {

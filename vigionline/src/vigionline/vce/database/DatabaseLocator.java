@@ -1,4 +1,4 @@
-package vigionline.common.database;
+package vigionline.vce.database;
 
 public class DatabaseLocator {
 

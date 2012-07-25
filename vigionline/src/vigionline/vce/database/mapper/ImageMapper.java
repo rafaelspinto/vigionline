@@ -1,4 +1,4 @@
-package vigionline.common.database.mapper;
+package vigionline.vce.database.mapper;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import vigionline.common.database.connector.MySqlConnector;
 import vigionline.common.model.Image;
+import vigionline.vce.database.connector.MySqlConnector;
 
 public class ImageMapper extends Mapper<Image> {
 

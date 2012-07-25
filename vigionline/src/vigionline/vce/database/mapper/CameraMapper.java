@@ -1,4 +1,4 @@
-package vigionline.common.database.mapper;
+package vigionline.vce.database.mapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import vigionline.common.database.connector.MySqlConnector;
 import vigionline.common.model.Camera;
+import vigionline.vce.database.connector.MySqlConnector;
 
 public class CameraMapper extends Mapper<Camera> {
 

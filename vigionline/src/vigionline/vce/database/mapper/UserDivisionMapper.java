@@ -22,12 +22,12 @@ public class UserDivisionMapper extends Mapper<UserDivision> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idUserDivsion, idUser, idDivision FROM UserDivision";
+		return "SELECT DISTINCT idUserDivsion, idUser, idDivision FROM UserDivision";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idUserDivsion, idUser, idDivision FROM UserDivision WHERE idUserDivision = ?";
+		return "SELECT DISTINCT idUserDivsion, idUser, idDivision FROM UserDivision WHERE idUserDivision = ?";
 	}
 
 	@Override

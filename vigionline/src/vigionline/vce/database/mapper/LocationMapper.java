@@ -20,17 +20,17 @@ public class LocationMapper extends Mapper<Location> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idLocation, name FROM Location";
+		return "SELECT DISTINCT idLocation, name FROM Location";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idLocation, name FROM Location WHERE idLocation = ?";
+		return "SELECT DISTINCT idLocation, name FROM Location WHERE idLocation = ?";
 	}
 	
 	@Override
 	protected String getByNameQuery() {
-		return "SELECT idLocation, name FROM Location WHERE name = ?";
+		return "SELECT DISTINCT idLocation, name FROM Location WHERE name = ?";
 	}
 
 	@Override

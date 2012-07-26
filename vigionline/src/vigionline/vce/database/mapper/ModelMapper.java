@@ -27,7 +27,7 @@ public class ModelMapper extends Mapper<Model> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT " +
+		return "SELECT DISTINCT " +
 				"idModel, " +
 				"idManufacturer, " +
 				"name, " +
@@ -40,7 +40,7 @@ public class ModelMapper extends Mapper<Model> {
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT " +
+		return "SELECT DISTINCT " +
 				"idModel, " +
 				"idManufacturer, " +
 				"name, " +
@@ -53,7 +53,7 @@ public class ModelMapper extends Mapper<Model> {
 	
 	@Override
 	protected String getByNameQuery() {
-		return "SELECT " +
+		return "SELECT DISTINCT " +
 				"idModel, " +
 				"idManufacturer, " +
 				"name, " +

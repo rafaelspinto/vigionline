@@ -22,12 +22,12 @@ public class PermissionMapper extends Mapper<Permission> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idPermission, idCamera, idDivision FROM Permission";
+		return "SELECT DISTINCT idPermission, idCamera, idDivision FROM Permission";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idPermission, idCamera, idDivision FROM Permission WHERE idPermission";
+		return "SELECT DISTINCT idPermission, idCamera, idDivision FROM Permission WHERE idPermission";
 	}
 
 	@Override

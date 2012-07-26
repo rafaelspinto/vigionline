@@ -22,17 +22,17 @@ public class RoleMapper extends Mapper<Role> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idRole, rolename FROM Role";
+		return "SELECT DISTINCT idRole, rolename FROM Role";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idRole, rolename FROM Role WHERE idRole = ?";
+		return "SELECT DISTINCT idRole, rolename FROM Role WHERE idRole = ?";
 	}
 
 	@Override
 	protected String getByNameQuery() {
-		return "SELECT idRole, rolename FROM Role WHERE rolename = ?";
+		return "SELECT DISTINCT idRole, rolename FROM Role WHERE rolename = ?";
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class RoleMapper extends Mapper<Role> {
 	public List<Role> getByUserId(int idUser) throws SQLException {
 		Connection con = MySqlConnector.getConnection();
 		PreparedStatement prep = con
-				.prepareStatement("SELECT R.idRole, R.rolename FROM Role R "
+				.prepareStatement("SELECT DISTINCT R.idRole, R.rolename FROM Role R "
 						+ "INNER JOIN UserRole UR ON R.rolename = UR.rolename "
 						+ "INNER JOIN User U ON UR.username = U.username "
 						+ "WHERE U.idUser = ?");
@@ -78,7 +78,7 @@ public class RoleMapper extends Mapper<Role> {
 	public List<Role> getWhereUserIsNotIn(int idUser) throws SQLException {
 		Connection con = MySqlConnector.getConnection();
 		PreparedStatement prep = con
-				.prepareStatement("SELECT R.idRole, R.rolename FROM Role R "
+				.prepareStatement("SELECT DISTINCT R.idRole, R.rolename FROM Role R "
 						+ "LEFT JOIN UserRole UR ON R.rolename = UR.rolename "
 						+ "LEFT JOIN User U ON UR.username = U.username "
 						+ "WHERE U.idUser IS NULL OR U.idUser != ?");

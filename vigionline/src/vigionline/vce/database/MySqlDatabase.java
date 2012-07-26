@@ -327,7 +327,7 @@ public class MySqlDatabase implements IDatabase {
 
 	@Override
 	public List<Division> getDivisionsForUser(int idUser) throws SQLException {
-		return new DivisionMapper().getWhereUserIsNotIn(idUser);
+		return new DivisionMapper().getByUserId(idUser);
 	}
 	
 	@Override

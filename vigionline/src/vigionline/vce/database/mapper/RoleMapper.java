@@ -81,7 +81,11 @@ public class RoleMapper extends Mapper<Role> {
 				.prepareStatement("SELECT DISTINCT R.idRole, R.rolename FROM Role R "
 						+ "LEFT JOIN UserRole UR ON R.rolename = UR.rolename "
 						+ "LEFT JOIN User U ON UR.username = U.username "
-						+ "WHERE U.idUser IS NULL OR U.idUser != ?");
+						+ "WHERE R.idRole NOT IN "
+						+ "( SELECT DISTINCT R.idRole FROM Role R "
+						+ "INNER JOIN UserRole UR ON R.rolename = UR.rolename "
+						+ "INNER JOIN User U ON UR.username = U.username "
+						+ "WHERE U.idUser = ? ) ");
 		prep.setInt(1, idUser);
 		return getListByPreparedStatement(prep);
 	}

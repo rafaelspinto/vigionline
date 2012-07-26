@@ -20,17 +20,17 @@ public class ManufacturerMapper extends Mapper<Manufacturer> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idManufacturer, name FROM Manufacturer";
+		return "SELECT DISTINCT idManufacturer, name FROM Manufacturer";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idManufacturer, name FROM Manufacturer WHERE idManufacturer = ?";
+		return "SELECT DISTINCT idManufacturer, name FROM Manufacturer WHERE idManufacturer = ?";
 	}
 	
 	@Override
 	protected String getByNameQuery() {
-		return "SELECT idManufacturer, name FROM Manufacturer WHERE name = ?";
+		return "SELECT DISTINCT idManufacturer, name FROM Manufacturer WHERE name = ?";
 	}
 
 	@Override

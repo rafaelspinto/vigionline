@@ -22,17 +22,17 @@ public class UserMapper extends Mapper<User> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idUser, name, username, password FROM User";
+		return "SELECT DISTINCT idUser, name, username, password FROM User";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idUser, name, username, password FROM User WHERE idUser = ?";
+		return "SELECT DISTINCT idUser, name, username, password FROM User WHERE idUser = ?";
 	}
 	
 	@Override
 	protected String getByNameQuery() {
-		return "SELECT idUser, name, username, password FROM User WHERE username = ?";
+		return "SELECT DISTINCT idUser, name, username, password FROM User WHERE username = ?";
 	}
 
 	@Override

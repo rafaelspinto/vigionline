@@ -24,17 +24,17 @@ public class ImageMapper extends Mapper<Image> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idImage, date, filename, size FROM Image";
+		return "SELECT DISTINCT idImage, date, filename, size FROM Image";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idImage, date, filename, size FROM Image WHERE idImage = ?";
+		return "SELECT DISTINCT idImage, date, filename, size FROM Image WHERE idImage = ?";
 	}
 
 	@Override
 	protected String getByNameQuery() {
-		return "SELECT idImage, date, filename, size FROM Image WHERE filename = ?";
+		return "SELECT DISTINCT idImage, date, filename, size FROM Image WHERE filename = ?";
 	}
 
 	@Override

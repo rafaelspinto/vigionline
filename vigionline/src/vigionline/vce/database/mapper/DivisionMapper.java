@@ -22,17 +22,17 @@ public class DivisionMapper extends Mapper<Division> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idDivision, name FROM Division";
+		return "SELECT DISTINCT idDivision, name FROM Division";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idDivision, name FROM Division WHERE idDivision = ?";
+		return "SELECT DISTINCT idDivision, name FROM Division WHERE idDivision = ?";
 	}
 
 	@Override
 	protected String getByNameQuery() {
-		return "SELECT idDivision, name FROM Division WHERE name = ?";
+		return "SELECT DISTINCT idDivision, name FROM Division WHERE name = ?";
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class DivisionMapper extends Mapper<Division> {
 	public List<Division> getByUserId(int idUser) throws SQLException {
 		Connection con = MySqlConnector.getConnection();
 		PreparedStatement prep = con
-				.prepareStatement("SELECT D.idDivision, D.name FROM Division D "
+				.prepareStatement("SELECT DISTINCT D.idDivision, D.name FROM Division D "
 						+ "INNER JOIN UserDivision UD ON D.idDivision = UD.idDivision "
 						+ "INNER JOIN User U ON UD.idUser = U.idUser "
 						+ "WHERE U.idUser = ?");
@@ -78,7 +78,7 @@ public class DivisionMapper extends Mapper<Division> {
 	public List<Division> getWhereUserIsNotIn(int idUser) throws SQLException{
 		Connection con = MySqlConnector.getConnection();
 		PreparedStatement prep = con
-				.prepareStatement("SELECT D.idDivision, D.name FROM Division D "
+				.prepareStatement("SELECT DISTINCT D.idDivision, D.name FROM Division D "
 						+ "LEFT JOIN UserDivision UD ON D.idDivision = UD.idDivision "
 						+ "LEFT JOIN User U ON UD.idUser = U.idUser "
 						+ "WHERE UD.idUser IS NULL OR U.idUser != ?");
@@ -90,7 +90,7 @@ public class DivisionMapper extends Mapper<Division> {
 	public boolean isDivisionAllowedToUser(int idDivision, String username) {
 		try(Connection con = MySqlConnector.getConnection();
 				PreparedStatement prep = con
-						.prepareStatement("SELECT D.idDivision, D.name FROM Division D "
+						.prepareStatement("SELECT DISTINCT D.idDivision, D.name FROM Division D "
 								+ "INNER JOIN UserDivision UD ON D.idDivision = UD.idDivision "
 								+ "INNER JOIN User U ON UD.idUser = U.idUser "
 								+ "WHERE UD.idUser IS NULL OR U.idUser != ?"))

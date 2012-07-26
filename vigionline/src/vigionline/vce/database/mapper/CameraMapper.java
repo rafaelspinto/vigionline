@@ -28,17 +28,17 @@ public class CameraMapper extends Mapper<Camera> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idCamera, idLocation, idModel, name, url, port, username, password FROM Camera";
+		return "SELECT DISTINCT idCamera, idLocation, idModel, name, url, port, username, password FROM Camera";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idCamera, idLocation, idModel, name, url, port, username, password FROM Camera WHERE idCamera = ?";
+		return "SELECT DISTINCT idCamera, idLocation, idModel, name, url, port, username, password FROM Camera WHERE idCamera = ?";
 	}
 
 	@Override
 	protected String getByNameQuery() {
-		return "SELECT idCamera, idLocation, idModel, name, url, port, username, password FROM Camera WHERE name = ?";
+		return "SELECT DISTINCT idCamera, idLocation, idModel, name, url, port, username, password FROM Camera WHERE name = ?";
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public class CameraMapper extends Mapper<Camera> {
 	}
 
 	public boolean isCameraAllowedToUser(int idCamera, String username) {
-		String sql = "SELECT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
+		String sql = "SELECT DISTINCT C.idCamera, C.idLocation, C.idModel, C.name, C.url, C.port, C.username, C.password FROM Camera C"
 				+ " INNER JOIN Permission P ON P.idCamera = C.idCamera "
 				+ " INNER JOIN Division D ON P.idDivision = D.idDivision"
 				+ " INNER JOIN UserDivision UD ON D.idDivision = UD.idDivision "

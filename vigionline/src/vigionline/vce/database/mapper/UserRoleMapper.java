@@ -22,12 +22,12 @@ public class UserRoleMapper extends Mapper<UserRole> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idUserRole, username, rolename FROM UserRole";
+		return "SELECT DISTINCT idUserRole, username, rolename FROM UserRole";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idUserRole, username, rolename FROM UserRole WHERE idUserRole = ?";
+		return "SELECT DISTINCT idUserRole, username, rolename FROM UserRole WHERE idUserRole = ?";
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class UserRoleMapper extends Mapper<UserRole> {
 	public boolean isUserInRole(String username, String rolename) {
 		try (Connection con = MySqlConnector.getConnection()) {
 			PreparedStatement prep = con
-					.prepareStatement("SELECT username, rolename FROM UserRole WHERE username = ? AND rolename = ?");
+					.prepareStatement("SELECT DISTINCT username, rolename FROM UserRole WHERE username = ? AND rolename = ?");
 			prep.setString(1, username);
 			prep.setString(2, rolename);
 			return prep.execute();

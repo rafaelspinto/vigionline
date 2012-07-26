@@ -21,12 +21,12 @@ public class RolePermissionMapper extends Mapper<RolePermission> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idRolePermission, idRole, idPermission FROM RolePermission";
+		return "SELECT DISTINCT idRolePermission, idRole, idPermission FROM RolePermission";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idRolePermission, idRole, idPermission FROM RolePermission WHERE idRolePermission = ?";
+		return "SELECT DISTINCT idRolePermission, idRole, idPermission FROM RolePermission WHERE idRolePermission = ?";
 	}
 	
 	@Override

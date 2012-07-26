@@ -25,17 +25,17 @@ public class ActionMapper extends Mapper<Action> {
 
 	@Override
 	protected String getAllQuery() {
-		return "SELECT idAction, idModel, name, action1, action2 FROM Action";
+		return "SELECT DISTINCT idAction, idModel, name, action1, action2 FROM Action";
 	}
 
 	@Override
 	protected String getByIdQuery() {
-		return "SELECT idAction, idModel, name, action1, action2 FROM Action WHERE idAction = ?";
+		return "SELECT DISTINCT idAction, idModel, name, action1, action2 FROM Action WHERE idAction = ?";
 	}
 
 	@Override
 	protected String getByNameQuery() {
-		return "SELECT idAction, idModel, name, action1, action2 FROM Action WHERE name = ?";
+		return "SELECT DISTINCT idAction, idModel, name, action1, action2 FROM Action WHERE name = ?";
 	}
 
 	@Override

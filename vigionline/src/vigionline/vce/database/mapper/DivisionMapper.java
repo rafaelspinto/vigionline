@@ -80,8 +80,10 @@ public class DivisionMapper extends Mapper<Division> {
 		PreparedStatement prep = con
 				.prepareStatement("SELECT DISTINCT D.idDivision, D.name FROM Division D "
 						+ "LEFT JOIN UserDivision UD ON D.idDivision = UD.idDivision "
-						+ "LEFT JOIN User U ON UD.idUser = U.idUser "
-						+ "WHERE UD.idUser IS NULL OR U.idUser != ?");
+						+ "WHERE D.idDivision NOT IN "
+						+ "( SELECT DISTINCT D.idDivision FROM Division D "
+						+ " INNER JOIN UserDivision UD ON D.idDivision = UD.idDivision "
+						+ " WHERE UD.idUser = ? ) ");
 		prep.setInt(1, idUser);
 		return getListByPreparedStatement(prep);
 	}

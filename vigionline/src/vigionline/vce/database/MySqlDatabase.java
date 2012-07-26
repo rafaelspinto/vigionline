@@ -292,7 +292,7 @@ public class MySqlDatabase implements IDatabase {
 	
 	@Override
 	public List<Role> getRolesWhereUserIsNotIn(int idUser) throws SQLException {
-		return new RoleMapper().getByUserId(idUser);
+		return new RoleMapper().getWhereUserIsNotIn(idUser);
 	}
 
 	@Override
@@ -327,7 +327,7 @@ public class MySqlDatabase implements IDatabase {
 
 	@Override
 	public List<Division> getDivisionsForUser(int idUser) throws SQLException {
-		return new DivisionMapper().getByUserId(idUser);
+		return new DivisionMapper().getWhereUserIsNotIn(idUser);
 	}
 	
 	@Override

@@ -11,7 +11,7 @@ public final class MySqlConnector {
 
 	private static MysqlConnectionPoolDataSource _datasource;
 
-	public static Connection getConnection() {
+	public synchronized static Connection getConnection() {
 		if (_datasource == null) {
 			/*** Using DataSource ***/
 			String DATABASE_NAME = ConfigurationManager.getInstance().getString("database");

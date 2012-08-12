@@ -36,7 +36,6 @@ public class StreamProducer implements Runnable {
 				_broker.put(img);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if(iterator != null)

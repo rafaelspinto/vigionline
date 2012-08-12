@@ -115,8 +115,7 @@ public abstract class Mapper<T> {
 			Connection con = MySqlConnector.getConnection();
 			PreparedStatement prep = getDeleteStatement(id, con);
 			)
-		{
-			
+		{			
 			res = prep.executeUpdate();
 		}
 		return res;

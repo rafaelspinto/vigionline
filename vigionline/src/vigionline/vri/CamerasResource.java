@@ -29,7 +29,7 @@ import vigionline.vce.database.DatabaseLocator;
 import vigionline.vce.database.IDatabase;
 import vigionline.vce.stream.iterator.DatabaseFrameIterator;
 import vigionline.vce.stream.iterator.FrameIteratorFactory;
-import vigionline.vce.stream.iterator.LocalFrameIterator;
+import vigionline.vce.stream.iterator.AbstractLocalFrameIterator;
 import vigionline.vce.stream.virtual.StreamConsumer;
 import vigionline.vce.stream.virtual.StreamHandler;
 
@@ -215,8 +215,7 @@ public class CamerasResource {
 			final Model model = _database.getModel(camera.getIdModel());
 			StreamHandler streamHandler = ((StreamHandler) _contextHandler
 					.getAttribute("StreamHandler"));
-			LocalFrameIterator iterator = FrameIteratorFactory
-					.getLocalStreamIterator(streamHandler, camera, model);
+			AbstractLocalFrameIterator iterator = FrameIteratorFactory.getDiscardingLocalStreamIterator(streamHandler, camera, model);
 			StreamConsumer consumer = new StreamConsumer(iterator, fps);
 			return Response.ok(consumer).build();
 		} catch (Exception e) {

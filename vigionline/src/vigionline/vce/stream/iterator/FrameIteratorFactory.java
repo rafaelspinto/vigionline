@@ -7,11 +7,19 @@ import vigionline.vce.stream.virtual.StreamHandler;
 
 public class FrameIteratorFactory {
 
-	public static LocalFrameIterator getLocalStreamIterator(
+	public static AbstractLocalFrameIterator getNonDiscardingLocalStreamIterator(
 			StreamHandler streamHandler, Camera camera, Model model) {
 		StreamBroker broker = streamHandler.getBroker(camera, model);
-		int idQueue = broker.addQueue();
+		int idQueue = broker.addNonDiscardingQueue();
 		streamHandler.initProducer(broker, camera, model);
-		return new LocalFrameIterator(broker, idQueue);
+		return new NonDiscardingLocalFrameIterator(broker, idQueue);
+	}
+	
+	public static AbstractLocalFrameIterator getDiscardingLocalStreamIterator(
+			StreamHandler streamHandler, Camera camera, Model model) {
+		StreamBroker broker = streamHandler.getBroker(camera, model);
+		int idQueue = broker.addDiscardingQueue();
+		streamHandler.initProducer(broker, camera, model);
+		return new DiscardingLocalFrameIterator(broker, idQueue);
 	}
 }

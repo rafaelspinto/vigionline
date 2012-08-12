@@ -13,7 +13,7 @@ import vigionline.common.model.Camera;
 import vigionline.common.model.Image;
 import vigionline.common.model.Model;
 import vigionline.vce.database.mapper.ImageMapper;
-import vigionline.vce.stream.iterator.LocalFrameIterator;
+import vigionline.vce.stream.iterator.AbstractLocalFrameIterator;
 import vigionline.vce.stream.iterator.FrameIteratorFactory;
 import vigionline.vce.stream.virtual.Messages;
 import vigionline.vce.stream.virtual.StreamHandler;
@@ -40,10 +40,10 @@ public class Recorder implements Runnable {
 
 	@Override
 	public void run() {
-		LocalFrameIterator iterator = null;
+		AbstractLocalFrameIterator iterator = null;
 		try {
 			while (!STOP_RECORDING.booleanValue()) {
-				iterator = FrameIteratorFactory.getLocalStreamIterator(
+				iterator = FrameIteratorFactory.getNonDiscardingLocalStreamIterator(
 						_streamHandler, _camera, _model);
 				while (iterator.hasNext() && !STOP_RECORDING.booleanValue()) {
 					Messages.Message msg = iterator.next();

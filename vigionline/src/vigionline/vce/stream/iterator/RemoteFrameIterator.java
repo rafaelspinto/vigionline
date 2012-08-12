@@ -16,11 +16,9 @@ public class RemoteFrameIterator extends AbstractFrameIterator<byte[]> {
 	protected IFrameParser _streamParser;
 	private ConnectionManager _connectionManager;
 
-	public RemoteFrameIterator(ConnectionManager conManager, Model model)
-			throws ClientProtocolException, IOException {
+	public RemoteFrameIterator(ConnectionManager conManager, Model model) throws ClientProtocolException, IOException {
 		this._connectionManager = conManager;
-		this._streamParser = new FrameParserWithDate(new JpegParser(
-				conManager.getInputStream()));
+		this._streamParser = new FrameParserWithDate(new JpegParser(conManager.getInputStream()));
 		this._next = _streamParser.getNextFrame();
 	}
 

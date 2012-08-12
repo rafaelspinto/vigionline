@@ -44,7 +44,7 @@
 			makeDeleteModelForm
 			(
 					"context-menu", 
-					"<%=baseUrl%>/locations/${it.division.idDivision }/delete", 
+					"<%=baseUrl%>/divisions/${it.division.idDivision }/delete", 
 					"idDivision", 
 					"${it.division.idDivision }", 
 					"<%=messages.getMessage("delete_division")%>"

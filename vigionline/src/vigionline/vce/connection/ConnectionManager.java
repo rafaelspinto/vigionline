@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -36,21 +35,9 @@ public class ConnectionManager {
 		return _inputStream;
 	}
 
-	public boolean isUrlReady() {
-		if (_httpResponse == null) {
-			try {
-				getInputStream();
-			} catch (ClientProtocolException e) {
-				return false;
-			} catch (IOException e) {
-				return false;
-			}
-		}
-		return (_httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK);
-	}
-
 	public void shutdown() {
 		_getMethod.releaseConnection();
 		_httpClient.getConnectionManager().shutdown();
+		_inputStream = null;
 	}
 }

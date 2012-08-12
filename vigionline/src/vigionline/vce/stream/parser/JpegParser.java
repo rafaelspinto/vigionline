@@ -42,7 +42,6 @@ public class JpegParser implements IFrameParser {
 	}
 
 	private byte[] moveToBeginningOfFrame() {
-
 		try {
 			int prev = 0, curr = 0;
 			boolean beginningOfFrame = false;

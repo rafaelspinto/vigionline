@@ -43,16 +43,15 @@
 		$("#manufacturer").change(
 				function() {
 					var idManufacturer = $(this).attr("value");
-					$.getJSON("
-<%=baseUrl %>/api/manufacturers/"+idManufacturer+"/models", function(models)
-				{
-					$("#model").empty();
-					$.each(models, function(i, model)
-					{
-						$("#model").append(new Option(model.name, model.idModel));
-					});
-				});	
-			});			
+					$.getJSON("<%=baseUrl %>/api/manufacturers/"+idManufacturer+"/models", 
+					function(models){
+						$("#model").empty();
+						$.each(models, function(i, model)
+						{
+							$("#model").append(new Option(model.name, model.idModel));
+						});
+					});	
+				});			
 		});
 	</script>
 <%@ include file="footer.jsp"%>

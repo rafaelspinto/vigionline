@@ -1,7 +1,5 @@
 package vigionline.vce.stream.virtual;
 
-import java.io.IOException;
-
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 import vigionline.vce.connection.ConnectionManager;
@@ -35,14 +33,18 @@ public class StreamProducer implements Runnable {
 				img.frame = iterator.next();
 				_broker.put(img);
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			if(conManager != null)
+				conManager.shutdown();
 			if(iterator != null)
 				iterator.shutdown();
 			_broker._isProducing = Boolean.FALSE;
 			_broker.put(new Messages.TerminateMessage());
 			_streamHandler.removeProducer(_camera.getIdCamera());
+			_broker = null;
+			_streamHandler = null;
 			conManager = null;
 			iterator = null;
 		}

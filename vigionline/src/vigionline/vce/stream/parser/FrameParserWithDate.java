@@ -27,6 +27,8 @@ public class FrameParserWithDate implements IFrameParser {
 	}
 
 	private byte[] addDateToImage(byte[] originalImage) {
+		if( originalImage == null )
+			return null;
 		try (ByteArrayInputStream bais = new ByteArrayInputStream(originalImage);
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
 

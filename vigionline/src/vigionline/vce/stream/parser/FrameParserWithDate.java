@@ -29,9 +29,10 @@ public class FrameParserWithDate implements IFrameParser {
 	private byte[] addDateToImage(byte[] originalImage) {
 		if( originalImage == null )
 			return null;
-		try (ByteArrayInputStream bais = new ByteArrayInputStream(originalImage);
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
-
+		try (
+			ByteArrayInputStream bais = new ByteArrayInputStream(originalImage);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		){
 			BufferedImage im = ImageIO.read(bais);
 			Graphics2D g = im.createGraphics();
 			String date = millisToString(System.currentTimeMillis());
@@ -53,9 +54,9 @@ public class FrameParserWithDate implements IFrameParser {
 
 			ImageIO.write(im, "jpg", baos);
 			return baos.toByteArray();
-		} catch (IOException e) {
+		} catch (Exception e) {
+			return originalImage;       
 		}
-		return originalImage;
 	}
 
 	private String millisToString(long millis) {

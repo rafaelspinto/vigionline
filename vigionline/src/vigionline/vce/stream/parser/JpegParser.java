@@ -1,5 +1,6 @@
 package vigionline.vce.stream.parser;
 
+import vigionline.vce.exception.EndOfStreamException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +27,9 @@ public class JpegParser implements IFrameParser {
 	}
 
 	private byte[] parseJpeg() {
-		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+		try (
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
+		) {
 			byte[] beg = moveToBeginningOfFrame();
 			if (beg != null) {
 				outputStream.write(beg);
@@ -37,15 +40,16 @@ public class JpegParser implements IFrameParser {
 				}
 			}
 		} catch (IOException ioe) {
+		} catch (EndOfStreamException eose) {
+			_isEndOfStream = true;
 		}
 		return null;
 	}
 
-	private byte[] moveToBeginningOfFrame() {
+	private byte[] moveToBeginningOfFrame() throws IOException, EndOfStreamException {
+		int prev = 0, curr = 0;
+		boolean beginningOfFrame = false;
 		try {
-			int prev = 0, curr = 0;
-			boolean beginningOfFrame = false;
-
 			while (!beginningOfFrame && curr != -1) {
 				curr = _bis.read();
 				if (prev == 0xff && curr == 0xd8) // beginning of JPEG
@@ -54,22 +58,22 @@ public class JpegParser implements IFrameParser {
 					return new byte[] { (byte) 0xff, (byte) 0xd8 };
 				}
 				prev = curr;
-				if (curr == -1)
-					_isEndOfStream = true;
 			}
-		} catch (IOException e) {
+		}
+		finally
+		{
+			if (curr == -1)
+				throw new EndOfStreamException();
 		}
 		return null;
 	}
 
-	private byte[] moveToEndOfFrame() {
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	private byte[] moveToEndOfFrame() throws IOException, EndOfStreamException {
 		byte[] imageInByte = null;
 		int prev = 0, curr = 0;
-		boolean endOfJPEG = false;
-		boolean goodJPEG = false;
-
-		try {
+		boolean endOfJPEG = false, goodJPEG = false;
+		try( ByteArrayOutputStream outputStream = new ByteArrayOutputStream() ) 
+		{
 			while (!endOfJPEG && curr != -1) {
 				try {
 					curr = _bis.read();
@@ -88,11 +92,7 @@ public class JpegParser implements IFrameParser {
 			}
 		} finally {
 			if (curr == -1)
-				_isEndOfStream = true;
-			try {
-				outputStream.close();
-			} catch (IOException e) {}
-			outputStream = null;
+				throw new EndOfStreamException();
 		}
 		return imageInByte;
 	}

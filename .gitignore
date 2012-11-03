@@ -3,3 +3,5 @@ vigionline/.project
 vigionline/.settings
 vigionline/target
 vigionline/build
+/nbproject/private/
+/build/

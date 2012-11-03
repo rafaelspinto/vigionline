@@ -1,99 +1,62 @@
 package vigionline.vce.stream.parser;
 
-import vigionline.vce.exception.EndOfStreamException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import vigionline.vce.exception.EndOfStreamException;
 
 public class JpegParser implements IFrameParser {
-	private InputStream _bis;
-	private boolean _isEndOfStream;
 
-	public JpegParser(InputStream inputStream) {
-		_bis = inputStream;
-		_isEndOfStream = false;
-	}
+    private InputStream _bis;
+    private boolean _isEndOfStream;
 
-	public void setInputStream(InputStream inputStream) {
-		_bis = inputStream;
-	}
+    public JpegParser(InputStream inputStream) {
+        _bis = inputStream;
+        _isEndOfStream = false;
+    }
 
-	public byte[] getNextFrame() {
-		return _bis != null ? parseJpeg() : null;
-	}
+    @Override
+    public byte[] getNextFrame() {
+        return _bis != null ? parseJpeg() : null;
+    }
 
-	public boolean isEndOfStream() {
-		return _isEndOfStream;
-	}
+    @Override
+    public boolean isEndOfStream() {
+        return _isEndOfStream;
+    }
 
-	private byte[] parseJpeg() {
-		try (
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
-		) {
-			byte[] beg = moveToBeginningOfFrame();
-			if (beg != null) {
-				outputStream.write(beg);
-				byte[] img = moveToEndOfFrame();
-				if (img != null) {
-					outputStream.write(img);
-					return outputStream.toByteArray();
-				}
-			}
-		} catch (IOException ioe) {
-		} catch (EndOfStreamException eose) {
-			_isEndOfStream = true;
-		}
-		return null;
-	}
+    private byte[] parseJpeg() {
+        try {
+            return getFrame();
+        } catch (IOException ex) {
+            return null;
+        } catch (EndOfStreamException ex) {
+            _isEndOfStream = true;
+            return null;
+        }
+    }
 
-	private byte[] moveToBeginningOfFrame() throws IOException, EndOfStreamException {
-		int prev = 0, curr = 0;
-		boolean beginningOfFrame = false;
-		try {
-			while (!beginningOfFrame && curr != -1) {
-				curr = _bis.read();
-				if (prev == 0xff && curr == 0xd8) // beginning of JPEG
-				{
-					beginningOfFrame = true;
-					return new byte[] { (byte) 0xff, (byte) 0xd8 };
-				}
-				prev = curr;
-			}
-		}
-		finally
-		{
-			if (curr == -1)
-				throw new EndOfStreamException();
-		}
-		return null;
-	}
+    private byte[] findFrameLimit(int prevExpected, int currExpected) throws IOException, EndOfStreamException {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            int prev = 0, curr;
+            while ((curr = _bis.read()) != -1) {
+                outputStream.write(curr);
+                if (prev == prevExpected && curr == currExpected) // found Limit
+                {
+                    return outputStream.toByteArray();
+                }
+                prev = curr;
+            }
+            throw new EndOfStreamException();
+        }
+    }
 
-	private byte[] moveToEndOfFrame() throws IOException, EndOfStreamException {
-		byte[] imageInByte = null;
-		int prev = 0, curr = 0;
-		boolean endOfJPEG = false, goodJPEG = false;
-		try( ByteArrayOutputStream outputStream = new ByteArrayOutputStream() ) 
-		{
-			while (!endOfJPEG && curr != -1) {
-				try {
-					curr = _bis.read();
-					if (prev == 0xff && curr == 0xd9) // end of JPEG 0xFF
-					{
-						endOfJPEG = true;
-						goodJPEG = true;
-					}
-					prev = curr;
-					outputStream.write(curr);
-					if (goodJPEG)
-						imageInByte = outputStream.toByteArray();
-				} catch (IOException e) {
-					endOfJPEG = true;
-				}
-			}
-		} finally {
-			if (curr == -1)
-				throw new EndOfStreamException();
-		}
-		return imageInByte;
-	}
+    private byte[] getFrame() throws IOException, EndOfStreamException {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            outputStream.write(new byte[]{(byte) 0xff, (byte) 0xd8});
+            findFrameLimit(0xff, 0xd8);
+            outputStream.write(findFrameLimit(0xff, 0xd9));
+            return outputStream.toByteArray();
+        }
+    }
 }

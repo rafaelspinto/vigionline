@@ -9,6 +9,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import javax.imageio.ImageIO;
+import vigionline.vce.exception.EndOfStreamException;
 
 public class FrameParserWithDate implements IFrameParser {
 
@@ -19,7 +20,7 @@ public class FrameParserWithDate implements IFrameParser {
     }
 
     @Override
-    public byte[] getNextFrame() {
+    public byte[] getNextFrame() throws EndOfStreamException {
         return addDateToImage(_parser.getNextFrame());
     }
 
@@ -70,10 +71,5 @@ public class FrameParserWithDate implements IFrameParser {
         String data = String.format("%02d-%02d-%04d %02d:%02d:%02d.%03d", day,
                 mon, year, hour, min, sec, mil);
         return data;
-    }
-
-    @Override
-    public boolean isEndOfStream() {
-        return _parser.isEndOfStream();
     }
 }

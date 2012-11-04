@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import vigionline.common.model.Camera;
 import vigionline.common.model.Model;
 
@@ -16,8 +15,8 @@ public final class StreamHandler {
 
 	public StreamHandler() {
 		this._threadPool = Executors.newCachedThreadPool();
-		this._producers = new ConcurrentHashMap<Integer, StreamProducer>();
-		this._brokers = new ConcurrentHashMap<Integer, StreamBroker>();
+		this._producers = new ConcurrentHashMap<>();
+		this._brokers = new ConcurrentHashMap<>();
 	}
 
 	public synchronized StreamBroker getBroker(Camera camera, Model model) {

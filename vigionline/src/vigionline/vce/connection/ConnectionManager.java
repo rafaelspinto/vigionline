@@ -39,5 +39,6 @@ public class ConnectionManager {
 		_getMethod.releaseConnection();
 		_httpClient.getConnectionManager().shutdown();
 		_inputStream = null;
+                _httpResponse = null;
 	}
 }

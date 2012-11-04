@@ -8,30 +8,20 @@ import vigionline.vce.exception.EndOfStreamException;
 public class JpegParser implements IFrameParser {
 
     private InputStream _bis;
-    private boolean _isEndOfStream;
 
     public JpegParser(InputStream inputStream) {
         _bis = inputStream;
-        _isEndOfStream = false;
     }
 
     @Override
-    public byte[] getNextFrame() {
+    public byte[] getNextFrame() throws EndOfStreamException {
         return _bis != null ? parseJpeg() : null;
     }
 
-    @Override
-    public boolean isEndOfStream() {
-        return _isEndOfStream;
-    }
-
-    private byte[] parseJpeg() {
+    private byte[] parseJpeg() throws EndOfStreamException {
         try {
             return getFrame();
         } catch (IOException ex) {
-            return null;
-        } catch (EndOfStreamException ex) {
-            _isEndOfStream = true;
             return null;
         }
     }

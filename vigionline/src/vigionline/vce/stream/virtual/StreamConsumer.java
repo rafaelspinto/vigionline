@@ -9,41 +9,37 @@ import vigionline.vce.stream.iterator.AbstractFrameIterator;
 
 public final class StreamConsumer implements StreamingOutput {
 
-    private AbstractFrameIterator<Messages.Message> _iterator;
-    private int _framesPerSecond;
+	private AbstractFrameIterator<Messages.Message> _iterator;
+	private int _framesPerSecond;
 
-    public StreamConsumer(AbstractFrameIterator<Messages.Message> iterator, int fps) {
-        this._iterator = iterator;
-        this._framesPerSecond = fps > 0 ? fps : Integer.MAX_VALUE;
-    }
+	public StreamConsumer(AbstractFrameIterator<Messages.Message> iterator, int fps) {
+		this._iterator = iterator;
+		this._framesPerSecond = fps > 0 ? fps : Integer.MAX_VALUE;
+	}
 
-    @Override
-    public void write(OutputStream outputStream) throws IOException,
-            WebApplicationException {
-
-        try {
-            while (_iterator.hasNext()) {
-                Messages.Message msg = _iterator.next();
-                if (msg instanceof Messages.TerminateMessage) {
-                    break;
-                }
-                outputStream.write("--myboundary\r\n".getBytes());
-                outputStream.write("Content-Type: image/jpeg\r\n\r\n"
-                        .getBytes());
-                outputStream.write(((Messages.FrameMessage) msg).frame);
-                outputStream.flush();
-                try {
-                    Thread.sleep(1000 / _framesPerSecond);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        } catch (EndOfStreamException ex) {
-            ex.printStackTrace();
-        } finally {
-            _iterator.shutdown();
-            outputStream.close();
-        }
-    }
+	@Override
+	public void write(OutputStream outputStream) throws IOException, WebApplicationException {
+		try {
+			while (_iterator.hasNext()) {
+				Messages.Message msg = _iterator.next();
+				if (msg instanceof Messages.TerminateMessage) {
+					break;
+				}
+				outputStream.write("--myboundary\r\n".getBytes());
+				outputStream.write("Content-Type: image/jpeg\r\n\r\n".getBytes());
+				outputStream.write(((Messages.FrameMessage) msg).frame);
+				outputStream.flush();
+				try {
+					Thread.sleep(1000 / _framesPerSecond);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (EndOfStreamException ex) {
+			ex.printStackTrace();
+		} finally {
+			_iterator.shutdown();
+			outputStream.close();
+		}
+	}
 }

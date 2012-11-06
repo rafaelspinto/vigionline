@@ -18,8 +18,8 @@ public class DiscardingLocalFrameIterator extends AbstractLocalFrameIterator {
 		}
 	}
 
-	@Override
-	public void shutdown() {
+	public void shutdown()
+	{
 		_broker.removeDiscardingQueue(_idConsumer);
 	}
 }

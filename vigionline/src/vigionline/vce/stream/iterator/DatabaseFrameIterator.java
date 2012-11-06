@@ -55,7 +55,6 @@ public class DatabaseFrameIterator extends AbstractFrameIterator<Messages.Messag
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public void shutdown() {
         try {
             _cursor.close();

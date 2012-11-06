@@ -39,7 +39,6 @@ public class RemoteFrameIterator extends AbstractFrameIterator<byte[]> {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public void shutdown() {
         _streamParser = null;
         _next = null;

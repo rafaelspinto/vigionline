@@ -18,7 +18,6 @@ public class NonDiscardingLocalFrameIterator extends AbstractLocalFrameIterator 
 		}
 	}
 
-	@Override
 	public void shutdown() {
 		_broker.removeNonDiscardingQueue(_idConsumer);
 	}

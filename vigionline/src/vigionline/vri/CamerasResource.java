@@ -211,10 +211,9 @@ public class CamerasResource {
 		AuthorizationAuditor.enforceForCamera(username, idCamera);
 		try {
 
-			final Camera camera = _database.getCamera(idCamera);
-			final Model model = _database.getModel(camera.getIdModel());
-			StreamHandler streamHandler = ((StreamHandler) _contextHandler
-					.getAttribute("StreamHandler"));
+			Camera camera = _database.getCamera(idCamera);
+			Model model = _database.getModel(camera.getIdModel());
+			StreamHandler streamHandler = ((StreamHandler) _contextHandler.getAttribute("StreamHandler"));
 			AbstractLocalFrameIterator iterator = FrameIteratorFactory.getDiscardingLocalStreamIterator(streamHandler, camera, model);
 			StreamConsumer consumer = new StreamConsumer(iterator, fps);
 			return Response.ok(consumer).build();
@@ -232,9 +231,7 @@ public class CamerasResource {
 			@DefaultValue("-1") @QueryParam("fps") int fps) {
 		try {
 			Date data = Utils.makeDateFromFormFields(day, hour, min);
-			DatabaseFrameIterator iterator = new DatabaseFrameIterator(
-					idCamera, data);
-
+			DatabaseFrameIterator iterator = new DatabaseFrameIterator(idCamera, data);
 			StreamConsumer consumer = new StreamConsumer(iterator, fps);
 			return Response.ok(consumer).build();
 		} catch (Exception e) {

@@ -13,8 +13,7 @@ public class StreamProducer implements Runnable {
 	private Camera _camera;
 	private Model _model;
 
-	public StreamProducer(StreamHandler streamHandler, StreamBroker broker,
-			Camera camera, Model model) {
+	public StreamProducer(StreamHandler streamHandler, StreamBroker broker, Camera camera, Model model) {
 		this._streamHandler = streamHandler;
 		this._broker = broker;
 		this._camera = camera;
@@ -24,8 +23,8 @@ public class StreamProducer implements Runnable {
 	@Override
 	public void run() {
 		try( 
-			ConnectionManager conManager = new ConnectionManager(_camera, _model);
-			AbstractFrameIterator<byte[]> iterator = new RemoteFrameIterator(conManager, _model);
+				ConnectionManager conManager = new ConnectionManager(_camera, _model);
+				AbstractFrameIterator<byte[]> iterator = new RemoteFrameIterator(conManager, _model);
 		   ){
 			while (iterator.hasNext() && !_broker.isEmpty()) {
 				Messages.FrameMessage img = new Messages.FrameMessage();
@@ -35,13 +34,9 @@ public class StreamProducer implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			_broker._isProducing = Boolean.FALSE;
-			_broker.put(new Messages.TerminateMessage());
 			_streamHandler.removeProducer(_camera.getIdCamera());
+			_streamHandler.removeBroker(_camera.getIdCamera());
+			_broker.shutdown();
 		}
-	}
-
-	public StreamBroker getBroker() {
-		return _broker;
 	}
 }

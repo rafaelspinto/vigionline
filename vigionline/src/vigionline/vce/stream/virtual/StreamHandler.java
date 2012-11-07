@@ -28,7 +28,8 @@ public final class StreamHandler {
 		return broker;
 	}
 
-	public synchronized void initProducer(StreamBroker broker, Camera camera, Model model) {
+	public synchronized void initProducer(StreamBroker broker, Camera camera, Model model) 
+	{
 		StreamProducer producer = null;
 		if ((producer = _producers.get(camera.getIdCamera())) == null) {
 			producer = new StreamProducer(this, broker, camera, model);
@@ -36,14 +37,20 @@ public final class StreamHandler {
 			_threadPool.submit(producer);
 		}
 	}
-	
-	public void removeProducer(int idCamera)
+
+	public synchronized void removeProducer(int idCamera)
 	{
 		_producers.remove(idCamera);
+	}
+
+	public synchronized void removeBroker(int idCamera)
+	{
 		_brokers.remove(idCamera);
 	}
-	
+
 	public void shutdown() {
+		for( StreamBroker broker : _brokers.values() )
+			broker.shutdown();
 		_brokers.clear();
 		_producers.clear();
 		_threadPool.shutdown();

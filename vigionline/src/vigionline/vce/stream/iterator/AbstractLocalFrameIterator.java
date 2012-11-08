@@ -6,9 +6,9 @@ import vigionline.vce.stream.virtual.StreamBroker;
 public abstract class AbstractLocalFrameIterator extends AbstractFrameIterator<Messages.Message> {
 
     protected StreamBroker _broker;
-    protected int _idConsumer;
+    protected Object _idConsumer;
 
-    public AbstractLocalFrameIterator(StreamBroker broker, int idConsumer) {
+    public AbstractLocalFrameIterator(StreamBroker broker, Object idConsumer) {
         this._broker = broker;
         this._idConsumer = idConsumer;
     }

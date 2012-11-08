@@ -10,16 +10,16 @@ public class FrameIteratorFactory {
 	public static AbstractLocalFrameIterator getNonDiscardingLocalStreamIterator(
 			StreamHandler streamHandler, Camera camera, Model model) {
 		StreamBroker broker = streamHandler.getBroker(camera, model);
-		int idQueue = broker.addNonDiscardingQueue();
+		Object queue = broker.addNonDiscardingQueue();
 		streamHandler.initProducer(broker, camera, model);
-		return new NonDiscardingLocalFrameIterator(broker, idQueue);
+		return new NonDiscardingLocalFrameIterator(broker, queue);
 	}
 	
 	public static AbstractLocalFrameIterator getDiscardingLocalStreamIterator(
 			StreamHandler streamHandler, Camera camera, Model model) {
 		StreamBroker broker = streamHandler.getBroker(camera, model);
-		int idQueue = broker.addDiscardingQueue();
+		Object queue = broker.addDiscardingQueue();
 		streamHandler.initProducer(broker, camera, model);
-		return new DiscardingLocalFrameIterator(broker, idQueue);
+		return new DiscardingLocalFrameIterator(broker, queue);
 	}
 }

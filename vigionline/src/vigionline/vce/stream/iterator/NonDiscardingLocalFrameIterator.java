@@ -5,7 +5,7 @@ import vigionline.vce.stream.virtual.StreamBroker;
 
 public class NonDiscardingLocalFrameIterator extends AbstractLocalFrameIterator {
 
-	public NonDiscardingLocalFrameIterator(StreamBroker broker, int idConsumer) {
+	public NonDiscardingLocalFrameIterator(StreamBroker broker, Object idConsumer) {
 		super(broker, idConsumer);
 	}
 

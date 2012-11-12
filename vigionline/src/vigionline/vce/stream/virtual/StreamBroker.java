@@ -43,9 +43,12 @@ public final class StreamBroker {
 
 			for (Queue<Messages.Message> q : _discardingQueue.values())
 			{
-				if(!q.isEmpty())
-					q.remove();
-				q.offer(image);
+				synchronized(q)
+				{
+					if(!q.isEmpty())
+						q.remove();
+					q.offer(image);
+				}
 			}
 		}
 	}

@@ -51,8 +51,7 @@
 		$("#manufacturer").change(
 				function() {
 					var idManufacturer = $(this).attr("value");
-					$.getJSON("
-<%=baseUrl %>/api/manufacturers/"+idManufacturer+"/models", function(models)
+					$.getJSON("<%=baseUrl %>/api/manufacturers/"+idManufacturer+"/models", function(models)
 				{
 					$("#model").empty();
 					$.each(models, function(i, model)
